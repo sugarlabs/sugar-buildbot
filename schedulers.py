@@ -11,9 +11,9 @@ def setup(c, config):
                                                  change_filter=change_filter,
                                                  builderNames=["build"]))
 
-    c["schedulers"].append(timed.Periodic(name="daily",
-                                          builderNames=["build"],
-                                          periodicBuildTimer=24*60*60))
+    c["schedulers"].append(Periodic(name="daily",
+                                    builderNames=["build"],
+                                    periodicBuildTimer=24*60*60))
 
     c["schedulers"].append(ForceScheduler(name="force",
                                           builderNames=["build"]))
