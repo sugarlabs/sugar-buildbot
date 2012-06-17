@@ -1,0 +1,33 @@
+= Setup the master =
+
+Create the generic buildbot configuration
+
+    buildbot create-master [basedir]
+
+Install sugar buildbot configuration
+
+    ./sync.sh [basedir]
+
+Edit [basedir]/config.py as necessary.
+
+Start the master
+    
+    buildbot start [basedir]
+
+= Setup a slave =
+
+Create the slave configuration
+
+    buildslave create-slave [basedir] [master_host]:9989 [name] [password]
+
+Start the slave
+
+    buildslave start [basedir]
+
+= Resync master configuration =
+
+Sync the new code
+    
+    ./sync.sh [basedir]
+
+If anything was added to config.py, edit [basedir]/config.py accordingly.
