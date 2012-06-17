@@ -42,3 +42,7 @@ Sync the new code
     ./sync.sh [basedir]
 
 If anything was added to config.py, edit [basedir]/config.py accordingly.
+
+= Bug reports =
+
+Send bug reports to Daniel Narvaez <dwnarvaez@gmail.com>.
