@@ -1,5 +1,6 @@
 from buildbot.status import html
 from buildbot.status.web import authz, auth
+from buildbot.status import words
 
 def setup(c, config):
     c["status"] = []
@@ -12,3 +13,6 @@ def setup(c, config):
 
     c["status"].append(html.WebStatus(http_port=8010, authz=authz_cfg))
 
+    c['status'].append(words.IRC(host="irc.freenode.net",
+                                 nick="sugarbuildbot",
+                                 channels=["#sugar-buildbot"])
