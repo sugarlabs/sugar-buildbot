@@ -18,4 +18,8 @@ def setup(c, config):
                            workdir="gitpoller_work/%s" % name)
         c["change_source"].append(poller)
 
+    poller = GitPoller("git://github.com/dnarvaez/sugar-build" % path,
+                       project="sugar",
+                       workdir="gitpoller_work/sugar-build" % name)
+    c["change_source"].append(poller)
 
