@@ -2,7 +2,7 @@ from buildbot.schedulers.basic import SingleBranchScheduler
 from buildbot.schedulers.forcesched import ForceScheduler
 from buildbot.changes import filter
 
-def setup(c):
+def setup(c, config):
     c["schedulers"] = []
 
     change_filter = filter.ChangeFilter(project="sugar")

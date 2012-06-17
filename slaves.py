@@ -1,9 +1,9 @@
 from buildbot.buildslave import BuildSlave
 
-def setup(c, slaves_config):
+def setup(c, config):
     c["slaves"] = []
 
-    for name, password in slaves_config.items():
+    for name, password in config["slaves"].items():
         c["slaves"].append(BuildSlave(name, password))
     
     c["slavePortnum"] = 9989

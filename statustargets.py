@@ -1,8 +1,11 @@
 from buildbot.status import html
 from buildbot.status.web import authz, auth
 
-def setup(c, admin_name, admin_password):
+def setup(c, config):
     c["status"] = []
+
+    admin_name = config["admin"]["name"];
+    admin_password = config["admin"]["password"];
 
     basic_auth = auth.BasicAuth([(admin_name, admin_password)])
     authz_cfg = authz.Authz(auth=basic_auth, forceBuild="auth")

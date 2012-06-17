@@ -9,7 +9,7 @@ repos = {"sugar": "sugar/mainline.git",
          "web": "web/mainline.git",
          "terminal": "terminal/mainline.git"}
 
-def setup(c):
+def setup(c, config):
     c["change_source"] = []
 
     for name, path in repos.items():
