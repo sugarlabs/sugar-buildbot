@@ -1,3 +1,7 @@
+= Install buildbot =
+
+The configuration has been test with version 0.8.6.
+
 = Setup the master =
 
 Create the generic buildbot configuration
