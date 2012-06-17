@@ -15,4 +15,4 @@ def setup(c, config):
 
     c['status'].append(words.IRC(host="irc.freenode.net",
                                  nick="sugarbuildbot",
-                                 channels=["#sugar-buildbot"])
+                                 channels=["#sugar-buildbot"]))
