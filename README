@@ -24,6 +24,11 @@ Start the slave
 
     buildslave start [basedir]
 
+= First build =
+
+The first build will likely fail because of missing dependencies. The logs
+will contain a list of missing packages. Install those and retry.
+
 = Resync master configuration =
 
 Sync the new code
