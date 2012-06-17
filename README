@@ -20,6 +20,8 @@ Create the slave configuration
 
     buildslave create-slave [basedir] [master_host]:9989 [name] [password]
 
+Edit [basedir]/info/admin and [basedir]/info/host
+
 Start the slave
 
     buildslave start [basedir]
