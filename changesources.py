@@ -1,24 +1,12 @@
 from buildbot.changes.gitpoller import GitPoller
 
-repos = {"sugar": "sugar/mainline.git",
-         "sugar-base": "sugar-base/mainline.git",
-         "sugar-toolkit": "sugar-toolkit/mainline.git",
-         "sugar-datastore": "sugar-datastore/mainline.git",
-         "sugar-artwork": "sugar-artwork/mainline.git",
-         "sugar-toolkit-gtk3": "sugar-toolkit-gtk3/sugar-toolkit-gtk3.git",
-         "terminal": "terminal/mainline.git"}
+import repos
 
 def setup(c, config):
     c["change_source"] = []
 
-    for name, path in repos.items():
-        poller = GitPoller("git://git.sugarlabs.org/%s" % path,
+    for repo in repos.get_all():
+        poller = GitPoller(repo.path,
                            project="sugar",
-                           workdir="gitpoller_work/%s" % name)
+                           workdir="gitpoller_work/%s" % repo.name)
         c["change_source"].append(poller)
-
-    poller = GitPoller("git://github.com/dnarvaez/sugar-build",
-                       project="sugar",
-                       workdir="gitpoller_work/sugar-build")
-    c["change_source"].append(poller)
-
