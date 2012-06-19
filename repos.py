@@ -23,7 +23,7 @@ repos = [Repo(name="sugar-build",
 def get_by_name(name):
     for repo in repos:
         if repo.name == name:
-            return name
+            return repo
 
     return None
 
