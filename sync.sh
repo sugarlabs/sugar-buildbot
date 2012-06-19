@@ -9,6 +9,7 @@ BUILDMASTER=$1
 
 SOURCES="master.cfg
          builders.py
+         repos.py
          slaves.py
          changesources.py
          schedulers.py
