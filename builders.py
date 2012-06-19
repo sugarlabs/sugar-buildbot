@@ -6,7 +6,7 @@ from buildbot.config import BuilderConfig
 def setup(c, config):
     factory = BuildFactory()
     factory.addStep(Git(repourl="git://github.com/dnarvaez/sugar-build",
-                        mode="copy"))
+                        mode="copy", alwaysUseLatest=True))
     factory.addStep(Compile(command=["make", "build"],
                             env={"SUGAR_BUILDBOT": "yes"}))
 
