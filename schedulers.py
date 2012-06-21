@@ -13,7 +13,8 @@ def setup(c, config):
                                                  change_filter=change_filter,
                                                  builderNames=builder_names))
 
-    c['schedulers'].append(Nightly(name='nightly',
+    c['schedulers'].append(Nightly(name="nightly",
+                                   branch="master"
                                    builderNames=builder_names,
                                    hour=2,
                                    minute=0))
