@@ -14,7 +14,7 @@ def setup(c, config):
                                                  builderNames=builder_names))
 
     c['schedulers'].append(Nightly(name='nightly',
-                                   builderNames=builderNames,
+                                   builderNames=builder_names,
                                    hour=2,
                                    minute=0))
 
