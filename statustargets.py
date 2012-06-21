@@ -2,6 +2,8 @@ from buildbot.status import html
 from buildbot.status.web import authz, auth
 from buildbot.status import words
 
+from config import config
+
 def setup(c, config):
     c["status"] = []
 
@@ -11,7 +13,8 @@ def setup(c, config):
     basic_auth = auth.BasicAuth([(admin_name, admin_password)])
     authz_cfg = authz.Authz(auth=basic_auth, forceBuild="auth")
 
-    c["status"].append(html.WebStatus(http_port=8010, authz=authz_cfg))
+    c["status"].append(html.WebStatus(http_port=config["port"],
+                                      authz=authz_cfg))
 
     c['status'].append(words.IRC(host="irc.freenode.net",
                                  nick="sugarbuildbot",
