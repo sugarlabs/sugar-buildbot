@@ -18,6 +18,6 @@ def setup(c, config):
                                     periodicBuildTimer=24*60*60))
 
     c["schedulers"].append(ForceScheduler(name="force",
-                                          builderNames=builder_namess))
+                                          builderNames=builder_names))
 
 
