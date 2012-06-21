@@ -2,8 +2,6 @@ from buildbot.status import html
 from buildbot.status.web import authz, auth
 from buildbot.status import words
 
-from config import config
-
 def setup(c, config):
     c["status"] = []
 

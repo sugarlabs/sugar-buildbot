@@ -13,7 +13,9 @@ def setup(c, config):
                             env={"SUGAR_BUILDBOT": "yes"}))
 
     c["builders"] = []
-    c["builders"].append(BuilderConfig(name="build",
-                                       slavenames=config["slaves"].keys(),
-                                       factory=factory))
+
+        for slave in config["slaves"].keys():
+            c["builders"].append(BuilderConfig(name=slave,
+                                               slavenames=slave,
+                                               factory=factory))
 
