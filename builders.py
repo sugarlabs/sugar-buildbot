@@ -14,8 +14,8 @@ def setup(c, config):
 
     c["builders"] = []
 
-        for slave in config["slaves"].keys():
-            c["builders"].append(BuilderConfig(name=slave,
-                                               slavenames=slave,
-                                               factory=factory))
+    for slave in config["slaves"].keys():
+        c["builders"].append(BuilderConfig(name=slave,
+                                           slavenames=slave,
+                                           factory=factory))
 
