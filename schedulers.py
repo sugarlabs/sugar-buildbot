@@ -1,6 +1,6 @@
 from buildbot.schedulers.basic import SingleBranchScheduler
 from buildbot.schedulers.forcesched import ForceScheduler
-from buildbot.schedulers.timed import Periodic
+from buildbot.schedulers.timed import Nightly
 from buildbot.changes import filter
 
 def setup(c, config):
