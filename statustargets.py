@@ -16,7 +16,6 @@ def setup(c, config):
 
     c['status'].append(words.IRC(host="irc.freenode.net",
                                  nick="sugarbuildbot",
-                                 channels=["#sugar-buildbot"],
-                                 notify_events={"exception": 1,
-                                                "success": 1,
+                                 channels=["#sugar"],
+                                 notify_events={"failureToSuccess": 1,
                                                 "failure": 1}))
