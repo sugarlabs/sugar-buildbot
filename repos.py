@@ -18,7 +18,9 @@ repos = [Repo(name="sugar-build",
          Repo(name="sugar-toolkit-gtk3",
 	          path="sugar-toolkit-gtk3/sugar-toolkit-gtk3.git"),
          Repo(name="terminal",
-              path="terminal/mainline.git")]
+              path="terminal/mainline.git"),
+         Repo(name="browse",
+              path="browse/mainline.git")]
 
 def get_by_name(name):
     for repo in repos:
