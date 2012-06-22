@@ -1,6 +1,7 @@
 from buildbot.status import html
 from buildbot.status.web import authz, auth
 from buildbot.status import words
+from buildbot.status.mail import MailNotifier
 
 def setup(c, config):
     c["status"] = []
@@ -14,8 +15,12 @@ def setup(c, config):
     c["status"].append(html.WebStatus(http_port=config["port"],
                                       authz=authz_cfg))
 
-    c['status'].append(words.IRC(host="irc.freenode.net",
+    c["status"].append(words.IRC(host="irc.freenode.net",
                                  nick="sugarbuildbot",
                                  channels=["#sugar"],
                                  notify_events={"failureToSuccess": 1,
                                                 "failure": 1}))
+
+    c["status"].append(MailNotifier(fromaddr="buildbot@sugarlabs.org",
+                                    mode=["problem"]))
+
