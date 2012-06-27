@@ -6,11 +6,13 @@ from buildbot.config import BuilderConfig
 import repos
 
 def setup(c, config):
+    env={"SUGAR_BUILDBOT": "yes"}
+
     factory = BuildFactory()
     factory.addStep(Git(repourl=repos.get_url("sugar-build"),
-                        mode="copy", alwaysUseLatest=True))
-    factory.addStep(Compile(command=["make", "build"],
-                            env={"SUGAR_BUILDBOT": "yes"}))
+                        method="incremental", alwaysUseLatest=True))
+    factory.addStep(Compile(command=["make", "clean"], env=env))
+    factory.addStep(Compile(command=["make", "build"], env=env))
 
     c["builders"] = []
 
