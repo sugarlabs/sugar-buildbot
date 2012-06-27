@@ -1,5 +1,5 @@
 from buildbot.process.factory import BuildFactory
-from buildbot.steps.source import Git
+from buildbot.steps.source.git import Git
 from buildbot.steps.shell import Compile
 from buildbot.config import BuilderConfig
 
@@ -10,7 +10,7 @@ def setup(c, config):
 
     factory = BuildFactory()
     factory.addStep(Git(repourl=repos.get_url("sugar-build"),
-                        method="incremental", alwaysUseLatest=True))
+                        alwaysUseLatest=True))
     factory.addStep(Compile(command=["make", "clean"], env=env))
     factory.addStep(Compile(command=["make", "build"], env=env))
 
