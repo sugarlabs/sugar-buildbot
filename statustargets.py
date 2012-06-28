@@ -22,5 +22,6 @@ def setup(c, config):
                                                 "failure": 1}))
 
     c["status"].append(MailNotifier(fromaddr="buildbot@sugarlabs.org",
-                                    mode=["problem"]))
+                                    mode=["problem"],
+                                    lookup="sugarlabs.org"))
 
