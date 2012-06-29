@@ -17,6 +17,10 @@ def setup(c, config):
                                  descriptionDone="clean",
                                  env=env))
     factory.addStep(Compile(command=["make", "build"], env=env))
+    factory.addStep(ShellCommand(command=["make", "test"],
+                                 description="testing",
+                                 descriptionDone="test",
+                                 env=env))
 
     c["builders"] = []
 
