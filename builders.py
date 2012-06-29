@@ -11,6 +11,7 @@ def setup(c, config):
 
     factory = BuildFactory()
     factory.addStep(Git(repourl=repos.get_url("sugar-build"),
+                        branch="master",
                         alwaysUseLatest=True))
     factory.addStep(ShellCommand(command=["make", "clean"],
                                  description="cleaning",
