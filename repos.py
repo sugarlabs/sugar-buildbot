@@ -19,6 +19,8 @@ repos = [Repo(name="sugar-build",
 	          path="sugar-toolkit-gtk3/sugar-toolkit-gtk3.git"),
          Repo(name="terminal",
               path="terminal/mainline.git"),
+         Repo(name="chat",
+              path="chat/mainline.git"),
          Repo(name="browse",
               path="browse/mainline.git")]
 
