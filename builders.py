@@ -1,6 +1,5 @@
 from buildbot.process.factory import BuildFactory
 from buildbot.steps.source.git import Git
-from buildbot.steps.shell import Compile
 from buildbot.steps.shell import ShellCommand
 from buildbot.config import BuilderConfig
 
@@ -17,7 +16,14 @@ def setup(c, config):
                                  description="cleaning",
                                  descriptionDone="clean",
                                  env=env))
-    factory.addStep(Compile(command=["make", "build"], env=env))
+    factory.addStep(ShellCommand(command=["make", "build-glucose"],
+                                 description="building glucose",
+                                 descriptionDone="build glucose",
+                                 env=env))
+    factory.addStep(ShellCommand(command=["make", "build-fructose"],
+                                 description="building fructose",
+                                 descriptionDone="build fructose",
+                                 env=env))
     factory.addStep(ShellCommand(command=["make", "test"],
                                  description="testing",
                                  descriptionDone="test",
