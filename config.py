@@ -1,6 +1,7 @@
 config = {}
 
-config["slaves"] = {"myslave": "mypassword"}
+config["slaves"] = {"myslave": { "password": "mypassword",
+                                 "run_tests": True }}
 
 config["admin"] = {"name": "admin",
                    "password": "password"}
