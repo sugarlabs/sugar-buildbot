@@ -45,10 +45,10 @@ def setup(c, config):
 
     for name, info in config["slaves"].items():
         if info.get("run_tests", False):
-            factory = factory_run_tests
+            factory = factory_build_only
             category = "testing"
         else:
-            factory = factory_build_only
+            factory = factory_run_tests
             category = "stable"
 
         builder = BuilderConfig(name=name,
