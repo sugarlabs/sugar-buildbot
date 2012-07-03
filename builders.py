@@ -27,7 +27,7 @@ def create_factory(run_tests=True):
                                  descriptionDone="build fructose",
                                  env=env))
 
-    if with_tests:
+    if run_tests:
         factory.addStep(ShellCommand(command=["make", "test"],
                                      description="testing",
                                      descriptionDone="test",
