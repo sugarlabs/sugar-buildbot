@@ -46,12 +46,15 @@ def setup(c, config):
     for name, info in config["slaves"].items():
         if info.get("run_tests", False):
             factory = factory_run_tests
+            category = "testing"
         else:
             factory = factory_build_only
+            category = "stable"
 
         builder = BuilderConfig(name=name,
                                 slavenames=name,
                                 factory=factory,
+                                category=category,
                                 locks=[bender_lock.access("exclusive")])
         c["builders"].append(builder)
 
