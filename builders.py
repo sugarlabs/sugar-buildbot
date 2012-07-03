@@ -2,6 +2,7 @@ from buildbot.process.factory import BuildFactory
 from buildbot.steps.source.git import Git
 from buildbot.steps.shell import ShellCommand
 from buildbot.config import BuilderConfig
+from buildbot.locks import MasterLock
 
 import repos
 
@@ -31,8 +32,12 @@ def setup(c, config):
 
     c["builders"] = []
 
+    bender_lock = locks.MasterLock("bender")
+
     for slave in config["slaves"].keys():
-        c["builders"].append(BuilderConfig(name=slave,
-                                           slavenames=slave,
-                                           factory=factory))
+        builder = BuilderConfig(name=slave,
+                                slavenames=slave,
+                                factory=factory,
+                                locks=[bender_lock.access("exclusive")])
+        c["builders"].append(builder)
 
