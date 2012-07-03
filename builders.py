@@ -32,7 +32,7 @@ def setup(c, config):
 
     c["builders"] = []
 
-    bender_lock = locks.MasterLock("bender")
+    bender_lock = MasterLock("bender")
 
     for slave in config["slaves"].keys():
         builder = BuilderConfig(name=slave,
