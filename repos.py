@@ -5,6 +5,8 @@ class Repo:
 
 repos = [Repo(name="sugar-build",
               path="sugar-build/sugar-build.git"),
+         Repo(name="sugar-fructose",
+              path="sugar-fructose/sugar-fructose.git"),
          Repo(name="sugar",
               path="sugar/mainline.git"),
          Repo(name="sugar-base",
