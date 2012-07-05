@@ -1,7 +1,8 @@
 class Repo:
-    def __init__(self, name, path):
+    def __init__(self, name, path, branch="master"):
         self.name = name
         self.url = "git://git.sugarlabs.org/%s" % path
+        self.branch = branch
 
 repos = [Repo(name="sugar-build",
               path="sugar-build/sugar-build.git"),
@@ -20,9 +21,11 @@ repos = [Repo(name="sugar-build",
          Repo(name="sugar-toolkit-gtk3",
 	          path="sugar-toolkit-gtk3/sugar-toolkit-gtk3.git"),
          Repo(name="terminal",
-              path="terminal/mainline.git"),
+              path="terminal/mainline.git",
+              branch="gtk3"),
          Repo(name="chat",
-              path="chat/mainline.git"),
+              path="chat/mainline.git",
+              branch="gtk3"),
          Repo(name="read",
               path="read/mainline.git"),
          Repo(name="calculate",
@@ -32,7 +35,8 @@ repos = [Repo(name="sugar-build",
          Repo(name="write",
               path="write/mainline.git"),
          Repo(name="pippy",
-              path="pippy/mainline.git"),
+              path="pippy/mainline.git",
+              branch="gtk3"),
          Repo(name="imageviewer",
               path="imageviewer/mainline.git"),
          Repo(name="jukebox",
