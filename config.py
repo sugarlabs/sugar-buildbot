@@ -1,7 +1,8 @@
 config = {}
 
 config["slaves"] = {"myslave": { "password": "mypassword",
-                                 "run_tests": True }}
+                                 "run_tests": True,
+                                 "periodic_build": 60 * 60 * 2 }}
 
 config["admin"] = {"name": "admin",
                    "password": "password"}
