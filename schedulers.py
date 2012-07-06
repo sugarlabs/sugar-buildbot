@@ -28,7 +28,7 @@ def setup(c, config):
             else:
                 periodicSchedulers[timer] = [name]
 
-    for timer, builderNames in periodicSchedulers:
+    for timer, builderNames in periodicSchedulers.items():
         c["schedulers"].append(Periodic(name="periodic-%d" % timer,
                                         builderNames=builderNames,
                                         periodicBuildTimer=timer))
