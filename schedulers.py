@@ -20,7 +20,7 @@ def setup(c, config):
                                    minute=0))
 
     periodicSchedulers = {}
-    for name, slave in config["slaves"]:
+    for name, slave in config["slaves"].items():
         if "periodic_build" in slave:
             timer = slave["periodic_build"]
             if timer in periodicSchedulers:
