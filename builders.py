@@ -31,7 +31,7 @@ def create_factory(run_tests=True):
         factory.addStep(ShellCommand(command=["make", "test"],
                                      description="testing",
                                      descriptionDone="test",
-                                     logfiles={"testlogs": "logs/test.tar"},
+                                     logfiles={"testlogs": "logs/test.log"},
                                      env=env))
 
     return factory
