@@ -12,7 +12,7 @@ def setup(c, config):
         for repo in all_repos:
             workdir = "gitpoller_work/%s/%s" % (main_repo.name, repo.name)
             poller = GitPoller(repo.url,
-                               project=main_repo.main,
+                               project=main_repo.name,
                                workdir=workdir,
                                branch=repo.branch)
             c["change_source"].append(poller)
