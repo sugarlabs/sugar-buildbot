@@ -62,6 +62,6 @@ def get_all(config):
     path = config.get("repo_path", "sugar-build/sugar-build.git")
 
     all_repos = repos[:]
-    all_repos.append(Repo(name="sugar-build", path=path))
+    all_repos.append(Repo(name="sugar-build", path))
 
     return all_repos
