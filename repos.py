@@ -4,9 +4,7 @@ class Repo:
         self.url = "git://git.sugarlabs.org/%s" % path
         self.branch = branch
 
-repos = [Repo(name="sugar-build",
-              path="sugar-build/sugar-build.git"),
-         Repo(name="sugar-fructose",
+repos = [Repo(name="sugar-fructose",
               path="sugar-fructose/sugar-fructose.git"),
          Repo(name="sugar",
               path="sugar/mainline.git"),
@@ -46,19 +44,24 @@ repos = [Repo(name="sugar-build",
          Repo(name="browse",
               path="browse/mainline.git")]
 
-def get_by_name(name):
-    for repo in repos:
+def get_by_name(config, name):
+    for repo in get_all(config):
         if repo.name == name:
             return repo
 
     return None
 
-def get_url(name):
-    repo = get_by_name(name)
+def get_url(config, name):
+    repo = get_by_name(config, name)
     if repo:
         return repo.url
     else:
         return None
 
-def get_all():
-    return repos
+def get_all(config):
+    path = config.get("repo_path", "sugar-build/sugar-build.git")
+
+    all_repos = repos[:]
+    all_repos.append(Repo(name="sugar-build", path))
+
+    return all_repos
