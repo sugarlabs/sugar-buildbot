@@ -8,9 +8,10 @@ import repos
 
 def create_factory(slave_config):
     env={"SUGAR_BUILDBOT": "yes"}
-    repourl = slave_config.get("repo", "sugar-build")
 
     factory = BuildFactory()
+
+    repourl = repos.get_url(slave_config.get("repo", "sugar-build"))
 
     factory.addStep(Git(repourl=repourl,
                         branch="master",
