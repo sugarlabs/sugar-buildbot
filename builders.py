@@ -6,12 +6,12 @@ from buildbot.locks import MasterLock
 
 import repos
 
-def create_factory(config, run_tests=True):
+def create_factory(run_tests=True):
     env={"SUGAR_BUILDBOT": "yes"}
 
     factory = BuildFactory()
 
-    factory.addStep(Git(repourl=repos.get_url(config, "sugar-build"),
+    factory.addStep(Git(repourl=repos.get_url("sugar-build"),
                         branch="master",
                         alwaysUseLatest=True))
     factory.addStep(ShellCommand(command=["make", "clean"],
@@ -37,8 +37,8 @@ def create_factory(config, run_tests=True):
     return factory
 
 def setup(c, config):
-    factory_build_only = create_factory(config, run_tests=False)
-    factory_run_tests = create_factory(config, run_tests=True)
+    factory_build_only = create_factory(run_tests=False)
+    factory_run_tests = create_factory(run_tests=True)
 
     c["builders"] = []
 

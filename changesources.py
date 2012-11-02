@@ -5,7 +5,7 @@ import repos
 def setup(c, config):
     c["change_source"] = []
 
-    for repo in repos.get_all(config):
+    for repo in repos.get_all():
         poller = GitPoller(repo.url,
                            project="sugar",
                            workdir="gitpoller_work/%s" % repo.name,
