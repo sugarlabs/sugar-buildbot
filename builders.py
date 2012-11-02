@@ -6,12 +6,13 @@ from buildbot.locks import MasterLock
 
 import repos
 
-def create_factory(run_tests=True):
+def create_factory(slave_config):
     env={"SUGAR_BUILDBOT": "yes"}
+    repourl = slave_config.get("repo", "sugar-build")
 
     factory = BuildFactory()
 
-    factory.addStep(Git(repourl=repos.get_url("sugar-build"),
+    factory.addStep(Git(repourl=repourl,
                         branch="master",
                         alwaysUseLatest=True))
     factory.addStep(ShellCommand(command=["make", "clean"],
@@ -27,7 +28,7 @@ def create_factory(run_tests=True):
                                  descriptionDone="build fructose",
                                  env=env))
 
-    if run_tests:
+    if slave_config.get("run_tests", False):
         factory.addStep(ShellCommand(command=["make", "test"],
                                      description="testing",
                                      descriptionDone="test",
@@ -37,19 +38,16 @@ def create_factory(run_tests=True):
     return factory
 
 def setup(c, config):
-    factory_build_only = create_factory(run_tests=False)
-    factory_run_tests = create_factory(run_tests=True)
-
     c["builders"] = []
 
     bender_lock = MasterLock("bender")
 
     for name, info in config["slaves"].items():
+        factory = create_factory(info)
+
         if info.get("run_tests", False):
-            factory = factory_run_tests
             category = "testing"
         else:
-            factory = factory_build_only
             category = "stable"
 
         builder = BuilderConfig(name=name,
