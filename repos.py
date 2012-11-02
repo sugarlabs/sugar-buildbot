@@ -7,7 +7,7 @@ class Repo:
 main_repos = [Repo(name="sugar-build",
               path="sugar-build/sugar-build.git"),
 main_repos = [Repo(name="gnome-3-6",
-              path="sugar-build/gnome-3-6.git"),
+              path="~dnarvaez/sugar-build/gnome-3-6.git"),
 
 sub_repos = [Repo(name="sugar-fructose",
                   path="sugar-fructose/sugar-fructose.git"),
