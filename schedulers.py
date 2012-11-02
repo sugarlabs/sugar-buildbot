@@ -16,7 +16,7 @@ def setup(c, config):
             if info.get("repo", "sugar-build") == main_repo.name:
                 builder_names.append(key)
 
-        scheduler = SingleBranchScheduler(name="all",
+        scheduler = SingleBranchScheduler(name="all-%s" % main_repo.name,
                                           change_filter=change_filter,
                                           builderNames=builder_names)
         c["schedulers"].append(scheduler)
