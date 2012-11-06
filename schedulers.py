@@ -9,7 +9,8 @@ def setup(c, config):
     c["schedulers"] = []
 
     for main_repo in repos.get_main_repos():
-        change_filter = filter.ChangeFilter(project=main_repo.name)
+        change_filter = filter.ChangeFilter(project=main_repo.name,
+                                            category="subrepos")
         
         builder_names = []
         for key, info in config["slaves"].items():
