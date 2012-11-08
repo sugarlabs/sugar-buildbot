@@ -29,7 +29,7 @@ def create_factory(slave_config):
                                  descriptionDone="build fructose",
                                  env=env))
 
-    if slave_config.get("run_tests", False):
+    if slave_config.get("run_tests", True):
         factory.addStep(ShellCommand(command=["make", "test"],
                                      description="testing",
                                      descriptionDone="test",
@@ -46,7 +46,7 @@ def setup(c, config):
     for name, info in config["slaves"].items():
         factory = create_factory(info)
 
-        if info.get("run_tests", False):
+        if info.get("run_tests", True):
             category = "testing"
         else:
             category = "stable"
