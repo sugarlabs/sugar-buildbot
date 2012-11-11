@@ -49,7 +49,7 @@ sub_repos = [Repo(name="sugar-fructose",
 
 def get_by_name(name):
     repos = []
-    repos.extend(main_repos)
+    repos.extend(main_repo)
     repos.extend(sub_repos)
 
     for repo in repos:
