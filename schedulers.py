@@ -8,7 +8,7 @@ import repos
 def setup(c, config):
     c["schedulers"] = []
 
-    main_repo = repos.get_main_repo():
+    main_repo = repos.get_main_repo()
     change_filter = filter.ChangeFilter(project=main_repo.name)
         
     builder_names = config["slaves"].keys()
