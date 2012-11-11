@@ -4,8 +4,8 @@ class Repo:
         self.url = "git://git.sugarlabs.org/%s" % path
         self.branch = branch
 
-main_repos = [Repo(name="sugar-build",
-                   path="sugar-build/sugar-build.git")]
+main_repo = Repo(name="sugar-build",
+                 path="sugar-build/sugar-build.git")
 
 sub_repos = [Repo(name="sugar-fructose",
                   path="sugar-fructose/sugar-fructose.git"),
@@ -65,8 +65,8 @@ def get_url(name):
     else:
         return None
 
-def get_main_repos():
-    return main_repos
+def get_main_repo():
+    return main_repo
 
 def get_sub_repos():
     return sub_repos

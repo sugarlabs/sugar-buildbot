@@ -8,19 +8,15 @@ import repos
 def setup(c, config):
     c["schedulers"] = []
 
-    for main_repo in repos.get_main_repos():
-        change_filter = filter.ChangeFilter(project=main_repo.name,
-                                            category="subrepos")
+    main_repo = repos.get_main_repo():
+    change_filter = filter.ChangeFilter(project=main_repo.name)
         
-        builder_names = []
-        for key, info in config["slaves"].items():
-            if info.get("repo", "sugar-build") == main_repo.name:
-                builder_names.append(key)
+    builder_names = config["slaves"].keys()
 
-        scheduler = SingleBranchScheduler(name="all-%s" % main_repo.name,
-                                          change_filter=change_filter,
-                                          builderNames=builder_names)
-        c["schedulers"].append(scheduler)
+    scheduler = SingleBranchScheduler(name="all-%s" % main_repo.name,
+                                      change_filter=change_filter,
+                                      builderNames=builder_names)
+    c["schedulers"].append(scheduler)
 
     builder_names = config["slaves"].keys()
     c['schedulers'].append(Nightly(name="nightly",
