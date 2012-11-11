@@ -48,8 +48,7 @@ sub_repos = [Repo(name="sugar-fructose",
                   path="browse/mainline.git")]
 
 def get_by_name(name):
-    repos = []
-    repos.extend(main_repo)
+    repos = [main_repo]
     repos.extend(sub_repos)
 
     for repo in repos:
