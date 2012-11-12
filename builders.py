@@ -20,13 +20,9 @@ def create_factory(slave_config):
                                  description="cleaning",
                                  descriptionDone="clean",
                                  env=env))
-    factory.addStep(ShellCommand(command=["make", "build-glucose"],
-                                 description="building glucose",
-                                 descriptionDone="build glucose",
-                                 env=env))
-    factory.addStep(ShellCommand(command=["make", "build-activities"],
-                                 description="building activities",
-                                 descriptionDone="build activities",
+    factory.addStep(ShellCommand(command=["make", "build"],
+                                 description="building",
+                                 descriptionDone="build",
                                  env=env))
 
     if slave_config.get("run_tests", True):
