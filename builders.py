@@ -16,6 +16,15 @@ def create_factory(slave_config):
     factory.addStep(Git(repourl=repourl,
                         branch="master",
                         alwaysUseLatest=True))
+
+    check_system_env = env[:]
+    check_system_env["ARGS"] = "--autoupdate"
+
+    factory.addStep(ShellCommand(command=["make", "check-system"],
+                                 description="checking system",
+                                 descriptionDone="check system",
+                                 env=check_system_env))
+
     factory.addStep(ShellCommand(command=["make", "clean"],
                                  description="cleaning",
                                  descriptionDone="clean",
