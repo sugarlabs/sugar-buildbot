@@ -17,7 +17,7 @@ def create_factory(slave_config):
                         branch="master",
                         alwaysUseLatest=True))
 
-    check_system_env = env[:]
+    check_system_env = env.copy()
     check_system_env["ARGS"] = "--autoupdate"
 
     factory.addStep(ShellCommand(command=["make", "check-system"],
