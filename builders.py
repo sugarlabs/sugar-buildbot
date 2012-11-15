@@ -18,7 +18,7 @@ def create_factory(slave_config):
                         alwaysUseLatest=True))
 
     check_system_env = env.copy()
-    check_system_env["ARGS"] = "--autoupdate"
+    check_system_env["ARGS"] = "--autoupdate --autoremove"
 
     factory.addStep(ShellCommand(command=["make", "check-system"],
                                  description="checking system",
