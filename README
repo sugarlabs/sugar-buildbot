@@ -43,6 +43,33 @@ Sync the new code
 
 If anything was added to config.py, edit [basedir]/config.py accordingly.
 
+= Tips about setting up a kvm slave =
+
+You can create an image with something like this, changing the location to
+the appropriate Fedora or Ubuntu mirror.
+
+    virt-install \
+        --name buildslave-fedora-17-64bit --ram 512 --disk \
+        path=/srv/images/buildslave-fedora-17-64bit.img,size=10
+        -network network:default
+        --location "http://fedora.mirror.garr.it/mirrors/fedora/linux/releases/17/Fedora/x86_64/os/"
+        --extra-args="console=tty0 console=ttyS0,115200n8 serial"
+
+Once the system is running you need to:
+
+* Add a buildbot user
+* Add buildbot to the wheel (Fedora) or sudo (Ubuntu) group
+
+    gpassword --add buildbot wheel
+
+* Run visudo and make sure "Default requiretty" is commented out
+* Still in visudo, allow to run without a password. Something like
+
+    %wheel ALL=(ALL) NOPASSWD: ALL
+
+* Install git, make and buildbot. You don't need to update the system,
+the buildbot will take care of it.
+
 = Bug reports =
 
 Send bug reports to Daniel Narvaez <dwnarvaez@gmail.com>.
