@@ -44,7 +44,7 @@ def create_factory(slave_config):
                                      env=env))
 
     if slave_config.get("upload_docs", True):
-        factory.addStep(ShellCommand(command=["make", "upload_docs"],
+        factory.addStep(ShellCommand(command=["make", "upload-docs"],
                                      description="uploading docs",
                                      descriptionDone="upload docs",
                                      env=env))
