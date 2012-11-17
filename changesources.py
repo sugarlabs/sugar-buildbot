@@ -6,10 +6,10 @@ def setup(c, config):
     c["change_source"] = []
 
     main_repo = repos.get_main_repo()
-    poller = GitPoller(repo.url,
+    poller = GitPoller(main_repo.url,
                        project=main_repo.name,
                        workdir="gitpoller_work/%s" % main_repo.name,
-                       branch=repo.branch)
+                       branch=main_repo.branch)
     c["change_source"].append(poller)
 
     for repo in repos.get_sub_repos():
