@@ -9,6 +9,8 @@ main_repo = Repo(name="sugar-build",
 
 sub_repos = [Repo(name="sugar",
                   path="sugar/mainline.git"),
+             Repo(name="sugar-docs",
+                  path="sugar-docs/sugar-docs.git"),
              Repo(name="sugar-base",
                   path="sugar-base/mainline.git"),
              Repo(name="sugar-toolkit",
