@@ -10,7 +10,7 @@ Create the generic buildbot configuration
 
 Install sugar buildbot configuration
 
-    ./sync.sh [basedir]
+    make sync
 
 Edit [basedir]/config.py as necessary.
 
