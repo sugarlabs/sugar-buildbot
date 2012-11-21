@@ -1,3 +1,5 @@
+import json
+
 class Repo:
     def __init__(self, name, url, branch=None):
         self.name = name
@@ -8,7 +10,7 @@ class Repo:
             self.branch = "master"
 
 main_repo = Repo(name="sugar-build",
-                 path="git://git.sugarlabs.org/sugar-build/sugar-build.git")
+                 url="git://git.sugarlabs.org/sugar-build/sugar-build.git")
 
 sub_repos = []
 
