@@ -12,7 +12,7 @@ all:
 
 sync.path:
 	@echo "Please create a sync.path file pointing to the master directory."
-	@exit 0 
+	@exit 1
 
 sync: sync.path
 	@cp $(SOURCES) `cat sync.path`
