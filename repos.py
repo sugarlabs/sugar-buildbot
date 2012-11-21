@@ -3,7 +3,7 @@ import json
 class Repo:
     def __init__(self, name, url, branch=None):
         self.name = name
-        self.url = "git://git.sugarlabs.org/%s" % path
+        self.url = url
         self.branch = branch
 
         if self.branch is None:
