@@ -6,8 +6,8 @@ from buildbot.locks import MasterLock
 
 import repos
 
-def create_factory(slave_config):
-    env={"SUGAR_BUILDBOT": "yes"}
+def create_factory(slave_name, slave_config):
+    env={"SUGAR_BUILDBOT": slave_name}
 
     factory = BuildFactory()
 
@@ -49,6 +49,11 @@ def create_factory(slave_config):
                                      descriptionDone="upload docs",
                                      env=env))
 
+    factory.addStep(ShellCommand(command=["make", "upload-snapshot"],
+                                 description="uploading snapshot",
+                                 descriptionDone="upload snapshot",
+                                 env=env))
+
     return factory
 
 def setup(c, config):
@@ -57,7 +62,7 @@ def setup(c, config):
     bender_lock = MasterLock("bender")
 
     for name, info in config["slaves"].items():
-        factory = create_factory(info)
+        factory = create_factory(name, info)
 
         if info.get("run_tests", True):
             category = "testing"
