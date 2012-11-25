@@ -23,6 +23,7 @@ def create_factory(slave_name, slave_config):
     factory.addStep(ShellCommand(command=["make", "check-system"],
                                  description="checking system",
                                  descriptionDone="check system",
+                                 warnOnFailure=True,
                                  env=check_system_env))
 
     factory.addStep(ShellCommand(command=["make", "clean"],
@@ -47,11 +48,13 @@ def create_factory(slave_name, slave_config):
         factory.addStep(ShellCommand(command=["make", "upload-docs"],
                                      description="uploading docs",
                                      descriptionDone="upload docs",
+                                     warnOnFailure=True,
                                      env=env))
 
     factory.addStep(ShellCommand(command=["make", "upload-snapshot"],
                                  description="uploading snapshot",
                                  descriptionDone="upload snapshot",
+                                 warnOnFailure=True,
                                  env=env))
 
     return factory
