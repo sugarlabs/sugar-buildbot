@@ -3,7 +3,7 @@ from buildbot.steps.source.git import Git
 from buildbot.steps.shell import ShellCommand
 from buildbot.config import BuilderConfig
 from buildbot.locks import MasterLock
-from buildbot.process.properties import Interpolate
+from buildbot.process.properties import WithProperties
 
 import repos
 
@@ -50,9 +50,8 @@ def create_factory(slave_name, slave_config):
                                      warnOnFailure=True,
                                      env=env))
 
-    filename = Interpolate("SNAPSHOT_FILENAME=sugar-snapshot"
-                           "-%(prop:buildername)s"
-                           "-%(prop:buildnumber)s.tar"),
+    filename = WithProperties("SNAPSHOT_FILENAME=sugar-snapshot-%s-%s.tar",
+                              "buildername", "buildnumber")
 
     factory.addStep(ShellCommand(command=["make", "snapshot-upload", filename],
                                  description="uploading snapshot",
