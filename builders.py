@@ -8,7 +8,7 @@ from buildbot.process.properties import WithProperties
 import repos
 
 def create_factory(slave_name, slave_config):
-    env={"SUGAR_BUILDBOT": "yes"}
+    env={"SUGAR_BUILDBOT": slave_name}
 
     factory = BuildFactory()
 
