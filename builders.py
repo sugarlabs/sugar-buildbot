@@ -3,11 +3,12 @@ from buildbot.steps.source.git import Git
 from buildbot.steps.shell import ShellCommand
 from buildbot.config import BuilderConfig
 from buildbot.locks import MasterLock
+from buildbot.process.properties import Interpolate
 
 import repos
 
 def create_factory(slave_name, slave_config):
-    env={"SUGAR_BUILDBOT": slave_name}
+    env={"SUGAR_BUILDBOT": "yes"}
 
     factory = BuildFactory()
 
@@ -17,9 +18,7 @@ def create_factory(slave_name, slave_config):
                         branch="master",
                         alwaysUseLatest=True))
 
-    check_system_env = env.copy()
-    check_system_env["ARGS"] = "--update --remove"
-
+    command = ["make", "check-system", "ARGS=--udpate --remove"]
     factory.addStep(ShellCommand(command=["make", "check-system"],
                                  description="checking system",
                                  descriptionDone="check system",
@@ -45,13 +44,17 @@ def create_factory(slave_name, slave_config):
                                      env=env))
 
     if slave_config.get("upload_docs", False):
-        factory.addStep(ShellCommand(command=["make", "upload-docs"],
+        factory.addStep(ShellCommand(command=["make", "docs-upload"],
                                      description="uploading docs",
                                      descriptionDone="upload docs",
                                      warnOnFailure=True,
                                      env=env))
 
-    factory.addStep(ShellCommand(command=["make", "upload-snapshot"],
+    filename = Interpolate("SNAPSHOT_FILENAME=sugar-snapshot"
+                           "-%(prop:buildername)s"
+                           "-%(prop:buildnumber)s.tar"),
+
+    factory.addStep(ShellCommand(command=["make", "snapshot-upload", filename],
                                  description="uploading snapshot",
                                  descriptionDone="upload snapshot",
                                  warnOnFailure=True,
