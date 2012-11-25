@@ -23,7 +23,7 @@ def create_factory(slave_name, slave_config):
                                  description="checking system",
                                  descriptionDone="check system",
                                  warnOnFailure=True,
-                                 env=check_system_env))
+                                 env=env))
 
     factory.addStep(ShellCommand(command=["make", "clean"],
                                  description="cleaning",
