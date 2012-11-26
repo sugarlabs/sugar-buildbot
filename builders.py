@@ -18,7 +18,7 @@ def create_factory(slave_name, slave_config):
                         branch="master",
                         alwaysUseLatest=True))
 
-    command = ["make", "check-system", "ARGS=--udpate --remove"]
+    command = ["make", "check-system", "ARGS=--update --remove"]
     factory.addStep(ShellCommand(command=command,
                                  description="checking system",
                                  descriptionDone="check system",
