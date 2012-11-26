@@ -30,6 +30,11 @@ def create_factory(slave_name, slave_config):
                                  descriptionDone="clean",
                                  haltOnFailure=True,
                                  env=env))
+    factory.addStep(ShellCommand(command=["make", "pull"],
+                                 description="pulling",
+                                 descriptionDone="pull",
+                                 haltOnFailure=True,
+                                 env=env)) 
     factory.addStep(ShellCommand(command=["make", "build"],
                                  description="building",
                                  descriptionDone="build",
