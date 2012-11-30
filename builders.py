@@ -41,13 +41,12 @@ def create_factory(slave_name, slave_config):
                                  haltOnFailure=True,
                                  env=env))
 
-    if slave_config.get("run_tests", True):
-        factory.addStep(ShellCommand(command=["make", "test"],
-                                     description="testing",
-                                     descriptionDone="test",
-                                     haltOnFailure=True,
-                                     logfiles={"testlogs": "logs/test.log"},
-                                     env=env))
+    factory.addStep(ShellCommand(command=["make", "check"],
+                                 description="testing",
+                                 descriptionDone="test",
+                                 haltOnFailure=True,
+                                 logfiles={"testlogs": "logs/test.log"},
+                                 env=env))
 
     if slave_config.get("upload_docs", False):
         factory.addStep(ShellCommand(command=["make", "docs-upload"],
