@@ -13,7 +13,8 @@ SOURCES=master.cfg \
         schedulers.py \
         statustargets.py \
 
-TEMPLATES=templates/root.html
+TEMPLATES=templates/root.html \
+          templates/layout.html
 
 .PHONY: all sync pull-modules
 
