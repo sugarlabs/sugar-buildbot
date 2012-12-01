@@ -7,7 +7,7 @@ from buildbot.process.properties import WithProperties
 
 import repos
 
-def create_factory(slave_name, slave_config):
+def create_factory(slave_name, slave_config, branch):
     env={"SUGAR_BUILDBOT": slave_name}
 
     factory = BuildFactory()
@@ -15,7 +15,7 @@ def create_factory(slave_name, slave_config):
     repourl = repos.get_url(slave_config.get("repo", "sugar-build"))
 
     factory.addStep(Git(repourl=repourl,
-                        branch="master",
+                        branch=branch,
                         alwaysUseLatest=True))
 
     command = ["make", "check-system", "ARGS=--update --remove"]
@@ -72,11 +72,15 @@ def setup(c, config):
     bender_lock = MasterLock("bender")
 
     for name, info in config["slaves"].items():
-        factory = create_factory(name, info)
+        factory = create_factory(name, info, "master")
 
         builder = BuilderConfig(name=name,
                                 slavenames=name,
                                 factory=factory,
                                 locks=[bender_lock.access("exclusive")])
+        c["builders"].append(builder)
+
+    for name, info in config["slaves"].items():
+        factory = create_factory("%s-testing" % name, info, "testing")
         c["builders"].append(builder)
 
