@@ -88,7 +88,8 @@ def setup(c, config):
         builder = BuilderConfig(name="%s-testing" % name,
                                 slavenames=name,
                                 factory=factory,
-                                category="testing")
+                                category="testing",
+                                locks=[bender_lock.access("exclusive")])
 
         c["builders"].append(builder)
 
