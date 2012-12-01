@@ -25,20 +25,6 @@ def setup(c, config):
                                    hour=2,
                                    minute=0))
 
-    periodicSchedulers = {}
-    for name, slave in config["slaves"].items():
-        if "periodic_build" in slave:
-            timer = slave["periodic_build"]
-            if timer in periodicSchedulers:
-                periodicSchedulers[timer].append(name)
-            else:
-                periodicSchedulers[timer] = [name]
-
-    for timer, builderNames in periodicSchedulers.items():
-        c["schedulers"].append(Periodic(name="periodic-%d" % timer,
-                                        builderNames=builderNames,
-                                        periodicBuildTimer=timer))
-
     c["schedulers"].append(ForceScheduler(name="force",
                                           builderNames=builder_names,
                                           properties=[]))
