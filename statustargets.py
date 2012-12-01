@@ -13,11 +13,6 @@ def setup(c, config):
     authz_cfg = authz.Authz(auth=basic_auth, forceBuild="auth")
 
     c["status"].append(html.WebStatus(http_port=config["port"],
-                                      categories=["production"],
-                                      authz=authz_cfg))
-
-    c["status"].append(html.WebStatus(http_port=8011,
-                                      categories=["testing"],
                                       authz=authz_cfg))
 
     c["status"].append(words.IRC(host="irc.freenode.net",
