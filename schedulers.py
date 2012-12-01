@@ -25,12 +25,9 @@ def setup(c, config):
                                    hour=2,
                                    minute=0))
 
+    force_builder_names = ["%s-testing" % name for name in builder_names]
+    force_builder_names.extend(builder_names)
+
     c["schedulers"].append(ForceScheduler(name="force",
-                                          builderNames=builder_names,
-                                          properties=[]))
-
-    testing_builder_names = ["%s-testing" % name for name in builder_names]
-
-    c["schedulers"].append(ForceScheduler(name="force-testing",
-                                          builderNames=testing_builder_names,
+                                          builderNames=force_builder_names,
                                           properties=[]))
