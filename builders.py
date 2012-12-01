@@ -7,9 +7,7 @@ from buildbot.process.properties import WithProperties
 
 import repos
 
-def create_factory(slave_name, slave_config, branch):
-    env={"SUGAR_BUILDBOT": slave_name}
-
+def create_factory(env, slave_config, branch):
     factory = BuildFactory()
 
     repourl = repos.get_url(slave_config.get("repo", "sugar-build"))
@@ -48,6 +46,9 @@ def create_factory(slave_name, slave_config, branch):
                                  logfiles={"testlogs": "logs/test.log"},
                                  env=env))
 
+    return factory
+
+def add_upload_steps(factory, env, slave_config):
     if slave_config.get("upload_docs", False):
         factory.addStep(ShellCommand(command=["make", "docs-upload"],
                                      description="uploading docs",
@@ -64,15 +65,16 @@ def create_factory(slave_name, slave_config, branch):
                                  warnOnFailure=True,
                                  env=env))
 
-    return factory
-
 def setup(c, config):
     c["builders"] = []
 
     bender_lock = MasterLock("bender")
 
-    for name, info in config["slaves"].items():
-        factory = create_factory(name, info, "master")
+    for name, info in config["slaves"].items(): 
+        env={"SUGAR_BUILDBOT": name}
+
+        factory = create_factory(env, info, "master")
+        add_upload_steps(factory, env, info)
 
         builder = BuilderConfig(name=name,
                                 slavenames=name,
@@ -80,7 +82,11 @@ def setup(c, config):
                                 locks=[bender_lock.access("exclusive")])
         c["builders"].append(builder)
 
-    for name, info in config["slaves"].items():
-        factory = create_factory("%s-testing" % name, info, "testing")
+        factory = create_factory(env, info, "testing")
+
+        builder = BuilderConfig(name="%s-testing" % name,
+                                slavenames=name,
+                                factory=factory)
+
         c["builders"].append(builder)
 
