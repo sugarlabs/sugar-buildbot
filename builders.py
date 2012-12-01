@@ -74,15 +74,9 @@ def setup(c, config):
     for name, info in config["slaves"].items():
         factory = create_factory(name, info)
 
-        if info.get("run_tests", True):
-            category = "testing"
-        else:
-            category = "stable"
-
         builder = BuilderConfig(name=name,
                                 slavenames=name,
                                 factory=factory,
-                                category=category,
                                 locks=[bender_lock.access("exclusive")])
         c["builders"].append(builder)
 
