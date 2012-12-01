@@ -13,16 +13,22 @@ def setup(c, config):
     authz_cfg = authz.Authz(auth=basic_auth, forceBuild="auth")
 
     c["status"].append(html.WebStatus(http_port=config["port"],
+                                      categories=["production"],
+                                      authz=authz_cfg))
+
+    c["status"].append(html.WebStatus(http_port=8011,
+                                      categories=["testing"],
                                       authz=authz_cfg))
 
     c["status"].append(words.IRC(host="irc.freenode.net",
                                  nick="sugarbuildbot",
                                  channels=["#sugar-buildbot"],
-                                 categories=["stable"],
+                                 categories=["production"],
                                  notify_events={"failureToSuccess": 1,
                                                 "failure": 1}))
 
     c["status"].append(MailNotifier(fromaddr="buildbot@sugarlabs.org",
                                     mode=["problem"],
+                                    categories=["production"],
                                     lookup="sugarlabs.org"))
 
