@@ -12,8 +12,8 @@ def setup(c, config):
     change_filter = filter.ChangeFilter(project=main_repo.name)
 
     builder_names = []
-    for name, key in config["slaves"].items():
-        if config["slaves"].get("on_change", False):        
+    for key, info in config["slaves"].items():
+        if info.get("on_change", False):        
             builder_names.append(key)
 
     scheduler = SingleBranchScheduler(name="all-%s" % main_repo.name,
