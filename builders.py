@@ -49,6 +49,12 @@ def create_factory(env, slave_config, branch):
     return factory
 
 def add_upload_steps(factory, env, slave_config):
+    if slave_config.get("distribute", False):
+        factory.addStep(ShellCommand(command=["make", "distribute"],
+                                     description="distributing",
+                                     descriptionDone="distribute",
+                                     env=env))
+
     if slave_config.get("upload_docs", False):
         factory.addStep(ShellCommand(command=["make", "docs-upload"],
                                      description="uploading docs",
