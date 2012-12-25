@@ -11,12 +11,12 @@ def setup(c, config):
     poller = GitPoller(main_repo.url,
                        project=main_repo.name,
                        category=category,
-                       branch=main_repo.branch)
+                       branches=[main_repo.branch])
     c["change_source"].append(poller)
 
     for repo in repos.get_sub_repos():
         poller = GitPoller(repo.url,
                            project=main_repo.name,
                            category=category,
-                           branch=repo.branch)
+                           branches=[repo.branch])
         c["change_source"].append(poller)
