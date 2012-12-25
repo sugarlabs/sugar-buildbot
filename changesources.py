@@ -11,7 +11,6 @@ def setup(c, config):
     poller = GitPoller(main_repo.url,
                        project=main_repo.name,
                        category=category,
-                       workdir="gitpoller_work/%s" % main_repo.name,
                        branch=main_repo.branch)
     c["change_source"].append(poller)
 
@@ -19,6 +18,5 @@ def setup(c, config):
         poller = GitPoller(repo.url,
                            project=main_repo.name,
                            category=category,
-                           workdir="gitpoller_work/%s" % repo.name,
                            branch=repo.branch)
         c["change_source"].append(poller)
