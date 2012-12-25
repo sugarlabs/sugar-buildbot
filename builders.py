@@ -4,6 +4,7 @@ from buildbot.steps.shell import ShellCommand
 from buildbot.config import BuilderConfig
 from buildbot.locks import MasterLock
 from buildbot.process.properties import WithProperties
+from buildbot.process.properties import Interpolate
 
 import repos
 
@@ -23,17 +24,14 @@ def create_factory(env, slave_config, branch):
                                  warnOnFailure=True,
                                  env=env))
 
-    factory.addStep(ShellCommand(command=["make", "clean"],
-                                 description="cleaning",
-                                 descriptionDone="clean",
-                                 haltOnFailure=True,
-                                 env=env))
     factory.addStep(ShellCommand(command=["make", "pull"],
                                  description="pulling",
                                  descriptionDone="pull",
                                  haltOnFailure=True,
-                                 env=env)) 
-    factory.addStep(ShellCommand(command=["make", "build"],
+                                 env=env))
+
+    interpolate = Interpolate("ARGS=%(prop:build_args)s") 
+    factory.addStep(ShellCommand(command=["make", "build", interpolate],
                                  description="building",
                                  descriptionDone="build",
                                  haltOnFailure=True,
