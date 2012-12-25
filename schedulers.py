@@ -27,7 +27,7 @@ def setup(c, config):
                                    builderNames=builder_names,
                                    hour=2,
                                    minute=0,
-                                   properties=[{"build_args": "--clean"}]))
+                                   properties={"build_args": "--clean"}))
 
     force_builder_names = ["%s-testing" % name for name in builder_names]
     force_builder_names.extend(builder_names)
