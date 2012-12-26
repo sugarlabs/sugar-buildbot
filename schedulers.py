@@ -18,13 +18,12 @@ def setup(c, config):
                                       builderNames=builder_names)
     c["schedulers"].append(scheduler)
 
-    builder_names = config["slaves"].keys()
     c['schedulers'].append(Nightly(name="nightly",
                                    branch="master",
                                    builderNames=builder_names,
                                    hour=2,
                                    minute=0,
-                                   properties={"build_args": "--clean"}))
+                                   properties={"build_args": "--full"}))
 
     force_builder_names = ["%s-testing" % name for name in builder_names]
     force_builder_names.extend(builder_names)
