@@ -15,7 +15,7 @@ def is_nightly(step):
 
 
 def step_skipped(step, results):
-    return results == SKIPPED
+    return results != SKIPPED
 
 
 def create_factory(env, slave_config, branch):
