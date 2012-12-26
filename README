@@ -4,6 +4,14 @@ The configuration has been test with version 0.8.6.
 
 = Setup the master =
 
+Install buildbot
+
+    mkdir buildbot
+    cd buildbot
+    virtualenv --no-site-packages sandbox
+    source sandbox/bin/activate
+    easy_install buildbot
+
 Create the generic buildbot configuration
 
     buildbot create-master [basedir]
@@ -20,7 +28,7 @@ Start the master
 
 = Setup a slave =
 
-Install buildbot
+Install buildbot-slave
 
     mkdir buildbot
     cd buildbot

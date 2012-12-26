@@ -8,6 +8,9 @@ from buildbot.process.properties import Interpolate
 
 import repos
 
+def is_nightly(self):
+    return self.getProperty("scheduler") == "nightly"
+
 def create_factory(env, slave_config, branch):
     factory = BuildFactory()
 
@@ -69,6 +72,7 @@ def add_upload_steps(factory, env, slave_config):
                                  description="uploading snapshot",
                                  descriptionDone="upload snapshot",
                                  warnOnFailure=True,
+                                 doStepIf=is_nightly,
                                  env=env))
 
 def setup(c, config):
