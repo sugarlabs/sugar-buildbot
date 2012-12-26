@@ -8,8 +8,10 @@ from buildbot.process.properties import Interpolate
 
 import repos
 
+
 def is_nightly(self):
     return self.getProperty("scheduler") == "nightly"
+
 
 def create_factory(env, slave_config, branch):
     factory = BuildFactory()
@@ -34,7 +36,7 @@ def create_factory(env, slave_config, branch):
                                  logfiles={"log": "logs/pull.log"},
                                  env=env))
 
-    interpolate = Interpolate("ARGS=%(prop:build_args)s") 
+    interpolate = Interpolate("ARGS=%(prop:build_args)s")
     factory.addStep(ShellCommand(command=["make", "build", interpolate],
                                  description="building",
                                  descriptionDone="build",
@@ -50,6 +52,7 @@ def create_factory(env, slave_config, branch):
                                  env=env))
 
     return factory
+
 
 def add_upload_steps(factory, env, slave_config):
     if slave_config.get("distribute", False):
@@ -75,13 +78,14 @@ def add_upload_steps(factory, env, slave_config):
                                  doStepIf=is_nightly,
                                  env=env))
 
+
 def setup(c, config):
     c["builders"] = []
 
     bender_lock = MasterLock("bender")
 
-    for name, info in config["slaves"].items(): 
-        env={"SUGAR_BUILDBOT": name}
+    for name, info in config["slaves"].items():
+        env = {"SUGAR_BUILDBOT": name}
 
         factory = create_factory(env, info, "master")
         add_upload_steps(factory, env, info)
@@ -102,4 +106,3 @@ def setup(c, config):
                                 locks=[bender_lock.access("exclusive")])
 
         c["builders"].append(builder)
-

@@ -2,6 +2,7 @@ from buildbot.changes.gitpoller import GitPoller
 
 import repos
 
+
 def setup(c, config):
     c["change_source"] = []
 

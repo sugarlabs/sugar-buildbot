@@ -1,5 +1,6 @@
 import json
 
+
 class Repo:
     def __init__(self, name, url, branch=None):
         self.name = name
@@ -14,6 +15,7 @@ main_repo = Repo(name="sugar-build",
 
 sub_repos = []
 
+
 def get_by_name(name):
     repos = [main_repo]
     repos.extend(sub_repos)
@@ -24,6 +26,7 @@ def get_by_name(name):
 
     return None
 
+
 def get_url(name):
     repo = get_by_name(name)
     if repo:
@@ -31,11 +34,14 @@ def get_url(name):
     else:
         return None
 
+
 def get_main_repo():
     return main_repo
 
+
 def get_sub_repos():
     return sub_repos
+
 
 def load_modules(path):
     for module in json.load(open(path)):

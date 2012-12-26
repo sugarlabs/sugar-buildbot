@@ -26,7 +26,7 @@ sync.path:
 	@echo "Please create a sync.path file pointing to the master directory."
 	@exit 1
 
-sync: sync.path pull-modules
+sync: sync.path pull-modules check
 	@DEST_PATH=`cat sync.path` && \
 	cp $(SOURCES) $$DEST_PATH && \
 	mkdir -p $$DEST_PATH/templates && \
@@ -44,3 +44,6 @@ pull-modules:
         cp $(MODULES) $(MODULES_DEST_PATH) && \
 	rm -rf $$TMP_DIR && \
 	echo "Modules updated."
+
+check:
+	pep8 $(CURDIR)

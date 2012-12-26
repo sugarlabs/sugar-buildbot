@@ -5,6 +5,7 @@ from buildbot.changes import filter
 
 import repos
 
+
 def setup(c, config):
     c["schedulers"] = []
 

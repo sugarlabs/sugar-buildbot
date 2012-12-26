@@ -3,11 +3,12 @@ from buildbot.status.web import authz, auth
 from buildbot.status import words
 from buildbot.status.mail import MailNotifier
 
+
 def setup(c, config):
     c["status"] = []
 
-    admin_name = config["admin"]["name"];
-    admin_password = config["admin"]["password"];
+    admin_name = config["admin"]["name"]
+    admin_password = config["admin"]["password"]
 
     basic_auth = auth.BasicAuth([(admin_name, admin_password)])
     authz_cfg = authz.Authz(auth=basic_auth, forceBuild="auth")
@@ -26,4 +27,3 @@ def setup(c, config):
                                     mode=["problem"],
                                     categories=["production"],
                                     lookup="sugarlabs.org"))
-
