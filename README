@@ -20,6 +20,14 @@ Start the master
 
 = Setup a slave =
 
+Install buildbot
+
+    mkdir buildbot
+    cd buildbot
+    virtualenv --system-site-packages sandbox
+    source sandbox/bin/activate
+    easy_install buildbot-slave
+
 Create the slave configuration
 
     buildslave create-slave [basedir] [master_host]:9989 [name] [password]

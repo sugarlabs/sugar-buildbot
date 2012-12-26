@@ -28,6 +28,7 @@ def create_factory(env, slave_config, branch):
                                  description="pulling",
                                  descriptionDone="pull",
                                  haltOnFailure=True,
+                                 logfiles={"log": "logs/pull.log"}
                                  env=env))
 
     interpolate = Interpolate("ARGS=%(prop:build_args)s") 
@@ -35,13 +36,14 @@ def create_factory(env, slave_config, branch):
                                  description="building",
                                  descriptionDone="build",
                                  haltOnFailure=True,
+                                 logfiles={"log": "logs/build.log"},
                                  env=env))
 
     factory.addStep(ShellCommand(command=["make", "check"],
                                  description="testing",
                                  descriptionDone="test",
                                  haltOnFailure=True,
-                                 logfiles={"testlogs": "logs/test.log"},
+                                 logfiles={"log": "logs/test.log"},
                                  env=env))
 
     return factory
