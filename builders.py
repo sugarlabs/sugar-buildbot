@@ -5,12 +5,17 @@ from buildbot.config import BuilderConfig
 from buildbot.locks import MasterLock
 from buildbot.process.properties import WithProperties
 from buildbot.process.properties import Interpolate
+from buildbot.status.results import SKIPPED
 
 import repos
 
 
-def is_nightly(self):
-    return self.getProperty("scheduler") == "nightly"
+def is_nightly(step):
+    return step.getProperty("scheduler") == "nightly"
+
+
+def step_skipped(step, results):
+    return results == SKIPPED
 
 
 def create_factory(env, slave_config, branch):
@@ -76,6 +81,7 @@ def add_upload_steps(factory, env, slave_config):
                                  descriptionDone="upload snapshot",
                                  warnOnFailure=True,
                                  doStepIf=is_nightly,
+                                 hideStepIf=step_skipped,
                                  env=env))
 
 
