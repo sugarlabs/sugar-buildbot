@@ -28,7 +28,7 @@ def create_factory(env, slave_config, branch):
                                  description="pulling",
                                  descriptionDone="pull",
                                  haltOnFailure=True,
-                                 logfiles={"log": "logs/pull.log"}
+                                 logfiles={"log": "logs/pull.log"},
                                  env=env))
 
     interpolate = Interpolate("ARGS=%(prop:build_args)s") 
