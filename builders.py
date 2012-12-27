@@ -10,8 +10,8 @@ from buildbot.status.results import SKIPPED
 import repos
 
 
-def is_nightly(step):
-    return step.getProperty("scheduler") == "nightly"
+def should_snapshot(step):
+    return step.build.getProperties().get("snapshot", False)
 
 
 def step_skipped(step, results):
@@ -80,7 +80,7 @@ def add_upload_steps(factory, env, slave_config):
                                  description="uploading snapshot",
                                  descriptionDone="upload snapshot",
                                  warnOnFailure=True,
-                                 doStepIf=is_nightly,
+                                 doStepIf=should_snapshot,
                                  hideStepIf=step_skipped,
                                  env=env))
 
