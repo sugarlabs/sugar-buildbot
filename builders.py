@@ -11,7 +11,8 @@ import repos
 
 
 def should_snapshot(step):
-    return step.build.getProperties().get("snapshot", False)
+    properties = step.build.getProperties()
+    return "snapshot" in properties and properties["snapshot"]
 
 
 def step_skipped(step, results):
