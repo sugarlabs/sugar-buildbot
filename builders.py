@@ -51,8 +51,8 @@ def create_factory(env, slave_config, branch):
                                  env=env))
 
     factory.addStep(ShellCommand(command=["make", "check"],
-                                 description="testing",
-                                 descriptionDone="test",
+                                 description="checking",
+                                 descriptionDone="check",
                                  haltOnFailure=True,
                                  logfiles={"log": "logs/check.log"},
                                  env=env))
