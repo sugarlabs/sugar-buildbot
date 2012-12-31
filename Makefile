@@ -13,6 +13,9 @@ SOURCES=master.cfg \
         schedulers.py \
         statustargets.py \
 
+TEMPLATES=templates/root.html \
+          templates/layout.html
+
 .PHONY: all sync pull-modules
 
 all:
@@ -26,6 +29,8 @@ sync.path:
 sync: sync.path pull-modules
 	@DEST_PATH=`cat sync.path` && \
 	cp $(SOURCES) $$DEST_PATH && \
+	mkdir -p $$DEST_PATH/templates && \
+	cp $(TEMPLATES) $$DEST_PATH/templates && \
 	cp -n config.py $$DEST_PATH && \
         mkdir -p $$DEST_PATH/modules && \
         cp $(MODULES) $$DEST_PATH/modules && \

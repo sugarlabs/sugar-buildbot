@@ -15,7 +15,7 @@ def setup(c, config):
                             stopChange=True)
 
     c["status"].append(html.WebStatus(http_port=8080,
-                                      categories=["production"],
+                                      categories="production"],
                                       authz=authz_cfg))
 
     c["status"].append(html.WebStatus(http_port=8081,
