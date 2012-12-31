@@ -1,5 +1,6 @@
 from buildbot.schedulers.basic import SingleBranchScheduler
 from buildbot.schedulers.forcesched import ForceScheduler
+from buildbot.schedulers.forcesched import BooleanParameter
 from buildbot.schedulers.timed import Nightly, Periodic
 from buildbot.changes import filter
 
@@ -30,6 +31,10 @@ def setup(c, config):
     force_builder_names = ["%s-testing" % name for name in builder_names]
     force_builder_names.extend(builder_names)
 
+    properties = [BooleanParameter(name="snapshot",
+                                   label="build a snapshot",
+                                   default=False)]
+
     c["schedulers"].append(ForceScheduler(name="force",
                                           builderNames=force_builder_names,
-                                          properties=[]))
+                                          properties=properties))
