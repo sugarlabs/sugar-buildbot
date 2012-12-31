@@ -1,5 +1,5 @@
 from buildbot.status import html
-from buildbot.status.web import authz, auth
+from buildbot.status.web import authz
 from buildbot.status import words
 from buildbot.status.mail import MailNotifier
 
@@ -7,11 +7,14 @@ from buildbot.status.mail import MailNotifier
 def setup(c, config):
     c["status"] = []
 
-    admin_name = config["admin"]["name"]
-    admin_password = config["admin"]["password"]
-
-    basic_auth = auth.BasicAuth([(admin_name, admin_password)])
-    authz_cfg = authz.Authz(auth=basic_auth, forceBuild="auth")
+    authz_cfg = authz.Authz(forceBuild=True,
+                            forceAllBuilds=True,
+                            gracefulShutdown=True,
+                            stopBuild=True,
+                            stopAllBuilds=True,
+                            cancelPendingBuild=True,
+                            stopChange=True,
+                            cleanShutdown=True)
 
     c["status"].append(html.WebStatus(http_port=config["port"],
                                       authz=authz_cfg))
