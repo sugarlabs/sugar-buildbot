@@ -54,7 +54,7 @@ def create_factory(env, slave_config, branch):
                                  description="testing",
                                  descriptionDone="test",
                                  haltOnFailure=True,
-                                 logfiles={"log": "logs/test.log"},
+                                 logfiles={"log": "logs/check.log"},
                                  env=env))
 
     return factory
