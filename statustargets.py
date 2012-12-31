@@ -9,12 +9,10 @@ def setup(c, config):
 
     authz_cfg = authz.Authz(forceBuild=True,
                             forceAllBuilds=True,
-                            gracefulShutdown=True,
                             stopBuild=True,
                             stopAllBuilds=True,
                             cancelPendingBuild=True,
-                            stopChange=True,
-                            cleanShutdown=True)
+                            stopChange=True)
 
     c["status"].append(html.WebStatus(http_port=config["port"],
                                       authz=authz_cfg))
