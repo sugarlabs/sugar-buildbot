@@ -14,7 +14,12 @@ def setup(c, config):
                             cancelPendingBuild=True,
                             stopChange=True)
 
-    c["status"].append(html.WebStatus(http_port=config["port"],
+    c["status"].append(html.WebStatus(http_port=8080,
+                                      categories="production"],
+                                      authz=authz_cfg))
+
+    c["status"].append(html.WebStatus(http_port=8081,
+                                      categories=["testing"],
                                       authz=authz_cfg))
 
     c["status"].append(words.IRC(host="irc.freenode.net",
