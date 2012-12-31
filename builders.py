@@ -15,8 +15,8 @@ def should_snapshot(step):
     return "snapshot" in properties and properties["snapshot"]
 
 
-def step_skipped(step, results):
-    return results != SKIPPED
+def step_skipped(results, step):
+    return results == SKIPPED
 
 
 def create_factory(env, slave_config, branch):
