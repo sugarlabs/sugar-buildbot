@@ -47,7 +47,7 @@ def create_factory(env={}, branch="master", full=False, distribute=False,
                                  descriptionDone="check",
                                  haltOnFailure=True,
                                  logfiles={"log": "logs/check.log"},
-                                 env=env)
+                                 env=env))
 
     if distribute:
         factory.addStep(ShellCommand(command=["make", "distribute"],
