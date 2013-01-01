@@ -1,7 +1,7 @@
 from buildbot.schedulers.basic import SingleBranchScheduler
 from buildbot.schedulers.forcesched import ForceScheduler
 from buildbot.schedulers.timed import Nightly
-from buildbot.changes import filter
+from buildbot.changes.filter import ChangeFilter
 
 import repos
 
@@ -11,10 +11,8 @@ def setup(c, config):
 
     main_repo = repos.get_main_repo()
 
-    change_filter = filter.ChangeFilter(project=main_repo.name)
-
-    project = "%s-testing" % main_repo.name
-    testing_change_filter = filter.ChangeFilter(project=project)
+    project_filter = ChangeFilter(project=main_repo.name)
+    testing_filter = ChangeFilter(repository=main_repo.url, branch="testing")
 
     slave_names = config.slaves.keys()
 
@@ -28,13 +26,13 @@ def setup(c, config):
     all_builders.extend(testing_builders)
 
     scheduler = SingleBranchScheduler(name="%s-quick" % main_repo.name,
-                                      change_filter=change_filter,
+                                      change_filter=project_filter,
                                       builderNames=quick_builders)
     c["schedulers"].append(scheduler)
 
     scheduler = SingleBranchScheduler(name="%s-testing" % main_repo.name,
-                                      change_filter=testing_change_filter,
-                                      builderNames=quick_builders)
+                                      change_filter=testing_filter,
+                                      builderNames=testing_builders)
     c["schedulers"].append(scheduler)
 
     c['schedulers'].append(Nightly(name="nightly",
