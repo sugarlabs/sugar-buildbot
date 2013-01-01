@@ -35,5 +35,4 @@ def setup(c, config):
                                    minute=0))
 
     c["schedulers"].append(ForceScheduler(name="force",
-                                          builderNames=all_builders,
-                                          properties=properties))
+                                          builderNames=all_builders))
