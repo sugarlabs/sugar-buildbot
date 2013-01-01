@@ -16,7 +16,7 @@ def setup(c, config):
 
     quick_builders = ["%s-quick" % name for name in slave_names]
     full_builders = ["%s-full" % name for name in slave_names]
-    testing_builders = ["%-testing" % name for name in slave_names]
+    testing_builders = ["%s-testing" % name for name in slave_names]
 
     all_builders = []
     all_builders.extend(quick_builders)
