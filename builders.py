@@ -72,6 +72,7 @@ def create_factory(env={}, branch="master", full=False, distribute=False,
                                      descriptionDone="upload snapshot",
                                      warnOnFailure=True,
                                      env=env))
+    return factory
 
 
 def setup(c, config):
