@@ -34,7 +34,7 @@ def create_factory(env={}, branch="master", full=False, distribute=False,
 
     command = ["make", "build"]
     if full:
-        command.append("--full")
+        command.append("ARGS=--full")
 
     factory.addStep(ShellCommand(command=command,
                                  description="building",
