@@ -3,23 +3,12 @@ from buildbot.steps.source.git import Git
 from buildbot.steps.shell import ShellCommand
 from buildbot.config import BuilderConfig
 from buildbot.locks import MasterLock
-from buildbot.process.properties import WithProperties
-from buildbot.process.properties import Interpolate
-from buildbot.status.results import SKIPPED
 
 import repos
 
 
-def should_snapshot(step):
-    properties = step.build.getProperties()
-    return "snapshot" in properties and properties["snapshot"]
-
-
-def step_skipped(results, step):
-    return results == SKIPPED
-
-
-def create_factory(env, slave_config, branch):
+def create_factory(env={}, branch="master", full=False, distribute=False,
+                   upload_docs=False, snapshot=False):
     factory = BuildFactory()
 
     repourl = repos.get_url("sugar-build")
@@ -42,8 +31,11 @@ def create_factory(env, slave_config, branch):
                                  logfiles={"log": "logs/pull.log"},
                                  env=env))
 
-    interpolate = Interpolate("ARGS=%(prop:build_args)s")
-    factory.addStep(ShellCommand(command=["make", "build", interpolate],
+    command = ["make", "build"]
+    if full:
+        command.append("--full")
+
+    factory.addStep(ShellCommand(command=command,
                                  description="building",
                                  descriptionDone="build",
                                  haltOnFailure=True,
@@ -55,35 +47,31 @@ def create_factory(env, slave_config, branch):
                                  descriptionDone="check",
                                  haltOnFailure=True,
                                  logfiles={"log": "logs/check.log"},
-                                 env=env))
+                                 env=env)
 
-    return factory
-
-
-def add_upload_steps(factory, env, slave_config):
-    if slave_config.get("distribute", False):
+    if distribute:
         factory.addStep(ShellCommand(command=["make", "distribute"],
                                      description="distributing",
                                      descriptionDone="distribute",
                                      env=env))
 
-    if slave_config.get("upload_docs", False):
+    if upload_docs:
         factory.addStep(ShellCommand(command=["make", "docs-upload"],
                                      description="uploading docs",
                                      descriptionDone="upload docs",
                                      warnOnFailure=True,
                                      env=env))
 
-    filename = WithProperties("SNAPSHOT_FILENAME=sugar-snapshot-%s-%s.tar",
-                              "buildername", "buildnumber")
+    if snapshot:
+        filename = WithProperties("SNAPSHOT_FILENAME=sugar-snapshot-%s-%s.tar",
+                                  "buildername", "buildnumber")
+        command = ["make", "snapshot-upload", filename]
 
-    factory.addStep(ShellCommand(command=["make", "snapshot-upload", filename],
-                                 description="uploading snapshot",
-                                 descriptionDone="upload snapshot",
-                                 warnOnFailure=True,
-                                 doStepIf=should_snapshot,
-                                 hideStepIf=step_skipped,
-                                 env=env))
+        factory.addStep(ShellCommand(command=command,
+                                     description="uploading snapshot",
+                                     descriptionDone="upload snapshot",
+                                     warnOnFailure=True,
+                                     env=env))
 
 
 def setup(c, config):
@@ -94,17 +82,27 @@ def setup(c, config):
     for name, info in config.slaves.items():
         env = {"SUGAR_BUILDBOT": name}
 
-        factory = create_factory(env, info, "master")
-        add_upload_steps(factory, env, info)
+        factory = create_factory(env=env, distribute=True,
+                                 upload_docs=info.get("upload_docs", False))
 
-        builder = BuilderConfig(name=name,
+        builder = BuilderConfig(name="%s-quick" % name,
                                 slavenames=name,
                                 factory=factory,
-                                category="production",
+                                category="quick",
                                 locks=[bender_lock.access("exclusive")])
         c["builders"].append(builder)
 
-        factory = create_factory(env, info, "testing")
+        factory = create_factory(env=env, full=True, snapshot=True)
+
+        builder = BuilderConfig(name="%s-full" % name,
+                                slavenames=name,
+                                factory=factory,
+                                category="full",
+                                locks=[bender_lock.access("exclusive")])
+
+        c["builders"].append(builder)
+
+        factory = create_factory(env=env, branch="testing")
 
         builder = BuilderConfig(name="%s-testing" % name,
                                 slavenames=name,
