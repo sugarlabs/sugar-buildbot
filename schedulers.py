@@ -32,7 +32,7 @@ def setup(c, config):
                                    branch="master",
                                    builderNames=full_builders,
                                    hour=2,
-                                   minute=0)
+                                   minute=0))
 
     c["schedulers"].append(ForceScheduler(name="force",
                                           builderNames=all_builders,
