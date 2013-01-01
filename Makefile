@@ -45,3 +45,4 @@ pull-modules:
 
 check:
 	pep8 $(CURDIR)
+	pylint --reports=n --disable=C,W,R,F --enable=W0611 $(CURDIR)/*.py 
