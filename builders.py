@@ -3,6 +3,7 @@ from buildbot.steps.source.git import Git
 from buildbot.steps.shell import ShellCommand
 from buildbot.config import BuilderConfig
 from buildbot.locks import MasterLock
+from buildbot.process.properties import WithProperties
 
 import repos
 
