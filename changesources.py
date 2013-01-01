@@ -3,7 +3,7 @@ from buildbot.changes.gitpoller import GitPoller
 import repos
 
 
-def setup(c, config):
+def setup(c):
     c["change_source"] = []
 
     category = "production"

@@ -22,7 +22,7 @@ def step_skipped(results, step):
 def create_factory(env, slave_config, branch):
     factory = BuildFactory()
 
-    repourl = repos.get_url(slave_config.get("repo", "sugar-build"))
+    repourl = repos.get_url("sugar-build")
 
     factory.addStep(Git(repourl=repourl,
                         branch=branch,
@@ -91,7 +91,7 @@ def setup(c, config):
 
     bender_lock = MasterLock("bender")
 
-    for name, info in config["slaves"].items():
+    for name, info in config.slaves.items():
         env = {"SUGAR_BUILDBOT": name}
 
         factory = create_factory(env, info, "master")
