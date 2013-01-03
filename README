@@ -1,7 +1,3 @@
-= Install buildbot =
-
-The configuration has been test with version 0.8.6.
-
 = Setup the master =
 
 Install buildbot
@@ -10,7 +6,7 @@ Install buildbot
     cd buildbot
     virtualenv --no-site-packages sandbox
     source sandbox/bin/activate
-    easy_install buildbot
+    pip install buildbot
 
 Create the generic buildbot configuration
 
@@ -34,7 +30,7 @@ Install buildbot-slave
     cd buildbot
     virtualenv --system-site-packages sandbox
     source sandbox/bin/activate
-    easy_install buildbot-slave
+    pip install buildbot-slave
 
 Create the slave configuration
 
@@ -46,30 +42,16 @@ Start the slave
 
     buildslave start [basedir]
 
-= First build =
-
-The first build will likely fail because of missing dependencies. The logs
-will contain a list of missing packages. Install those and retry.
-
-= Resync master configuration =
-
-Sync the new code
-    
-    ./sync.sh [basedir]
-
-If anything was added to config.py, edit [basedir]/config.py accordingly.
-
 = Tips about setting up a kvm slave =
 
-You can create an image with something like this, changing the location to
-the appropriate Fedora or Ubuntu mirror.
+You can create an image with something like this:
 
     virt-install \
-        --name buildslave-fedora-17-64bit --ram 512 --disk \
-        path=/srv/images/buildslave-fedora-17-64bit.img,size=10
-        -network network:default
-        --location "http://fedora.mirror.garr.it/mirrors/fedora/linux/releases/17/Fedora/x86_64/os/"
-        --extra-args="console=tty0 console=ttyS0,115200n8 serial"
+        --name buildslave-foo --ram 512 --disk \
+        path=/srv/images/buildslave-foo.img,bus=virtio,size=10 \
+        -network network:default \
+        --location "http://mirror.foo.com/..." \
+        --extra-args="text serial console=ttyS0,115200"
 
 Once the system is running you need to:
 
@@ -83,7 +65,7 @@ Once the system is running you need to:
 
     %wheel ALL=(ALL) NOPASSWD: ALL
 
-* Install git, make and buildbot. You don't need to update the system,
+* Install virtualenv, git, gcc and make. You don't need to update the system,
 the buildbot will take care of it.
 
 = Bug reports =
