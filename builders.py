@@ -16,12 +16,13 @@ def create_factory(config, env={}, full=False, distribute=False,
                         branch=config.branch,
                         alwaysUseLatest=True))
 
-    command = ["make", "check-system", "ARGS=--update --remove"]
-    factory.addStep(ShellCommand(command=command,
-                                 description="checking system",
-                                 descriptionDone="check system",
-                                 warnOnFailure=True,
-                                 env=env))
+    if config.check_system:
+        command = ["make", "check-system", "ARGS=--update --remove"]
+        factory.addStep(ShellCommand(command=command,
+                                     description="checking system",
+                                     descriptionDone="check system",
+                                     warnOnFailure=True,
+                                     env=env))
 
     factory.addStep(ShellCommand(command=["make", "pull"],
                                  description="pulling",
