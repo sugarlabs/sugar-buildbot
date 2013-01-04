@@ -1,6 +1,7 @@
 from buildbot.schedulers.basic import SingleBranchScheduler
 from buildbot.schedulers.forcesched import ForceScheduler
 from buildbot.schedulers.timed import Nightly
+from buildbot.changes.filter import ChangeFilter
 
 import repos
 
@@ -8,6 +9,7 @@ import repos
 def setup(c, config):
     c["schedulers"] = []
 
+    change_filter = ChangeFilter(project="sugar-build")
     slave_names = config.slaves.keys()
 
     quick_builders = ["%s-quick" % name for name in slave_names]
@@ -18,6 +20,7 @@ def setup(c, config):
     all_builders.extend(full_builders)
 
     scheduler = SingleBranchScheduler(name="quick",
+                                      change_filter=change_filter,
                                       builderNames=quick_builders)
     c["schedulers"].append(scheduler)
 
