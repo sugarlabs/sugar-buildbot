@@ -1,3 +1,5 @@
+import json
+
 from buildbot.process.factory import BuildFactory
 from buildbot.steps.source.git import Git
 from buildbot.steps.shell import ShellCommand
@@ -8,13 +10,24 @@ from buildbot.process.properties import WithProperties
 import repos
 
 
+class PullCommand(ShellCommand):
+    def setBuild(self, build):
+        ShellCommand.setBuild(self, build)
+
+        revisions = {}
+        for source in build.getAllSourceStamps():
+            if source.revision:
+                revisions[source.codebase] = source.revision
+
+        self.setCommand(["make", "pull",
+                         "REVISIONS=%s" % json.dumps(revisions)])
+
 def create_factory(config, env={}, full=False, distribute=False,
                    upload_docs=False, snapshot=False):
     factory = BuildFactory()
 
     factory.addStep(Git(repourl=config.repo,
-                        branch=config.branch,
-                        alwaysUseLatest=True))
+                        branch=config.branch))
 
     if config.check_system:
         command = ["make", "check-system", "ARGS=--update --remove"]
@@ -24,12 +37,11 @@ def create_factory(config, env={}, full=False, distribute=False,
                                      warnOnFailure=True,
                                      env=env))
 
-    factory.addStep(ShellCommand(command=["make", "pull"],
-                                 description="pulling",
-                                 descriptionDone="pull",
-                                 haltOnFailure=True,
-                                 logfiles={"log": "logs/pull.log"},
-                                 env=env))
+    factory.addStep(PullCommand(description="pulling",
+                                descriptionDone="pull",
+                                haltOnFailure=True,
+                                logfiles={"log": "logs/pull.log"},
+                                env=env))
 
     command = ["make", "build"]
     if full:
