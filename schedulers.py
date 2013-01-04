@@ -27,11 +27,12 @@ def setup(c, config):
                                       builderNames=quick_builders)
     c["schedulers"].append(scheduler)
 
-    c['schedulers'].append(Nightly(name="nightly",
-                                   branch="master",
-                                   builderNames=full_builders,
-                                   hour=2,
-                                   minute=0))
+    if config.nightly_builds:
+        c['schedulers'].append(Nightly(name="nightly",
+                                       branch="master",
+                                       builderNames=full_builders,
+                                       hour=2,
+                                       minute=0))
 
     c["schedulers"].append(ForceScheduler(name="force",
                                           builderNames=all_builders))

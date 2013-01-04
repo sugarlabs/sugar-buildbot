@@ -7,4 +7,4 @@ def setup(c, config):
     for name, info in config.slaves.items():
         c["slaves"].append(BuildSlave(name, info["password"]))
 
-    c["slavePortnum"] = 9989
+    c["slavePortnum"] = config.slaves_port
