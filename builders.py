@@ -8,11 +8,9 @@ from buildbot.process.properties import WithProperties
 import repos
 
 
-def create_factory(env={}, branch="master", full=False, distribute=False,
+def create_factory(env={}, config=config, full=False, distribute=False,
                    upload_docs=False, snapshot=False):
     factory = BuildFactory()
-
-    repourl = repos.get_url("sugar-build")
 
     factory.addStep(Git(repourl=config.repo,
                         branch=config.branch,
@@ -84,7 +82,7 @@ def setup(c, config):
     for name, info in config.slaves.items():
         env = {"SUGAR_BUILDBOT": name}
 
-        factory = create_factory(env=env, distribute=True,
+        factory = create_factory(env=env, config=config, distribute=True,
                                  upload_docs=info.get("upload_docs", False))
 
         builder = BuilderConfig(name="%s-quick" % name,
@@ -94,7 +92,8 @@ def setup(c, config):
                                 locks=[bender_lock.access("exclusive")])
         c["builders"].append(builder)
 
-        factory = create_factory(env=env, full=True, snapshot=True)
+        factory = create_factory(env=env, config=config, full=True,
+                                 snapshot=True)
 
         builder = BuilderConfig(name="%s-full" % name,
                                 slavenames=name,
