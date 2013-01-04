@@ -10,17 +10,12 @@ class Repo:
         if self.branch is None:
             self.branch = "master"
 
-main_repo = Repo(name="sugar-build",
-                 url="git://git.sugarlabs.org/sugar-build/sugar-build.git")
 
 sub_repos = []
 
 
 def get_by_name(name):
-    repos = [main_repo]
-    repos.extend(sub_repos)
-
-    for repo in repos:
+    for repo in sub_repos:
         if repo.name == name:
             return repo
 
@@ -33,10 +28,6 @@ def get_url(name):
         return repo.url
     else:
         return None
-
-
-def get_main_repo():
-    return main_repo
 
 
 def get_sub_repos():

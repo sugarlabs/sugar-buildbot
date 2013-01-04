@@ -14,8 +14,8 @@ def create_factory(env={}, branch="master", full=False, distribute=False,
 
     repourl = repos.get_url("sugar-build")
 
-    factory.addStep(Git(repourl=repourl,
-                        branch=branch,
+    factory.addStep(Git(repourl=config.repo,
+                        branch=config.branch,
                         alwaysUseLatest=True))
 
     command = ["make", "check-system", "ARGS=--update --remove"]
