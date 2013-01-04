@@ -12,27 +12,19 @@ def setup(c, config):
     main_repo = repos.get_main_repo()
 
     project_filter = ChangeFilter(project=main_repo.name)
-    testing_filter = ChangeFilter(repository=main_repo.url, branch="testing")
 
     slave_names = config.slaves.keys()
 
     quick_builders = ["%s-quick" % name for name in slave_names]
     full_builders = ["%s-full" % name for name in slave_names]
-    testing_builders = ["%s-testing" % name for name in slave_names]
 
     all_builders = []
     all_builders.extend(quick_builders)
     all_builders.extend(full_builders)
-    all_builders.extend(testing_builders)
 
     scheduler = SingleBranchScheduler(name="%s-quick" % main_repo.name,
                                       change_filter=project_filter,
                                       builderNames=quick_builders)
-    c["schedulers"].append(scheduler)
-
-    scheduler = SingleBranchScheduler(name="%s-testing" % main_repo.name,
-                                      change_filter=testing_filter,
-                                      builderNames=testing_builders)
     c["schedulers"].append(scheduler)
 
     c['schedulers'].append(Nightly(name="nightly",

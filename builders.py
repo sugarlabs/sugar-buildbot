@@ -103,13 +103,3 @@ def setup(c, config):
                                 locks=[bender_lock.access("exclusive")])
 
         c["builders"].append(builder)
-
-        factory = create_factory(env=env, branch="testing")
-
-        builder = BuilderConfig(name="%s-testing" % name,
-                                slavenames=name,
-                                factory=factory,
-                                category="testing",
-                                locks=[bender_lock.access("exclusive")])
-
-        c["builders"].append(builder)

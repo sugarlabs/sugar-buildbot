@@ -11,7 +11,7 @@ def setup(c):
 
     poller = GitPoller(main_repo.url,
                        project=main_repo.name,
-                       branches=[main_repo.branch, "testing"],
+                       branches=[main_repo.branch],
                        pollinterval=pollinterval)
     c["change_source"].append(poller)
 
