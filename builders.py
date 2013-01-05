@@ -19,8 +19,13 @@ class PullCommand(ShellCommand):
             if source.revision:
                 revisions[source.codebase] = source.revision
 
-        self.setCommand(["make", "pull",
-                         "ARGS=--revisions %s" % json.dumps(revisions)])
+        command = ["make", "pull"]
+
+        revisions = json.dumps(revisions)
+        if revisions:
+            command.append("ARGS=--revisions %s" % revisions)
+
+        self.setCommand(command)
 
 def create_factory(config, env={}, full=False, distribute=False,
                    upload_docs=False, snapshot=False):
