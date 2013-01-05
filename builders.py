@@ -8,8 +8,6 @@ from buildbot.config import BuilderConfig
 from buildbot.locks import MasterLock
 from buildbot.process.properties import WithProperties
 
-import repos
-
 
 class PullCommand(ShellCommand):
     def setBuild(self, build):
@@ -27,6 +25,7 @@ class PullCommand(ShellCommand):
             command.append("ARGS=--revisions=%s" % revisions_json)
 
         self.setCommand(command)
+
 
 def create_factory(config, env={}, full=False, distribute=False,
                    upload_docs=False, snapshot=False):
