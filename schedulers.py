@@ -9,7 +9,8 @@ import repos
 def setup(c, config):
     c["schedulers"] = []
 
-    change_filter = ChangeFilter(project="sugar-build")
+    change_filter = ChangeFilter(project="sugar-build",
+                                 codebase_re=".*")
     slave_names = config.slaves.keys()
 
     quick_builders = ["%s-quick" % name for name in slave_names]
