@@ -31,10 +31,12 @@ def setup(c, config):
 
     if config.nightly_builds:
         c['schedulers'].append(Nightly(name="nightly",
+                                       codebases=codebases,
                                        branch=config.branch,
                                        builderNames=full_builders,
                                        hour=2,
                                        minute=0))
 
     c["schedulers"].append(ForceScheduler(name="force",
+                                          codebases=codebases,
                                           builderNames=all_builders))
