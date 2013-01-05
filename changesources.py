@@ -28,6 +28,6 @@ def setup(c, config):
         if repository == config.repo:
             return "sugar-build"
         else:
-            return repos.get_by_url(repository)
+            return repos.get_by_url(repository).name
 
     c["codebaseGenerator"] = codebaseGenerator
