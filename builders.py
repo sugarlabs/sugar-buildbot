@@ -96,7 +96,7 @@ def setup(c, config):
     for name, info in config.slaves.items():
         env = {"SUGAR_BUILDBOT": name}
 
-        factory = create_factory(config, env=env, distribute=True,
+        factory = create_factory(config, env=env, distribute=config.distribute,
                                  upload_docs=info.get("upload_docs", False))
 
         builder = BuilderConfig(name="%s-quick" % name,
@@ -106,7 +106,8 @@ def setup(c, config):
                                 locks=[bender_lock.access("exclusive")])
         c["builders"].append(builder)
 
-        factory = create_factory(config, env=env, full=True, snapshot=True)
+        factory = create_factory(config, env=env, full=True,
+                                 snapshot=config.snapshot)
 
         builder = BuilderConfig(name="%s-full" % name,
                                 slavenames=name,
