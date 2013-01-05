@@ -23,7 +23,7 @@ class PullCommand(ShellCommand):
 
         revisions = json.dumps(revisions)
         if revisions:
-            command.append("ARGS=--revisions %s" % revisions)
+            command.append("ARGS=--revisions=%s" % revisions)
 
         self.setCommand(command)
 
