@@ -21,7 +21,7 @@ class PullCommand(ShellCommand):
 
         command = ["make", "pull"]
 
-        revisions = json.dumps(revisions)
+        revisions = json.dumps(revisions).replace(" ", "")
         if revisions:
             command.append("ARGS=--revisions=%s" % revisions)
 
