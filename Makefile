@@ -16,6 +16,8 @@ SOURCES=master.cfg \
 TEMPLATES=templates/root.html \
           templates/layout.html
 
+SYNC_PATH=$(shell cat sync.path)
+
 .PHONY: all sync pull-modules
 
 all:
@@ -27,7 +29,7 @@ sync.path:
 	@exit 1
 
 sync: sync.path pull-modules
-	@DEST_PATH=`cat sync.path` && \
+	@DEST_PATH=$(SYNC_PATH) && \
 	cp $(SOURCES) $$DEST_PATH && \
 	cp -n config.py $$DEST_PATH && \
         mkdir -p $$DEST_PATH/modules && \
@@ -42,6 +44,9 @@ pull-modules:
         cp $(MODULES) $(MODULES_DEST_PATH) && \
 	rm -rf $$TMP_DIR && \
 	echo "Modules updated."
+
+restart: sync
+	@buildbot restart $(SYNC_PATH)
 
 check:
 	pep8 $(CURDIR)
