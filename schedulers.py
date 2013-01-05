@@ -9,8 +9,7 @@ import repos
 def setup(c, config):
     c["schedulers"] = []
 
-    change_filter = ChangeFilter(project="sugar-build",
-                                 codebase_re=".*")
+    change_filter = ChangeFilter(project="sugar-build")
     slave_names = config.slaves.keys()
 
     quick_builders = ["%s-quick" % name for name in slave_names]
@@ -20,7 +19,12 @@ def setup(c, config):
     all_builders.extend(quick_builders)
     all_builders.extend(full_builders)
 
+    codebases = {"sugar-build": {}}
+    for repo in repos.get_sub_repos():
+        codebases[repo.name] = {}
+
     scheduler = SingleBranchScheduler(name="quick",
+                                      codebases=codebases,
                                       change_filter=change_filter,
                                       builderNames=quick_builders)
     c["schedulers"].append(scheduler)
