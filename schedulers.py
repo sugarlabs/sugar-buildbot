@@ -19,9 +19,9 @@ def setup(c, config):
     all_builders.extend(quick_builders)
     all_builders.extend(full_builders)
 
-    codebases = {"sugar-build": {}}
+    codebases = {"sugar-build": {"repository": config.repo}}
     for repo in repos.get_sub_repos():
-        codebases[repo.name] = {}
+        codebases[repo.name] = {"repository": repo.url}
 
     scheduler = SingleBranchScheduler(name="quick",
                                       codebases=codebases,
