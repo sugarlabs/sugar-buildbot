@@ -21,3 +21,13 @@ def setup(c, config):
                                branches=[repo.branch],
                                pollinterval=pollinterval)
             c["change_source"].append(poller)
+
+    def codebaseGenerator(change_dict):
+        repository = change_dict["repository"]
+
+        if repository == config.repo:
+            return "sugar-build"
+        else:
+            return repos.get_by_url(repository)
+
+    c["codebaseGenerator"] = codebaseGenerator

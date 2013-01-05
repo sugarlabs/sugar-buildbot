@@ -14,20 +14,12 @@ class Repo:
 sub_repos = []
 
 
-def get_by_name(name):
+def get_by_url(url):
     for repo in sub_repos:
-        if repo.name == name:
+        if repo.url == url:
             return repo
 
     return None
-
-
-def get_url(name):
-    repo = get_by_name(name)
-    if repo:
-        return repo.url
-    else:
-        return None
 
 
 def get_sub_repos():
