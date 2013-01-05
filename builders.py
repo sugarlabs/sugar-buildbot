@@ -1,4 +1,5 @@
 import json
+import pipes
 
 from buildbot.process.factory import BuildFactory
 from buildbot.steps.source.git import Git
@@ -21,7 +22,7 @@ class PullCommand(ShellCommand):
 
         command = ["make", "pull"]
 
-        revisions = json.dumps(revisions).replace(" ", "")
+        revisions = pipes.quote(json.dumps(revisions))
         if revisions:
             command.append("ARGS=--revisions=%s" % revisions)
 
