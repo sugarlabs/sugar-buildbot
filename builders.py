@@ -22,9 +22,9 @@ class PullCommand(ShellCommand):
 
         command = ["make", "pull"]
 
-        revisions = pipes.quote(json.dumps(revisions))
         if revisions:
-            command.append("ARGS=--revisions=%s" % revisions)
+            revisions_json = pipes.quote(json.dumps(revisions))
+            command.append("ARGS=--revisions=%s" % revisions_json)
 
         self.setCommand(command)
 
