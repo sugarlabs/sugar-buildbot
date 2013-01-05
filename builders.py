@@ -27,6 +27,7 @@ def create_factory(config, env={}, full=False, distribute=False,
     factory = BuildFactory()
 
     factory.addStep(Git(repourl=config.repo,
+                        codebase="sugar-build",
                         branch=config.branch))
 
     if config.check_system:
