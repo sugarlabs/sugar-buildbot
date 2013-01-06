@@ -10,7 +10,7 @@ def setup(c, config):
     c["schedulers"] = []
 
     change_filter = ChangeFilter(project="sugar-build")
-    slave_names = config.slaves.keys()
+    slave_names = config["slaves"].keys()
 
     quick_builders = ["%s-quick" % name for name in slave_names]
     full_builders = ["%s-full" % name for name in slave_names]
@@ -19,7 +19,7 @@ def setup(c, config):
     all_builders.extend(quick_builders)
     all_builders.extend(full_builders)
 
-    codebases = {"sugar-build": {"repository": config.repo}}
+    codebases = {"sugar-build": {"repository": config["repo"]}}
     for repo in repos.get_sub_repos():
         codebases[repo.name] = {"repository": repo.url}
 
@@ -29,10 +29,10 @@ def setup(c, config):
                                       builderNames=quick_builders)
     c["schedulers"].append(scheduler)
 
-    if config.nightly_builds:
+    if config.get("nightly_builds", False):
         c['schedulers'].append(Nightly(name="nightly",
                                        codebases=codebases,
-                                       branch=config.branch,
+                                       branch=config.get("branch", "master"),
                                        builderNames=full_builders,
                                        hour=2,
                                        minute=0))

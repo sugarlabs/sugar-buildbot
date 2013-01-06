@@ -8,13 +8,13 @@ def setup(c, config):
 
     pollinterval = 60
 
-    poller = GitPoller(config.repo,
+    poller = GitPoller(config["repo"],
                        project="sugar-build",
-                       branches=[config.branch],
+                       branches=[config.get("branch", "master")],
                        pollinterval=pollinterval)
     c["change_source"].append(poller)
 
-    if config.sub_repos_changes:
+    if config.get("sub_repos_changes", True):
         for repo in repos.get_sub_repos():
             poller = GitPoller(repo.url,
                                project="sugar-build",
@@ -25,7 +25,7 @@ def setup(c, config):
     def codebaseGenerator(change_dict):
         repository = change_dict["repository"]
 
-        if repository == config.repo:
+        if repository == config["repo"]:
             return "sugar-build"
         else:
             return repos.get_by_url(repository).name

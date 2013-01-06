@@ -31,11 +31,11 @@ def create_factory(config, env={}, full=False, distribute=False,
                    upload_docs=False, snapshot=False):
     factory = BuildFactory()
 
-    factory.addStep(Git(repourl=config.repo,
+    factory.addStep(Git(repourl=config["repo"],
                         codebase="sugar-build",
-                        branch=config.branch))
+                        branch=config.get("branch", "master")))
 
-    if config.check_system:
+    if config.get("check_system", True):
         command = ["make", "check-system", "ARGS=--update --remove"]
         factory.addStep(ShellCommand(command=command,
                                      description="checking system",
@@ -98,10 +98,11 @@ def setup(c, config):
 
     bender_lock = MasterLock("bender")
 
-    for name, info in config.slaves.items():
+    for name, info in config["slaves"].items():
         env = {"SUGAR_BUILDBOT": name}
 
-        factory = create_factory(config, env=env, distribute=config.distribute,
+        factory = create_factory(config, env=env, 
+                                 distribute=config.get("distribute", False),
                                  upload_docs=info.get("upload_docs", False))
 
         builder = BuilderConfig(name="%s-quick" % name,
@@ -112,7 +113,7 @@ def setup(c, config):
         c["builders"].append(builder)
 
         factory = create_factory(config, env=env, full=True,
-                                 snapshot=config.snapshot)
+                                 snapshot=config.get("snapshot", False))
 
         builder = BuilderConfig(name="%s-full" % name,
                                 slavenames=name,
