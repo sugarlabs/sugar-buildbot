@@ -50,7 +50,7 @@ master_settings = {"sudo_user": "buildbot",
 @roles("master")
 @with_settings(**master_settings)
 def create():
-    sudo("rm -rf ~sandbox")
+    sudo("rm -rf ~/sandbox")
 
     sudo("virtualenv ~/sandbox")
 
