@@ -19,10 +19,22 @@ from fabric.api import settings
 from slave import slaves
 from slave import slave_gateway
 
-instances = {"master": {"slavedir": "slave",
-                        "port": 9989},
-             "master-testing": {"slavedir": "slave-testing",
-                                "port": 9990}}
+instances = {"master":
+             {"slavedir": "slave",
+              "config": 
+              {"distribute": True,
+               "nightly_builds": True,
+               "slaves_port": 9989,
+               "snapshot": True,
+               "web_port": 8080}},
+             "master-testing":
+             {"slavedir": "slave-testing",
+              "config": 
+              {"branch": "testing",
+               "check_system": False,
+               "slaves_port": 9990,
+               "sub_repos_changes": False,
+               "web_port": 8081}}}
 
 repos = ["git://git.sugarlabs.org/sugar-buildbot/sugar-buildbot.git",
          "git://git.sugarlabs.org/sugar-build/sugar-build.git"]
@@ -76,10 +88,15 @@ def update():
 @roles("master")
 @with_settings(**master_settings)
 def configure():
-    config = {"slaves": {}}
-    tac = StringIO.StringIO()
-    
     for basedir, info in instances.items():
+        repo = "git://git.sugarlabs.org/sugar-build/sugar-build.git"
+
+        config = {"slaves": {},
+                  "repo": repo}
+        config.update(info["config"])
+
+        tac = StringIO.StringIO()
+    
         for host, name in slaves.items():
             with settings(host_string=host, gateway=slave_gateway):
                 get(os.path.join(info["slavedir"], "buildbot.tac"), tac)

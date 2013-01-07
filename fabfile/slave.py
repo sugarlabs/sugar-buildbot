@@ -11,7 +11,15 @@ from fabric.api import put
 from fabric.api import roles
 from fabric.api import with_settings 
 
-slaves = {"buildbot@192.168.122.97": "debian-wheezy-32bit"}
+slaves = {"buildbot@debian-wheezy-32bit.local": "debian-wheezy-32bit",
+          "buildbot@debian-wheezy-64bit.local": "debian-wheezy-64bit",
+          "buildbot@fedora-17-32bit.local": "fedora-17-32bit",
+          "buildbot@fedora-17-64bit.local": "fedora-17-64bit",
+          "buildbot@fedora-18-32bit.local": "fedora-18-32bit",
+          "buildbot@fedora-18-64bit.local": "fedora-18-64bit",
+          "buildbot@ubuntu-12-10-32bit.local": "ubuntu-12-10-32bit",
+          "buildbot@ubuntu-12-10-64bit.local": "ubuntu-12-10-64bit"}
+
 slave_gateway = "dnarvaez@bender.sugarlabs.org"
 
 instances = {"slave": 9989,
