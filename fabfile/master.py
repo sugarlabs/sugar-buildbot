@@ -16,25 +16,10 @@ from fabric.api import roles
 from fabric.api import with_settings
 from fabric.api import settings
 
-from slave import slaves
-from slave import slave_gateway
+from common import slaves
+from common import slave_gateway
+from common import instances
 
-instances = {"master":
-             {"slavedir": "slave",
-              "config": 
-              {"distribute": True,
-               "nightly_builds": True,
-               "slaves_port": 9989,
-               "snapshot": True,
-               "web_port": 8080}},
-             "master-testing":
-             {"slavedir": "slave-testing",
-              "config": 
-              {"branch": "testing",
-               "check_system": False,
-               "slaves_port": 9990,
-               "sub_repos_changes": False,
-               "web_port": 8081}}}
 
 repos = ["git://git.sugarlabs.org/sugar-buildbot/sugar-buildbot.git",
          "git://git.sugarlabs.org/sugar-build/sugar-build.git"]
@@ -45,6 +30,7 @@ env.roledefs["master"] = ["dnarvaez@shell.sugarlabs.org"]
 
 master_settings = {"sudo_user": "buildbot",
                    "sudo_prefix": "sudo -H"}
+
 
 @task
 @roles("master")
@@ -57,12 +43,13 @@ def create():
     with prefix(activate_virtualenv):
         sudo("pip install SQLAlchemy==0.7.9")
         sudo("pip install buildbot")
-        
+
         for basedir in instances.keys():
             sudo("rm -rf ~/%s" % basedir)
             sudo("buildbot create-master ~/%s" % basedir)
 
     execute(update)
+
 
 @task
 @roles("master")
@@ -77,10 +64,10 @@ def update():
                 sudo("git clone %s" % url)
 
         for basedir in instances.keys():
-             with cd("~/git/sugar-buildbot"):
+            with cd("~/git/sugar-buildbot"):
                 sudo("cp *.py master.cfg ~/%s" % basedir)
 
-             with cd("~/git/sugar-build"):
+            with cd("~/git/sugar-build"):
                 sudo("cp -R config/modules ~/%s" % basedir)
 
 
@@ -96,7 +83,7 @@ def configure():
         config.update(info["config"])
 
         tac = StringIO.StringIO()
-    
+
         for host, name in slaves.items():
             with settings(host_string=host, gateway=slave_gateway):
                 get(os.path.join(info["slavedir"], "buildbot.tac"), tac)
@@ -118,7 +105,7 @@ def configure():
 @with_settings(**master_settings)
 def start(basedir="master"):
     with prefix(activate_virtualenv):
-        sudo("buildbot start ~/%s" % basedir) 
+        sudo("buildbot start ~/%s" % basedir)
 
 
 @task
@@ -126,7 +113,7 @@ def start(basedir="master"):
 @with_settings(**master_settings)
 def stop(basedir="master"):
     with prefix(activate_virtualenv):
-        sudo("buildbot stop ~/%s" % basedir) 
+        sudo("buildbot stop ~/%s" % basedir)
 
 
 @task
@@ -134,4 +121,4 @@ def stop(basedir="master"):
 @with_settings(**master_settings)
 def restart(basedir="master"):
     with prefix(activate_virtualenv):
-        sudo("buildbot restart ~/%s" % basedir) 
+        sudo("buildbot restart ~/%s" % basedir)

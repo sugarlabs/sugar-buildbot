@@ -101,7 +101,7 @@ def setup(c, config):
     for name, info in config["slaves"].items():
         env = {"SUGAR_BUILDBOT": name}
 
-        factory = create_factory(config, env=env, 
+        factory = create_factory(config, env=env,
                                  distribute=config.get("distribute", False),
                                  upload_docs=info.get("upload_docs", False))
 
