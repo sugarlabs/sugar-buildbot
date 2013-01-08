@@ -106,7 +106,7 @@ def setup(c, config):
                                  upload_docs=info.get("upload_docs", False))
 
         builder = BuilderConfig(name="%s-quick" % name,
-                                slavenames=name,
+                                slavenames=[name],
                                 factory=factory,
                                 category="quick",
                                 locks=[bender_lock.access("exclusive")])
@@ -116,7 +116,7 @@ def setup(c, config):
                                  snapshot=config.get("snapshot", False))
 
         builder = BuilderConfig(name="%s-full" % name,
-                                slavenames=name,
+                                slavenames=[name],
                                 factory=factory,
                                 category="full",
                                 locks=[bender_lock.access("exclusive")])

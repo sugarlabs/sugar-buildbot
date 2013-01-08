@@ -118,7 +118,7 @@ def configure():
 @with_settings(**master_settings)
 def start(basedir="master"):
     with prefix(activate_virtualenv):
-        sudo("builbot start ~/%s" % basedir) 
+        sudo("buildbot start ~/%s" % basedir) 
 
 
 @task
