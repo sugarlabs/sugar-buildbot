@@ -44,9 +44,9 @@ def create():
         sudo("pip install SQLAlchemy==0.7.9")
         sudo("pip install buildbot")
 
-        for basedir in instances.keys():
-            sudo("rm -rf ~/%s" % basedir)
-            sudo("buildbot create-master ~/%s" % basedir)
+        for info in instances.values():
+            sudo("rm -rf ~/%s" % info["master_dir"])
+            sudo("buildbot create-master ~/%s" % info["master_dir"])
 
     execute(update)
 
@@ -63,19 +63,19 @@ def update():
             for url in repos:
                 sudo("git clone %s" % url)
 
-        for basedir in instances.keys():
+        for info in instances.values():
             with cd("~/git/sugar-buildbot"):
-                sudo("cp *.py master.cfg ~/%s" % basedir)
+                sudo("cp *.py master.cfg ~/%s" % info["master_dir"])
 
             with cd("~/git/sugar-build"):
-                sudo("cp -R config/modules ~/%s" % basedir)
+                sudo("cp -R config/modules ~/%s" % info["master_dir"])
 
 
 @task
 @roles("master")
 @with_settings(**master_settings)
 def configure():
-    for basedir, info in instances.items():
+    for info in instances.values():
         repo = "git://git.sugarlabs.org/sugar-build/sugar-build.git"
 
         config = {"slaves": {},
@@ -86,7 +86,7 @@ def configure():
 
         for host, name in slaves.items():
             with settings(host_string=host, gateway=slave_gateway):
-                get(os.path.join(info["slavedir"], "buildbot.tac"), tac)
+                get(os.path.join(info["slave_dir"], "buildbot.tac"), tac)
                 for line in tac.getvalue().split("\n"):
                     start = "passwd = "
                     if line.startswith(start):
@@ -96,7 +96,7 @@ def configure():
         config_json = StringIO.StringIO()
         json.dump(config, config_json, indent=4, sort_keys=True)
         put(config_json, "config.json")
-        sudo("cp config.json ~/%s" % basedir)
+        sudo("cp config.json ~/%s" % info["master_dir"])
         run("rm config.json")
 
 

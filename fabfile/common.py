@@ -1,13 +1,15 @@
-instances = {"master":
-             {"slavedir": "slave",
+instances = {"production":
+             {"master_dir": "master",
+              "slave_dir": "slave",
               "config":
               {"distribute": True,
                "nightly_builds": True,
                "slaves_port": 9989,
                "snapshot": True,
                "web_port": 8080}},
-             "master-testing":
-             {"slavedir": "slave-testing",
+             "testing":
+             {"master_dir": "master-testing",
+              "slave_dir": "slave-testing",
               "config":
               {"branch": "testing",
                "check_system": False,

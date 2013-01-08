@@ -40,12 +40,13 @@ def create():
 
         name = slaves[env.host_string]
 
-        for basedir, info in instances.items():
-            run("rm -rf %s" % basedir)
+        for info in instances.values():
+            run("rm -rf %s" % info["slave_dir"])
 
             run("buildslave create-slave %s "
                 "buildbot.sugarlabs.org:%d "
-                "%s %s" % (basedir, info["slave_port"], name, password))
+                "%s %s" % (info["slave_dir"], info["slave_port"],
+                           name, password))
 
             put(StringIO.StringIO(admin),
                 os.path.join(basedir, "info", "admin"))
