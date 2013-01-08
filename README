@@ -24,6 +24,7 @@ http://docs.fabfile.org/en/1.5/usage/fab.html
 = Slave requirements =
 
 * buildbot user with passwordless, ttyless sudo access.
+* ssh access with public key authentication
 * git, virtualenv, gcc, make
 
 = Creating a kvm slave =
