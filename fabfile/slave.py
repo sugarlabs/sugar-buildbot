@@ -27,7 +27,9 @@ settings = {"gateway": slave_gateway}
 @task
 @roles("slave")
 @with_settings(**settings)
-def create():
+def create(instance_name=get_instance_name()):
+    instance_info = instances[instance_name]
+
     run("rm -rf sandbox")
 
     run("virtualenv --system-site-packages sandbox")
@@ -40,39 +42,39 @@ def create():
 
         name = slaves[env.host_string]
 
-        for info in instances.values():
-            run("rm -rf %s" % info["slave_dir"])
+        run("rm -rf %s" % instance_info["slave_dir"])
 
-            run("buildslave create-slave %s "
-                "buildbot.sugarlabs.org:%d "
-                "%s %s" % (info["slave_dir"], info["slave_port"],
-                           name, password))
+        run("buildslave create-slave %s "
+            "buildbot.sugarlabs.org:%d "
+            "%s %s" % (instance_info["slave_dir"],
+                       instance_info["slave_port"],
+                       name, password))
 
-            put(StringIO.StringIO(admin),
-                os.path.join(basedir, "info", "admin"))
-            put(StringIO.StringIO(name),
-                os.path.join(basedir, "info", "host"))
-
-
-@task
-@roles("slave")
-@with_settings(**settings)
-def start(basedir="slave"):
-    with prefix(activate_virtualenv):
-        run("buildslave start %s" % basedir)
+        put(StringIO.StringIO(admin),
+            os.path.join(instance_info["master_dir", "info", "admin"))
+        put(StringIO.StringIO(name),
+            os.path.join(instance_info["master_dir", "info", "host"))
 
 
 @task
 @roles("slave")
 @with_settings(**settings)
-def stop(basedir="slave"):
+def start(instance_name=get_instance_name()):
     with prefix(activate_virtualenv):
-        run("buildslave stop %s" % basedir)
+        run("buildslave start %s" % instances[instance_name]["slave_dir"])
 
 
 @task
 @roles("slave")
 @with_settings(**settings)
-def restart(basedir="slave"):
+def stop(instance_name=get_instance_name()):
     with prefix(activate_virtualenv):
-        run("buildslave restart %s" % basedir)
+        run("buildslave stop %s" % instances[instance_name]["slave_dir"])
+
+
+@task
+@roles("slave")
+@with_settings(**settings)
+def restart(instance_name=get_instance_name()):
+    with prefix(activate_virtualenv):
+        run("buildslave restart %s" % instances[instance_name]["slave_dir"])

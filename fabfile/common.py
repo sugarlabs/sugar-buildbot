@@ -29,3 +29,10 @@ slaves = {"buildbot@debian-wheezy-32bit.local": "debian-wheezy-32bit",
 slave_gateway = "dnarvaez@bender.sugarlabs.org"
 
 activate_virtualenv = "source sandbox/bin/activate"
+
+def get_instance_name():
+    branch = local("git rev-parse --abbrev-ref HEAD", capture=True)
+    if branch == "master":
+        return "production"
+    else:
+        return "testing"

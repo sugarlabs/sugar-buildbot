@@ -35,26 +35,29 @@ master_settings = {"sudo_user": "buildbot",
 @task
 @roles("master")
 @with_settings(**master_settings)
-def create():
-    sudo("rm -rf ~/sandbox")
+def create(instance_name=get_instance_name()):
+    instance_info = instances[instance_name]
 
+    sudo("rm -rf ~/sandbox")
     sudo("virtualenv ~/sandbox")
 
     with prefix(activate_virtualenv):
         sudo("pip install SQLAlchemy==0.7.9")
         sudo("pip install buildbot")
 
-        for info in instances.values():
-            sudo("rm -rf ~/%s" % info["master_dir"])
-            sudo("buildbot create-master ~/%s" % info["master_dir"])
+        sudo("rm -rf ~/%s" % instance_info["master_dir"])
+        sudo("buildbot create-master ~/%s" % instance_info["master_dir"])
 
     execute(update)
+    execute(configure)
 
 
 @task
 @roles("master")
 @with_settings(**master_settings)
-def update():
+def update(instance_name=get_instance_name()):
+    instance_info = instances[instance_name]
+
     with prefix(activate_virtualenv):
         sudo("rm -rf ~/git")
         sudo("mkdir ~/git")
@@ -63,62 +66,61 @@ def update():
             for url in repos:
                 sudo("git clone %s" % url)
 
-        for info in instances.values():
-            with cd("~/git/sugar-buildbot"):
-                sudo("cp *.py master.cfg ~/%s" % info["master_dir"])
+        with cd("~/git/sugar-buildbot"):
+            sudo("cp *.py master.cfg ~/%s" % instance_info["master_dir"])
 
-            with cd("~/git/sugar-build"):
-                sudo("cp -R config/modules ~/%s" % info["master_dir"])
-
-
-@task
-@roles("master")
-@with_settings(**master_settings)
-def configure():
-    for info in instances.values():
-        repo = "git://git.sugarlabs.org/sugar-build/sugar-build.git"
-
-        config = {"slaves": {},
-                  "repo": repo}
-        config.update(info["config"])
-
-        tac = StringIO.StringIO()
-
-        for host, name in slaves.items():
-            with settings(host_string=host, gateway=slave_gateway):
-                get(os.path.join(info["slave_dir"], "buildbot.tac"), tac)
-                for line in tac.getvalue().split("\n"):
-                    start = "passwd = "
-                    if line.startswith(start):
-                        password = line[len(start) + 1:-1]
-                        config["slaves"][name] = {"password": password}
-
-        config_json = StringIO.StringIO()
-        json.dump(config, config_json, indent=4, sort_keys=True)
-        put(config_json, "config.json")
-        sudo("cp config.json ~/%s" % info["master_dir"])
-        run("rm config.json")
+        with cd("~/git/sugar-build"):
+            sudo("cp -R config/modules ~/%s" % instance_info["master_dir"])
 
 
 @task
 @roles("master")
 @with_settings(**master_settings)
-def start(basedir="master"):
+def configure(instance_name=get_instance_name()):
+    instance_info = instances[instance_name]
+
+    repo = "git://git.sugarlabs.org/sugar-build/sugar-build.git"
+
+    config = {"slaves": {}, "repo": repo}
+    config.update(instance_info["config"])
+
+    tac = StringIO.StringIO()
+
+    for host, name in slaves.items():
+        with settings(host_string=host, gateway=slave_gateway):
+            get(os.path.join(instance_info["slave_dir"], "buildbot.tac"), tac)
+            for line in tac.getvalue().split("\n"):
+                start = "passwd = "
+                if line.startswith(start):
+                    password = line[len(start) + 1:-1]
+                    config["slaves"][name] = {"password": password}
+
+    config_json = StringIO.StringIO()
+    json.dump(config, config_json, indent=4, sort_keys=True)
+    put(config_json, "config.json")
+    sudo("cp config.json ~/%s" % instance_info["master_dir"])
+    run("rm config.json")
+
+
+@task
+@roles("master")
+@with_settings(**master_settings)
+def start(instance_name=get_instance_name()):
     with prefix(activate_virtualenv):
-        sudo("buildbot start ~/%s" % basedir)
+        sudo("buildbot start ~/%s" % instances[instance_name]["master_dir"])
 
 
 @task
 @roles("master")
 @with_settings(**master_settings)
-def stop(basedir="master"):
+def stop(instance_name=get_instance_name()):
     with prefix(activate_virtualenv):
-        sudo("buildbot stop ~/%s" % basedir)
+        sudo("buildbot stop ~/%s" % instances[instance_name]["master_dir"])
 
 
 @task
 @roles("master")
 @with_settings(**master_settings)
-def restart(basedir="master"):
+def restart(instance_name=get_instance_name()):
     with prefix(activate_virtualenv):
-        sudo("buildbot restart ~/%s" % basedir)
+        sudo("buildbot restart ~/%s" % instances[instance_name]["master_dir"])
