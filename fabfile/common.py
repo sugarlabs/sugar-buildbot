@@ -5,6 +5,7 @@ instances = {"production":
              {"master_dir": "master",
               "slave_dir": "slave",
               "sandbox_dir": "sandbox",
+              "branch": "master",
               "config":
               {"distribute": True,
                "nightly_builds": True,
@@ -15,6 +16,7 @@ instances = {"production":
              {"master_dir": "master-testing",
               "slave_dir": "slave-testing",
               "sandbox_dir": "sandbox-testing",
+              "branch": "testing",
               "config":
               {"branch": "testing",
                "check_system": False,

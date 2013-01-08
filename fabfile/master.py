@@ -22,8 +22,6 @@ from common import instances
 from common import get_instance_name
 from common import get_virtualenv_activate
 
-repos = ["git://git.sugarlabs.org/sugar-buildbot/sugar-buildbot.git",
-         "git://git.sugarlabs.org/sugar-build/sugar-build.git"]
 
 env.roledefs["master"] = ["dnarvaez@shell.sugarlabs.org"]
 
@@ -62,8 +60,13 @@ def update(instance_name=get_instance_name()):
         sudo("mkdir ~/git")
 
         with cd("~/git"):
-            for url in repos:
-                sudo("git clone %s" % url)
+            url = "git://git.sugarlabs.org/sugar-buildbot/sugar-buildbot.git"
+            sudo("git clone %s" % url)
+            sudo("git checkout %s" % instance_info["branch"])
+
+            config = instance_info["config"]
+            sudo("git clone %s" % config["repo"])
+            sudo("git checkout %s" % config["branch"])
 
         with cd("~/git/sugar-buildbot"):
             sudo("cp *.py master.cfg ~/%s" % instance_info["master_dir"])
