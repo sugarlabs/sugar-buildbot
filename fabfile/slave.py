@@ -52,9 +52,9 @@ def create(instance_name=get_instance_name()):
                        name, password))
 
         put(StringIO.StringIO(admin),
-            os.path.join(instance_info["master_dir"], "info", "admin"))
+            os.path.join(instance_info["slave_dir"], "info", "admin"))
         put(StringIO.StringIO(name),
-            os.path.join(instance_info["master_dir"], "info", "host"))
+            os.path.join(instance_info["slave_dir"], "info", "host"))
 
 
 @task
