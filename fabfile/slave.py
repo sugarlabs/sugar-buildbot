@@ -15,6 +15,7 @@ from common import slaves
 from common import slave_gateway
 from common import instances
 from common import activate_virtualenv
+from common import get_instance_name
 
 
 admin = "Daniel Narvaez <dwnarvaez@gmail.com>"
@@ -51,9 +52,9 @@ def create(instance_name=get_instance_name()):
                        name, password))
 
         put(StringIO.StringIO(admin),
-            os.path.join(instance_info["master_dir", "info", "admin"))
+            os.path.join(instance_info["master_dir"], "info", "admin"))
         put(StringIO.StringIO(name),
-            os.path.join(instance_info["master_dir", "info", "host"))
+            os.path.join(instance_info["master_dir"], "info", "host"))
 
 
 @task

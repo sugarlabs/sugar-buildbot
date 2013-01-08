@@ -1,3 +1,6 @@
+from fabric.api import local
+
+
 instances = {"production":
              {"master_dir": "master",
               "slave_dir": "slave",
@@ -30,9 +33,17 @@ slave_gateway = "dnarvaez@bender.sugarlabs.org"
 
 activate_virtualenv = "source sandbox/bin/activate"
 
+_instance_name = None
+
+
 def get_instance_name():
-    branch = local("git rev-parse --abbrev-ref HEAD", capture=True)
-    if branch == "master":
-        return "production"
-    else:
-        return "testing"
+    global _instance_name
+
+    if _instance_name is None:
+        branch = local("git rev-parse --abbrev-ref HEAD", capture=True)
+        if branch == "master":
+            _instance_name = "production"
+        else:
+            _instance_name = "testing"
+
+    return _instance_name

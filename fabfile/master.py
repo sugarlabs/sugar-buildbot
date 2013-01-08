@@ -19,7 +19,7 @@ from fabric.api import settings
 from common import slaves
 from common import slave_gateway
 from common import instances
-
+from common import get_instance_name
 
 repos = ["git://git.sugarlabs.org/sugar-buildbot/sugar-buildbot.git",
          "git://git.sugarlabs.org/sugar-build/sugar-build.git"]
