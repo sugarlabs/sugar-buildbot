@@ -1,4 +1,32 @@
-= Tips about setting up a kvm slave =
+= Master and slaves management =
+
+Let's start with an example. First create all the slaves
+
+    fab slave.create
+
+Then create the master
+
+    fab master.create
+
+And configure it
+
+    fab master.configure
+
+Finally run the master and the slaves
+
+    fab master.run slave.run
+
+All done!
+
+For more advanced usage see the fabric documentation
+http://docs.fabfile.org/en/1.5/usage/fab.html
+
+= Slave requirements =
+
+* buildbot user with passwordless, ttyless sudo access.
+* git, virtualenv, gcc, make
+
+= Creating a kvm slave =
 
 You can create an image with something like this:
 
@@ -8,21 +36,6 @@ You can create an image with something like this:
         -network network:default \
         --location "http://mirror.foo.com/..." \
         --extra-args="text serial console=ttyS0,115200"
-
-Once the system is running you need to:
-
-* Add a buildbot user
-* Add buildbot to the wheel (Fedora) or sudo (Ubuntu) group
-
-    gpassword --add buildbot wheel
-
-* Run visudo and make sure "Default requiretty" is commented out
-* Still in visudo, allow to run without a password. Something like
-
-    %wheel ALL=(ALL) NOPASSWD: ALL
-
-* Install virtualenv, git, gcc and make. You don't need to update the system,
-the buildbot will take care of it.
 
 = Bug reports =
 
