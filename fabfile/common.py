@@ -5,6 +5,7 @@ instances = {"production":
              {"master_dir": "master",
               "slave_dir": "slave",
               "sandbox_dir": "sandbox",
+              "repo": "git://git.sugarlabs.org/sugar-build/sugar-build.git",
               "branch": "master",
               "config":
               {"distribute": True,
@@ -16,6 +17,7 @@ instances = {"production":
              {"master_dir": "master-testing",
               "slave_dir": "slave-testing",
               "sandbox_dir": "sandbox-testing",
+              "repo": "git://git.sugarlabs.org/sugar-build/sugar-build.git",
               "branch": "testing",
               "config":
               {"branch": "testing",

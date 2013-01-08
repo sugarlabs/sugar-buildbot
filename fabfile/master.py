@@ -85,9 +85,7 @@ def update(instance_name=get_instance_name()):
 def configure(instance_name=get_instance_name()):
     instance_info = instances[instance_name]
 
-    repo = "git://git.sugarlabs.org/sugar-build/sugar-build.git"
-
-    config = {"slaves": {}, "repo": repo}
+    config = {"slaves": {}}
     config.update(instance_info["config"])
 
     tac = StringIO.StringIO()
