@@ -99,7 +99,8 @@ def setup(c, config):
     bender_lock = MasterLock("bender")
 
     for name, info in config["slaves"].items():
-        env = {"SUGAR_BUILDBOT": name}
+        env = {"SUGAR_BUILDBOT": name,
+               "PYTHONUNBUFFERED": "yes"}
 
         factory = create_factory(config, env=env,
                                  distribute=config.get("distribute", False),
