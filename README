@@ -8,10 +8,6 @@ Then create the master
 
     fab master.create
 
-And configure it
-
-    fab master.configure
-
 Finally run the master and the slaves
 
     fab master.run slave.run
