@@ -20,11 +20,10 @@ from common import slaves
 from common import slave_gateway
 from common import instances
 from common import get_instance_name
+from common import get_virtualenv_activate
 
 repos = ["git://git.sugarlabs.org/sugar-buildbot/sugar-buildbot.git",
          "git://git.sugarlabs.org/sugar-build/sugar-build.git"]
-
-activate_virtualenv = "source ~/sandbox/bin/activate"
 
 env.roledefs["master"] = ["dnarvaez@shell.sugarlabs.org"]
 
@@ -38,10 +37,10 @@ master_settings = {"sudo_user": "buildbot",
 def create(instance_name=get_instance_name()):
     instance_info = instances[instance_name]
 
-    sudo("rm -rf ~/sandbox")
-    sudo("virtualenv ~/sandbox")
+    sudo("rm -rf ~/%s" % instance_info["sandbox_dir"])
+    sudo("virtualenv ~/%s" % instance_info["sandbox_dir"])
 
-    with prefix(activate_virtualenv):
+    with prefix(get_virtualenv_activate(instance_name)):
         sudo("pip install SQLAlchemy==0.7.9")
         sudo("pip install buildbot")
 
@@ -58,7 +57,7 @@ def create(instance_name=get_instance_name()):
 def update(instance_name=get_instance_name()):
     instance_info = instances[instance_name]
 
-    with prefix(activate_virtualenv):
+    with prefix(get_virtualenv_activate(instance_name)):
         sudo("rm -rf ~/git")
         sudo("mkdir ~/git")
 
@@ -106,7 +105,7 @@ def configure(instance_name=get_instance_name()):
 @roles("master")
 @with_settings(**master_settings)
 def start(instance_name=get_instance_name()):
-    with prefix(activate_virtualenv):
+    with prefix(get_virtualenv_activate(instance_name)):
         sudo("buildbot start ~/%s" % instances[instance_name]["master_dir"])
 
 
@@ -114,7 +113,7 @@ def start(instance_name=get_instance_name()):
 @roles("master")
 @with_settings(**master_settings)
 def stop(instance_name=get_instance_name()):
-    with prefix(activate_virtualenv):
+    with prefix(get_virtualenv_activate(instance_name)):
         sudo("buildbot stop ~/%s" % instances[instance_name]["master_dir"])
 
 
@@ -122,5 +121,5 @@ def stop(instance_name=get_instance_name()):
 @roles("master")
 @with_settings(**master_settings)
 def restart(instance_name=get_instance_name()):
-    with prefix(activate_virtualenv):
+    with prefix(get_virtualenv_activate(instance_name)):
         sudo("buildbot restart ~/%s" % instances[instance_name]["master_dir"])

@@ -14,7 +14,7 @@ from fabric.api import with_settings
 from common import slaves
 from common import slave_gateway
 from common import instances
-from common import activate_virtualenv
+from common import get_virtualenv_activate
 from common import get_instance_name
 
 
@@ -31,14 +31,13 @@ settings = {"gateway": slave_gateway}
 def create(instance_name=get_instance_name()):
     instance_info = instances[instance_name]
 
-    run("rm -rf sandbox")
-
-    run("virtualenv --system-site-packages sandbox")
+    run("rm -rf %s" % instance_info["sandbox_dir"])
+    run("virtualenv --system-site-packages %s" % instance_info["sandbox_dir"])
 
     chars = string.ascii_lowercase + string.ascii_uppercase + string.digits
     password = ''.join(random.choice(chars) for x in range(16))
 
-    with prefix(activate_virtualenv):
+    with prefix(get_virtualenv_activate(instance_name)):
         run("pip install buildbot-slave")
 
         name = slaves[env.host_string]
@@ -61,7 +60,7 @@ def create(instance_name=get_instance_name()):
 @roles("slave")
 @with_settings(**settings)
 def start(instance_name=get_instance_name()):
-    with prefix(activate_virtualenv):
+    with prefix(get_virtualenv_activate(instance_name)):
         run("buildslave start %s" % instances[instance_name]["slave_dir"])
 
 
@@ -69,7 +68,7 @@ def start(instance_name=get_instance_name()):
 @roles("slave")
 @with_settings(**settings)
 def stop(instance_name=get_instance_name()):
-    with prefix(activate_virtualenv):
+    with prefix(get_virtualenv_activate(instance_name)):
         run("buildslave stop %s" % instances[instance_name]["slave_dir"])
 
 
@@ -77,5 +76,5 @@ def stop(instance_name=get_instance_name()):
 @roles("slave")
 @with_settings(**settings)
 def restart(instance_name=get_instance_name()):
-    with prefix(activate_virtualenv):
+    with prefix(get_virtualenv_activate(instance_name)):
         run("buildslave restart %s" % instances[instance_name]["slave_dir"])

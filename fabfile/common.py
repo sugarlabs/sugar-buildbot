@@ -4,6 +4,7 @@ from fabric.api import local
 instances = {"production":
              {"master_dir": "master",
               "slave_dir": "slave",
+              "sandbox_dir": "sandbox",
               "config":
               {"distribute": True,
                "nightly_builds": True,
@@ -13,6 +14,7 @@ instances = {"production":
              "testing":
              {"master_dir": "master-testing",
               "slave_dir": "slave-testing",
+              "sandbox_dir": "sandbox-testing",
               "config":
               {"branch": "testing",
                "check_system": False,
@@ -31,9 +33,11 @@ slaves = {"buildbot@debian-wheezy-32bit.local": "debian-wheezy-32bit",
 
 slave_gateway = "dnarvaez@bender.sugarlabs.org"
 
-activate_virtualenv = "source sandbox/bin/activate"
-
 _instance_name = None
+
+
+def get_virtualenv_activate(instance_name):
+    return "source %s/bin/activate" % instances[instance_name][sandbox_dir]
 
 
 def get_instance_name():
