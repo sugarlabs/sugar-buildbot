@@ -37,7 +37,7 @@ _instance_name = None
 
 
 def get_virtualenv_activate(instance_name):
-    return "source %s/bin/activate" % instances[instance_name][sandbox_dir]
+    return "source %s/bin/activate" % instances[instance_name]["sandbox_dir"]
 
 
 def get_instance_name():
