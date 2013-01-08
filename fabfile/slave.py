@@ -48,7 +48,7 @@ def create(instance_name=get_instance_name()):
         run("buildslave create-slave %s "
             "buildbot.sugarlabs.org:%d "
             "%s %s" % (instance_info["slave_dir"],
-                       instance_info["slave_port"],
+                       instance_info["slaves_port"],
                        name, password))
 
         put(StringIO.StringIO(admin),
