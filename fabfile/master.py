@@ -125,6 +125,14 @@ def stop(instance_name=get_instance_name()):
 @task
 @roles("master")
 @with_settings(**master_settings)
+def reconfig(instance_name=get_instance_name()):
+    with prefix(get_virtualenv_activate(instance_name)):
+        sudo("buildbot reconfig ~/%s" % instances[instance_name]["master_dir"])
+
+
+@task
+@roles("master")
+@with_settings(**master_settings)
 def restart(instance_name=get_instance_name()):
     with prefix(get_virtualenv_activate(instance_name)):
         sudo("buildbot restart ~/%s" % instances[instance_name]["master_dir"])
