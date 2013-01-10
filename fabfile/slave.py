@@ -10,6 +10,7 @@ from fabric.api import prefix
 from fabric.api import put
 from fabric.api import roles
 from fabric.api import with_settings
+from fabric.contrib.files import append
 
 from common import slaves
 from common import slave_gateway
@@ -78,3 +79,11 @@ def stop(instance_name=get_instance_name()):
 def restart(instance_name=get_instance_name()):
     with prefix(get_virtualenv_activate(instance_name)):
         run("buildslave restart %s" % instances[instance_name]["slave_dir"])
+
+
+@task
+@roles("slave")
+@with_settings(**settings)
+def add_key(filename):
+    with open(filename) as f:
+        append(".ssh/authorized_keys", f.read())
