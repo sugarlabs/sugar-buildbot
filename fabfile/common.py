@@ -8,6 +8,7 @@ instances = {"production":
               "branch": "master",
               "config":
               {"repo": "git://git.sugarlabs.org/sugar-build/sugar-build.git",
+               "branch": "master",
                "distribute": True,
                "nightly_builds": True,
                "slaves_port": 9989,
