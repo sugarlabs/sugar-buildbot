@@ -9,7 +9,6 @@ instances = {"production":
               "config":
               {"repo": "git://git.sugarlabs.org/sugar-build/sugar-build.git",
                "branch": "master",
-               "distribute": True,
                "nightly_builds": True,
                "slaves_port": 9989,
                "snapshot": True,
@@ -23,6 +22,7 @@ instances = {"production":
               {"repo": "git://git.sugarlabs.org/sugar-build/sugar-build.git",
                "branch": "testing",
                "check_system": False,
+               "distribute": True,
                "slaves_port": 9990,
                "sub_repos_changes": False,
                "web_port": 8081}}}
