@@ -21,7 +21,7 @@ from common import slave_gateway
 from common import instances
 from common import get_instance_name
 from common import get_virtualenv_activate
-
+from common import docs_slave
 
 env.roledefs["master"] = ["dnarvaez@shell.sugarlabs.org"]
 
@@ -98,6 +98,9 @@ def configure(instance_name=get_instance_name()):
                 if line.startswith(start):
                     password = line[len(start) + 1:-1]
                     config["slaves"][name] = {"password": password}
+
+    if instance_info["upload_docs"]:
+        config["slaves"][docs_slave]["upload_docs"] = True
 
     config_json = StringIO.StringIO()
     json.dump(config, config_json, indent=4, sort_keys=True)

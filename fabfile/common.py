@@ -6,6 +6,7 @@ instances = {"production":
               "slave_dir": "slave",
               "sandbox_dir": "sandbox",
               "branch": "master",
+              "upload_docs": True,
               "config":
               {"repo": "git://git.sugarlabs.org/sugar-build/sugar-build.git",
                "branch": "master",
@@ -18,6 +19,7 @@ instances = {"production":
               "slave_dir": "slave-testing",
               "sandbox_dir": "sandbox-testing",
               "branch": "testing",
+              "upload_docs": True,
               "config":
               {"repo": "git://git.sugarlabs.org/sugar-build/sugar-build.git",
                "branch": "testing",
@@ -35,6 +37,8 @@ slaves = {"buildbot@debian-wheezy-32bit.local": "debian-wheezy-32bit",
           "buildbot@fedora-18-64bit.local": "fedora-18-64bit",
           "buildbot@ubuntu-12-10-32bit.local": "ubuntu-12-10-32bit",
           "buildbot@ubuntu-12-10-64bit.local": "ubuntu-12-10-64bit"}
+
+docs_slave = "fedora-18-64bit"
 
 slave_gateway = "dnarvaez@bender.sugarlabs.org"
 
