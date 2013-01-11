@@ -7,6 +7,7 @@ from buildbot.steps.shell import ShellCommand
 from buildbot.config import BuilderConfig
 from buildbot.locks import MasterLock
 from buildbot.process.properties import WithProperties
+from buildbot.steps.transfer import DirectoryUpload
 
 
 class PullCommand(ShellCommand):
@@ -74,11 +75,9 @@ def create_factory(config, env={}, full=False, distribute=False,
                                      env=env))
 
     if upload_docs:
-        factory.addStep(ShellCommand(command=["make", "docs-upload"],
-                                     description="uploading docs",
-                                     descriptionDone="upload docs",
-                                     warnOnFailure=True,
-                                     env=env))
+        factory.addStep(DirectoryUpload(slavesrc="build/sugar-docs/html",
+                                        masterdest="~/public_html/docs",
+                                        url="~buildbot/docs"))
 
     if snapshot:
         filename = WithProperties("SNAPSHOT_FILENAME=sugar-snapshot-%s-%s.tar",
