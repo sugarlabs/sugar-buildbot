@@ -24,7 +24,6 @@ instances = {"production":
               {"repo": "git://git.sugarlabs.org/sugar-build/sugar-build.git",
                "branch": "testing",
                "check_system": False,
-               "distribute": True,
                "slaves_port": 9990,
                "snapshot": True,
                "sub_repos_changes": False,
