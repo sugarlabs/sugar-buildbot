@@ -89,8 +89,8 @@ def create_factory(config, env={}, full=False, distribute=False,
                                      warnOnFailure=True,
                                      env=env))
 
-        masterdest = "~/public_html/snapshots/snapshot.tar.xv"
-        factory.addStep(FileUpload(slavesrc="snapshot.tar.xv",
+        masterdest = "~/public_html/snapshots/snapshot.tar.xz"
+        factory.addStep(FileUpload(slavesrc="snapshot.tar.xz",
                                    masterdest=masterdest))
 
         upload_completed = "~/public_html/snapshots/upload-completed"
