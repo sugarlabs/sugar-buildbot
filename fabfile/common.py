@@ -19,7 +19,7 @@ instances = {"production":
               "slave_dir": "slave-testing",
               "sandbox_dir": "sandbox-testing",
               "branch": "testing",
-              "upload_docs": True,
+              "upload_docs": False,
               "config":
               {"repo": "git://git.sugarlabs.org/sugar-build/sugar-build.git",
                "branch": "testing",
