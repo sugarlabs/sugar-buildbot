@@ -6,8 +6,8 @@ from buildbot.steps.source.git import Git
 from buildbot.steps.shell import ShellCommand
 from buildbot.config import BuilderConfig
 from buildbot.locks import MasterLock
-from buildbot.process.properties import WithProperties
 from buildbot.steps.transfer import DirectoryUpload
+from buildbot.steps.transfer import FileUpload
 
 
 class PullCommand(ShellCommand):
@@ -81,15 +81,14 @@ def create_factory(config, env={}, full=False, distribute=False,
                                         url=docs_url))
 
     if snapshot:
-        filename = WithProperties("SNAPSHOT_FILENAME=sugar-snapshot-%s-%s.tar",
-                                  "buildername", "buildnumber")
-        command = ["make", "snapshot-upload", filename]
-
-        factory.addStep(ShellCommand(command=command,
-                                     description="uploading snapshot",
-                                     descriptionDone="upload snapshot",
+        factory.addStep(ShellCommand(command=["make", "snapshot"],
+                                     description="building snapshot",
+                                     descriptionDone="snapshot",
                                      warnOnFailure=True,
                                      env=env))
+        factory.addStep(FileUpload(slavesrc="snapshot.tar.xv",
+                                   masterdest="~/public_html/snapshots"))
+
     return factory
 
 
