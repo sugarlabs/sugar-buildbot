@@ -75,9 +75,12 @@ def create_factory(config, env={}, full=False, distribute=False,
                                      env=env))
 
     if upload_docs:
+        docs_url = "http://shell.sugarlabs.org/~buildbot/docs/index.html"
         factory.addStep(DirectoryUpload(slavesrc="build/sugar-docs/html",
+                                        description="uploading docs",
+                                        descriptionDone="upload docs",
                                         masterdest="~/public_html/docs",
-                                        url="~buildbot/docs"))
+                                        url=docs_url))
 
     if snapshot:
         filename = WithProperties("SNAPSHOT_FILENAME=sugar-snapshot-%s-%s.tar",
