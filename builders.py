@@ -6,6 +6,7 @@ from buildbot.steps.source.git import Git
 from buildbot.steps.shell import ShellCommand
 from buildbot.config import BuilderConfig
 from buildbot.locks import MasterLock
+from buildbot.process.properties import Property
 from buildbot.steps.transfer import DirectoryUpload
 from buildbot.steps.transfer import FileUpload
 
@@ -86,8 +87,15 @@ def create_factory(config, env={}, full=False, distribute=False,
                                      descriptionDone="snapshot",
                                      warnOnFailure=True,
                                      env=env))
+
+        masterdest = "~/public_html/snapshots/snapshot.tar.xv"
         factory.addStep(FileUpload(slavesrc="snapshot.tar.xv",
-                                   masterdest="~/public_html/snapshots"))
+                                   masterdest=masterdest))
+
+        upload_completed = "~/public_html/snapshots/upload-completed"
+        factory.addStep(MasterShellCommand(command=[upload_completed,
+                                                    Property("buildername"),
+                                                    Property("buildnumber")]))
 
     return factory
 
