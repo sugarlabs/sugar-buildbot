@@ -26,6 +26,7 @@ instances = {"production":
                "check_system": False,
                "distribute": True,
                "slaves_port": 9990,
+               "snapshot": True,
                "sub_repos_changes": False,
                "web_port": 8081}}}
 
