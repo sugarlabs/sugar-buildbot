@@ -4,6 +4,7 @@ import pipes
 from buildbot.process.factory import BuildFactory
 from buildbot.steps.source.git import Git
 from buildbot.steps.shell import ShellCommand
+from buildbot.steps.master import MasterShellCommand
 from buildbot.config import BuilderConfig
 from buildbot.locks import MasterLock
 from buildbot.process.properties import Property
