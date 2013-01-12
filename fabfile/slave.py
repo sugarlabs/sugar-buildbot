@@ -45,7 +45,7 @@ def create(instance_name=get_instance_name()):
 
         run("rm -rf %s" % instance_info["slave_dir"])
 
-        run("buildslave create-slave %s "
+        run("buildslave create-slave --umask=022 %s "
             "buildbot.sugarlabs.org:%d "
             "%s %s" % (instance_info["slave_dir"],
                        instance_info["config"]["slaves_port"],
