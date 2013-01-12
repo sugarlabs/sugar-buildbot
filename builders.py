@@ -114,8 +114,7 @@ def setup(c, config):
 
         factory = create_factory(config, env=env,
                                  distribute=config.get("distribute", False),
-                                 upload_docs=info.get("upload_docs", False),
-                                 snapshot=config.get("snapshot", False))
+                                 upload_docs=info.get("upload_docs", False))
 
         builder = BuilderConfig(name="%s-quick" % name,
                                 slavenames=[name],
