@@ -80,7 +80,6 @@ def create_factory(config, env={}, full=False, distribute=False,
         docs_url = "http://shell.sugarlabs.org/~buildbot/docs/index.html"
         factory.addStep(DirectoryUpload(slavesrc="build/sugar-docs/html",
                                         masterdest="~/public_html/docs",
-                                        mode=0755,
                                         url=docs_url))
 
     if snapshot:
