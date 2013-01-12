@@ -7,7 +7,7 @@ from buildbot.steps.shell import ShellCommand
 from buildbot.steps.master import MasterShellCommand
 from buildbot.config import BuilderConfig
 from buildbot.locks import MasterLock
-from buildbot.process.properties import Property
+from buildbot.process.properties import Interpolate
 from buildbot.steps.transfer import DirectoryUpload
 from buildbot.steps.transfer import FileUpload
 
@@ -93,10 +93,9 @@ def create_factory(config, env={}, full=False, distribute=False,
         factory.addStep(FileUpload(slavesrc="snapshot.tar.xz",
                                    masterdest=masterdest))
 
-        upload_completed = "~/public_html/snapshots/upload-completed"
-        factory.addStep(MasterShellCommand(command=[upload_completed,
-                                                    Property("buildername"),
-                                                    Property("buildnumber")]))
+        command = Interpolate("~/public_html/snapshots/upload-completed "
+                              "%(prop:buildername)s %(prop:buildnumber)s")
+        factory.addStep(MasterShellCommand(command=command))
 
     return factory
 
