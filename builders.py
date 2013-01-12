@@ -95,9 +95,9 @@ def create_factory(config, env={}, full=False, distribute=False,
 
         command = Interpolate("~/public_html/snapshots/upload-completed "
                               "%(prop:buildername)s %(prop:buildnumber)s")
-        factory.addStep(MasterShellCommand(command=command),
-                        description="releasing snapshot",
-                        descriptionDone="release snapshot")
+        factory.addStep(MasterShellCommand(command=command,
+                                           description="releasing snapshot",
+                                           descriptionDone="release snapshot"))
 
     return factory
 
