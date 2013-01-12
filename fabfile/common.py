@@ -25,7 +25,6 @@ instances = {"production":
                "branch": "testing",
                "check_system": False,
                "slaves_port": 9990,
-               "snapshot": True,
                "sub_repos_changes": False,
                "web_port": 8081}}}
 
