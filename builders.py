@@ -44,6 +44,7 @@ def create_factory(config, env={}, full=False, distribute=False,
                                      description="checking system",
                                      descriptionDone="check system",
                                      warnOnFailure=True,
+                                     logfiles={"log": "logs/check-system.log"},
                                      env=env))
 
     factory.addStep(PullCommand(description="pulling",
