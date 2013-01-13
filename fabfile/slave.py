@@ -9,6 +9,7 @@ from fabric.api import env
 from fabric.api import prefix
 from fabric.api import put
 from fabric.api import roles
+from fabric.api import sudo
 from fabric.api import with_settings
 from fabric.contrib.files import append
 
@@ -87,3 +88,9 @@ def restart(instance_name=get_instance_name()):
 def add_key(filename):
     with open(filename) as f:
         append(".ssh/authorized_keys", f.read())
+
+@task
+@roles("slave")
+@with_settings(**settings)
+def shutdown():
+    sudo("shutdown -h now")

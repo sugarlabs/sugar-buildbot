@@ -28,18 +28,13 @@ instances = {"production":
                "sub_repos_changes": False,
                "web_port": 8081}}}
 
-slaves = {"buildbot@debian-wheezy-32bit.local": "debian-wheezy-32bit",
-          "buildbot@debian-wheezy-64bit.local": "debian-wheezy-64bit",
-          "buildbot@fedora-17-32bit.local": "fedora-17-32bit",
-          "buildbot@fedora-17-64bit.local": "fedora-17-64bit",
-          "buildbot@fedora-18-32bit.local": "fedora-18-32bit",
-          "buildbot@fedora-18-64bit.local": "fedora-18-64bit",
-          "buildbot@ubuntu-12-10-32bit.local": "ubuntu-12-10-32bit",
-          "buildbot@ubuntu-12-10-64bit.local": "ubuntu-12-10-64bit"}
+slaves = {"buildbot@bs-wheezy-amd64.local": "wheezy-amd64",
+          "buildbot@bs-quantal-amd64.local": "quantal-amd64",
+          "buildbot@bs-sphcow-x86-64.local": "sphcow-x86-64"}
 
-docs_slave = "fedora-18-64bit"
+docs_slave = "sphcow-x86-64"
 
-slave_gateway = "dnarvaez@bender.sugarlabs.org"
+slave_gateway = "dnarvaez@freedom.sugarlabs.org"
 
 _instance_name = None
 
