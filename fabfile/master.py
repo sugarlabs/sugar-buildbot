@@ -90,14 +90,18 @@ def configure(instance_name=get_instance_name()):
     tac = StringIO.StringIO()
 
     for host, info in slaves.items():
-        name = info["name"]
+        slave_config = {"lock": info["lock"]}
+        config["slaves"][info["name"]] = slave_config
+
         with settings(host_string=host, gateway=info["gateway"]):
             get(os.path.join(instance_info["slave_dir"], "buildbot.tac"), tac)
             for line in tac.getvalue().split("\n"):
                 start = "passwd = "
                 if line.startswith(start):
                     password = line[len(start) + 1:-1]
-                    config["slaves"][name] = {"password": password}
+                    slave_config["password"] = password
+
+        
 
     if instance_info["upload_docs"]:
         config["slaves"][docs_slave]["upload_docs"] = True

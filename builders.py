@@ -135,6 +135,6 @@ def setup(c, config):
                                 slavenames=[name],
                                 factory=factory,
                                 category="full",
-                                locks=[bender_lock.access("exclusive")])
+                                locks=[locks[lock_name].access("exclusive")])
 
         c["builders"].append(builder)
