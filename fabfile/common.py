@@ -30,21 +30,27 @@ instances = {"production":
 
 slaves = {"buildbot@bs-wheezy-amd64.local":
           {"name": "wheezy-amd64",
+           "lock": "freedom",
            "gateway": "dnarvaez@freedom.sugarlabs.org"},
           "buildbot@bs-quantal-amd64.local":
           {"name": "quantal-amd64",
+           "lock": "freedom",
            "gateway": "dnarvaez@freedom.sugarlabs.org"},
           "buildbot@bs-sphcow-x86-64.local":
           {"name": "sphcow-x86-64",
+           "lock": "freedom",
            "gateway": "dnarvaez@freedom.sugarlabs.org"},
           "buildbot@bs-wheezy-i386.local":
           {"name": "wheezy-i386",
+           "lock": "bender",
            "gateway": "dnarvaez@bender.sugarlabs.org"},
           "buildbot@bs-quantal-i386.local":
           {"name": "quantal-i386",
+           "lock": "bender",
            "gateway": "dnarvaez@bender.sugarlabs.org"},
           "buildbot@bs-sphcow-i386.local":
           {"name": "sphcow-i386",
+           "lock": "bender",
            "gateway": "dnarvaez@bender.sugarlabs.org"}}
 
 docs_slave = "sphcow-x86-64"
