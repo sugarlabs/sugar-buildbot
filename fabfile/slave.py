@@ -10,11 +10,10 @@ from fabric.api import prefix
 from fabric.api import put
 from fabric.api import roles
 from fabric.api import sudo
-from fabric.api import with_settings
+from fabric.api import settings
 from fabric.contrib.files import append
 
 from common import slaves
-from common import slave_gateway
 from common import instances
 from common import get_virtualenv_activate
 from common import get_instance_name
@@ -24,73 +23,79 @@ admin = "Daniel Narvaez <dwnarvaez@gmail.com>"
 
 env.roledefs["slave"] = slaves.keys()
 
-settings = {"gateway": slave_gateway}
+
+def get_settings():
+    slave = slaves[env.host_string]
+    return {"gateway": slave["gateway"]}
 
 
 @task
 @roles("slave")
-@with_settings(**settings)
 def create(instance_name=get_instance_name()):
-    instance_info = instances[instance_name]
+    with settings(**get_settings()):
+        instance_info = instances[instance_name]
 
-    run("rm -rf %s" % instance_info["sandbox_dir"])
-    run("virtualenv --system-site-packages %s" % instance_info["sandbox_dir"])
+        run("rm -rf %s" % instance_info["sandbox_dir"])
+        run("virtualenv --system-site-packages %s" %
+            instance_info["sandbox_dir"])
 
-    chars = string.ascii_lowercase + string.ascii_uppercase + string.digits
-    password = ''.join(random.choice(chars) for x in range(16))
+        chars = string.ascii_lowercase + string.ascii_uppercase + string.digits
+        password = ''.join(random.choice(chars) for x in range(16))
 
-    with prefix(get_virtualenv_activate(instance_name)):
-        run("pip install buildbot-slave")
+        with prefix(get_virtualenv_activate(instance_name)):
+            run("pip install buildbot-slave")
 
-        name = slaves[env.host_string]
+            name = slaves[env.host_string]["name"]
 
-        run("rm -rf %s" % instance_info["slave_dir"])
+            run("rm -rf %s" % instance_info["slave_dir"])
 
-        run("buildslave create-slave --umask=022 %s "
-            "buildbot.sugarlabs.org:%d "
-            "%s %s" % (instance_info["slave_dir"],
-                       instance_info["config"]["slaves_port"],
-                       name, password))
+            run("buildslave create-slave --umask=022 %s "
+                "buildbot.sugarlabs.org:%d "
+                "%s %s" % (instance_info["slave_dir"],
+                           instance_info["config"]["slaves_port"],
+                           name, password))
 
-        put(StringIO.StringIO(admin),
-            os.path.join(instance_info["slave_dir"], "info", "admin"))
-        put(StringIO.StringIO(name),
-            os.path.join(instance_info["slave_dir"], "info", "host"))
+            put(StringIO.StringIO(admin),
+                os.path.join(instance_info["slave_dir"], "info", "admin"))
+            put(StringIO.StringIO(name),
+                os.path.join(instance_info["slave_dir"], "info", "host"))
 
 
 @task
 @roles("slave")
-@with_settings(**settings)
 def start(instance_name=get_instance_name()):
-    with prefix(get_virtualenv_activate(instance_name)):
-        run("buildslave start %s" % instances[instance_name]["slave_dir"])
+    with settings(**get_settings()):
+        with prefix(get_virtualenv_activate(instance_name)):
+            run("buildslave start %s" % instances[instance_name]["slave_dir"])
 
 
 @task
 @roles("slave")
-@with_settings(**settings)
 def stop(instance_name=get_instance_name()):
-    with prefix(get_virtualenv_activate(instance_name)):
-        run("buildslave stop %s" % instances[instance_name]["slave_dir"])
+    with settings(**get_settings()):
+        with prefix(get_virtualenv_activate(instance_name)):
+            run("buildslave stop %s" % instances[instance_name]["slave_dir"])
 
 
 @task
 @roles("slave")
-@with_settings(**settings)
 def restart(instance_name=get_instance_name()):
-    with prefix(get_virtualenv_activate(instance_name)):
-        run("buildslave restart %s" % instances[instance_name]["slave_dir"])
+    with settings(**get_settings()):
+        with prefix(get_virtualenv_activate(instance_name)):
+            run("buildslave restart %s" %
+                instances[instance_name]["slave_dir"])
 
 
 @task
 @roles("slave")
-@with_settings(**settings)
 def add_key(filename):
-    with open(filename) as f:
-        append(".ssh/authorized_keys", f.read())
+    with settings(**get_settings()):
+        with open(filename) as f:
+            append(".ssh/authorized_keys", f.read())
+
 
 @task
 @roles("slave")
-@with_settings(**settings)
 def shutdown():
-    sudo("shutdown -h now")
+    with settings(**get_settings()):
+        sudo("shutdown -h now")

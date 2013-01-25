@@ -107,9 +107,13 @@ def create_factory(config, env={}, full=False, distribute=False,
 def setup(c, config):
     c["builders"] = []
 
-    bender_lock = MasterLock("bender")
+    locks = {}
 
     for name, info in config["slaves"].items():
+        lock_name = info.get("lock", None)
+        if lock_name and lock_name not in locks:
+            locks[lock_name] = MasterLock(lock_name)
+
         env = {"SUGAR_BUILDBOT": name,
                "PYTHONUNBUFFERED": "yes"}
 
@@ -121,7 +125,7 @@ def setup(c, config):
                                 slavenames=[name],
                                 factory=factory,
                                 category="quick",
-                                locks=[bender_lock.access("exclusive")])
+                                locks=[locks[lock_name].access("exclusive")])
         c["builders"].append(builder)
 
         factory = create_factory(config, env=env, full=True,

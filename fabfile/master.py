@@ -17,7 +17,6 @@ from fabric.api import with_settings
 from fabric.api import settings
 
 from common import slaves
-from common import slave_gateway
 from common import instances
 from common import get_instance_name
 from common import get_virtualenv_activate
@@ -90,8 +89,9 @@ def configure(instance_name=get_instance_name()):
 
     tac = StringIO.StringIO()
 
-    for host, name in slaves.items():
-        with settings(host_string=host, gateway=slave_gateway):
+    for host, info in slaves.items():
+        name = info["name"]
+        with settings(host_string=host, gateway=info["gateway"]):
             get(os.path.join(instance_info["slave_dir"], "buildbot.tac"), tac)
             for line in tac.getvalue().split("\n"):
                 start = "passwd = "

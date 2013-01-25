@@ -28,13 +28,26 @@ instances = {"production":
                "sub_repos_changes": False,
                "web_port": 8081}}}
 
-slaves = {"buildbot@bs-wheezy-amd64.local": "wheezy-amd64",
-          "buildbot@bs-quantal-amd64.local": "quantal-amd64",
-          "buildbot@bs-sphcow-x86-64.local": "sphcow-x86-64"}
+slaves = {"buildbot@bs-wheezy-amd64.local":
+          {"name": "wheezy-amd64",
+           "gateway": "dnarvaez@freedom.sugarlabs.org"},
+          "buildbot@bs-quantal-amd64.local":
+          {"name": "quantal-amd64",
+           "gateway": "dnarvaez@freedom.sugarlabs.org"},
+          "buildbot@bs-sphcow-x86-64.local":
+          {"name": "sphcow-x86-64",
+           "gateway": "dnarvaez@freedom.sugarlabs.org"},
+          "buildbot@bs-wheezy-i386.local":
+          {"name": "wheezy-i386",
+           "gateway": "dnarvaez@bender.sugarlabs.org"},
+          "buildbot@bs-quantal-i386.local":
+          {"name": "quantal-i386",
+           "gateway": "dnarvaez@bender.sugarlabs.org"},
+          "buildbot@bs-sphcow-i386.local":
+          {"name": "sphcow-i386",
+           "gateway": "dnarvaez@bender.sugarlabs.org"}}
 
 docs_slave = "sphcow-x86-64"
-
-slave_gateway = "dnarvaez@freedom.sugarlabs.org"
 
 _instance_name = None
 
