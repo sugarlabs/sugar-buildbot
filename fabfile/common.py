@@ -15,6 +15,18 @@ instances = {"production":
                "snapshot": True,
                "web_port": 8080}},
              "testing":
+             {"master_dir": "master-html",
+              "slave_dir": "slave-html",
+              "sandbox_dir": "sandbox-html",
+              "branch": "html",
+              "upload_docs": False,
+              "config":
+              {"repo": "git://git.sugarlabs.org/sugar-build/sugar-build.git",
+               "branch": "html",
+               "check_system": False,
+               "slaves_port": 9991,
+               "web_port": 8082}}}
+             "testing":
              {"master_dir": "master-testing",
               "slave_dir": "slave-testing",
               "sandbox_dir": "sandbox-testing",
