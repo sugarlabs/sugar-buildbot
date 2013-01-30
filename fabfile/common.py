@@ -25,7 +25,7 @@ instances = {"production":
                "branch": "html",
                "check_system": False,
                "slaves_port": 9991,
-               "web_port": 8082}}}
+               "web_port": 8082}},
              "testing":
              {"master_dir": "master-testing",
               "slave_dir": "slave-testing",
