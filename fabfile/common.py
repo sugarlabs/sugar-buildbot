@@ -66,10 +66,11 @@ def get_instance_name():
     global _instance_name
 
     if _instance_name is None:
+        _instance_name == "production"
+
         branch = local("git rev-parse --abbrev-ref HEAD", capture=True)
-        if branch == "master":
-            _instance_name = "production"
-        else:
-            _instance_name = "testing"
+        for name, info in instances.items():  
+            if info["branch"] == branch:
+                _instance_name = name
 
     return _instance_name
