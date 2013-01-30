@@ -14,7 +14,7 @@ instances = {"production":
                "slaves_port": 9989,
                "snapshot": True,
                "web_port": 8080}},
-             "testing":
+             "html":
              {"master_dir": "master-html",
               "slave_dir": "slave-html",
               "sandbox_dir": "sandbox-html",
