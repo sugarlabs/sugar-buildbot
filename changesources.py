@@ -6,7 +6,7 @@ import repos
 def setup(c, config):
     c["change_source"] = []
 
-    pollinterval = 60
+    pollinterval = 300
 
     poller = GitPoller(config["repo"],
                        project="sugar-build",
