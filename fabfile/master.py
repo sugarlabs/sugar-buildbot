@@ -43,7 +43,7 @@ def create(instance_name=get_instance_name()):
 
         sudo("rm -rf ~/%s" % instance_info["master_dir"])
         sudo("buildbot create-master --log-size %d --log-count %d ~/%s" %
-             (1024 * 1024 * 10, 10, instance_info["master_dir"])
+             (1024 * 1024 * 10, 10, instance_info["master_dir"]))
 
     execute(update)
     execute(configure)
