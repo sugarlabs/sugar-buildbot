@@ -15,7 +15,7 @@ from fabric.contrib.files import append
 
 from common import slaves
 from common import instances
-from common import get_virtualenv_activate
+from common import get_virtualenv_activate, get_virtualenv_bin
 from common import get_instance_name
 
 
@@ -65,8 +65,9 @@ def create(instance_name=get_instance_name()):
 @roles("slave")
 def start(instance_name=get_instance_name()):
     with settings(**get_settings()):
-        with prefix(get_virtualenv_activate(instance_name)):
-            run("buildslave start %s" % instances[instance_name]["slave_dir"])
+        buildslave_bin = get_virtualenv_bin("buildslave")
+        slave_dir = instances[instance_name]["slave_dir"]
+        run("%s start %s" % (buildslave_bin, slave_dir))
 
 
 @task

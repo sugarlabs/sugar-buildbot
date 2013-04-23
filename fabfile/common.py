@@ -62,6 +62,11 @@ def get_virtualenv_activate(instance_name):
     return "source ~/%s/bin/activate" % instances[instance_name]["sandbox_dir"]
 
 
+def get_virtualenv_bin(instance_name, bin_name="python"):
+    sandbox_dir = instances[instance_name]["sandbox_dir"]
+    return "~/%s/bin/%s" % (sandbox_dir, bin_name)
+
+
 def get_instance_name():
     global _instance_name
 
