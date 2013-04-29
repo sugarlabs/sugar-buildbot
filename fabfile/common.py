@@ -8,7 +8,7 @@ instances = {"production":
               "branch": "master",
               "upload_docs": True,
               "config":
-              {"repo": "git://git.sugarlabs.org/sugar-build/sugar-build.git",
+              {"repo": "git://github.com/sugarlabs/sugar-build.git",
                "branch": "master",
                "nightly_builds": True,
                "slaves_port": 9989,
@@ -21,7 +21,7 @@ instances = {"production":
               "branch": "testing",
               "upload_docs": False,
               "config":
-              {"repo": "git://git.sugarlabs.org/sugar-build/sugar-build.git",
+              {"repo": "git://github.com/sugarlabs/sugar-build.git",
                "branch": "testing",
                "check_system": False,
                "slaves_port": 9990,
@@ -30,6 +30,10 @@ instances = {"production":
 
 slaves = {"buildbot@bs-wheezy-amd64.local":
           {"name": "wheezy-amd64",
+           "lock": "freedom",
+           "gateway": "dnarvaez@freedom.sugarlabs.org"},
+          "buildbot@bs-raring-amd64.local":
+          {"name": "raring-amd64",
            "lock": "freedom",
            "gateway": "dnarvaez@freedom.sugarlabs.org"},
           "buildbot@bs-quantal-amd64.local":
@@ -42,6 +46,10 @@ slaves = {"buildbot@bs-wheezy-amd64.local":
            "gateway": "dnarvaez@freedom.sugarlabs.org"},
           "buildbot@bs-wheezy-i386.local":
           {"name": "wheezy-i386",
+           "lock": "bender",
+           "gateway": "dnarvaez@bender.sugarlabs.org"},
+          "buildbot@bs-raring-i386.local":
+          {"name": "raring-i386",
            "lock": "bender",
            "gateway": "dnarvaez@bender.sugarlabs.org"},
           "buildbot@bs-quantal-i386.local":

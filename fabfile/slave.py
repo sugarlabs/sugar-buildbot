@@ -65,7 +65,7 @@ def create(instance_name=get_instance_name()):
 @roles("slave")
 def start(instance_name=get_instance_name()):
     with settings(**get_settings()):
-        buildslave_bin = get_virtualenv_bin("buildslave")
+        buildslave_bin = get_virtualenv_bin(instance_name, "buildslave")
         slave_dir = instances[instance_name]["slave_dir"]
         run("%s start %s" % (buildslave_bin, slave_dir))
 
