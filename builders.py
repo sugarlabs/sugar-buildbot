@@ -31,7 +31,7 @@ class PullCommand(ShellCommand):
 
 
 def create_factory(config, env={}, full=False, distribute=False,
-                   upload_docs=False, snapshot=False):
+                   upload_docs=False):
     factory = BuildFactory()
 
     factory.addStep(Git(repourl=config["repo"],
@@ -83,24 +83,6 @@ def create_factory(config, env={}, full=False, distribute=False,
                                         masterdest="~/public_html/docs",
                                         url=docs_url))
 
-    if snapshot:
-        factory.addStep(ShellCommand(command=["make", "snapshot"],
-                                     description="building snapshot",
-                                     descriptionDone="build snapshot",
-                                     warnOnFailure=True,
-                                     env=env))
-
-        masterdest = "~/public_html/snapshots/snapshot.tar.xz"
-        factory.addStep(FileUpload(slavesrc="snapshot.tar.xz",
-                                   masterdest=masterdest,
-                                   mode=0755))
-
-        command = Interpolate("~/public_html/snapshots/upload-completed "
-                              "%(prop:slavename)s %(prop:buildnumber)s")
-        factory.addStep(MasterShellCommand(command=command,
-                                           description="releasing snapshot",
-                                           descriptionDone="release snapshot"))
-
     return factory
 
 
@@ -128,8 +110,7 @@ def setup(c, config):
                                 locks=[locks[lock_name].access("exclusive")])
         c["builders"].append(builder)
 
-        factory = create_factory(config, env=env, full=True,
-                                 snapshot=config.get("snapshot", False))
+        factory = create_factory(config, env=env, full=True)
 
         builder = BuilderConfig(name="%s-full" % name,
                                 slavenames=[name],

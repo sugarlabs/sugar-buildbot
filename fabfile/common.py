@@ -12,7 +12,6 @@ instances = {"production":
                "branch": "master",
                "nightly_builds": True,
                "slaves_port": 9989,
-               "snapshot": True,
                "web_port": 8080}},
              "testing":
              {"master_dir": "master-testing",
