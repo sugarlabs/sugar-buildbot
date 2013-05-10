@@ -52,7 +52,7 @@ slaves = {"buildbot@bs-wheezy-amd64.local":
            "lock": "bender",
            "gateway": "dnarvaez@bender.sugarlabs.org"}}
 
-docs_slave = "sphcow-x86-64"
+docs_slave = "raring-amd64"
 
 _instance_name = None
 
