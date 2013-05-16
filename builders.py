@@ -21,7 +21,7 @@ class PullCommand(ShellCommand):
             if source.revision:
                 revisions[source.codebase] = source.revision
 
-        command = ["make", "pull"]
+        command = ["./osbuild", "pull"]
 
         if revisions:
             revisions_json = pipes.quote(json.dumps(revisions))
@@ -30,8 +30,7 @@ class PullCommand(ShellCommand):
         self.setCommand(command)
 
 
-def create_factory(config, env={}, full=False, distribute=False,
-                   upload_docs=False):
+def create_factory(config, env={}, full=False, upload_docs=False):
     factory = BuildFactory()
 
     factory.addStep(Git(repourl=config["repo"],
@@ -39,7 +38,7 @@ def create_factory(config, env={}, full=False, distribute=False,
                         branch=config.get("branch", "master")))
 
     if config.get("check_system", True):
-        command = ["make", "check-system", "ARGS=--update --remove"]
+        command = ["./osbuild", "check-system", "--update --remove"]
         factory.addStep(ShellCommand(command=command,
                                      description="checking system",
                                      descriptionDone="check system",
@@ -53,7 +52,7 @@ def create_factory(config, env={}, full=False, distribute=False,
                                 logfiles={"log": "logs/pull.log"},
                                 env=env))
 
-    command = ["make", "build"]
+    command = ["./osbuild", "build"]
     if full:
         command.append("ARGS=--full")
 
@@ -64,18 +63,12 @@ def create_factory(config, env={}, full=False, distribute=False,
                                  logfiles={"log": "logs/build.log"},
                                  env=env))
 
-    factory.addStep(ShellCommand(command=["make", "check"],
+    factory.addStep(ShellCommand(command=["./osbuild", "check"],
                                  description="checking",
                                  descriptionDone="check",
                                  haltOnFailure=True,
                                  logfiles={"log": "logs/check.log"},
                                  env=env))
-
-    if distribute:
-        factory.addStep(ShellCommand(command=["make", "distribute"],
-                                     description="distributing",
-                                     descriptionDone="distribute",
-                                     env=env))
 
     if upload_docs:
         docs_url = "http://shell.sugarlabs.org/~buildbot/docs/index.html"
@@ -100,7 +93,6 @@ def setup(c, config):
                "PYTHONUNBUFFERED": "yes"}
 
         factory = create_factory(config, env=env,
-                                 distribute=config.get("distribute", False),
                                  upload_docs=info.get("upload_docs", False))
 
         builder = BuilderConfig(name="%s-quick" % name,
