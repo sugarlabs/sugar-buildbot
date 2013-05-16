@@ -38,7 +38,7 @@ def create_factory(config, env={}, full=False, upload_docs=False):
                         branch=config.get("branch", "master")))
 
     if config.get("check_system", True):
-        command = ["./osbuild", "check-system", "--update --remove"]
+        command = ["./osbuild", "check-system", "--update", "--remove"]
         factory.addStep(ShellCommand(command=command,
                                      description="checking system",
                                      descriptionDone="check system",
