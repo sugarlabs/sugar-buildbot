@@ -27,8 +27,8 @@ instances = {"production":
                "sub_repos_changes": False,
                "web_port": 8081}}}
 
-slaves = {"buildbot@bs-wheezy-amd64.local":
-          {"name": "wheezy-amd64",
+slaves = {"buildbot@bs-jessie-amd64.local":
+          {"name": "jessie-amd64",
            "lock": "freedom",
            "gateway": "dnarvaez@freedom.sugarlabs.org"},
           "buildbot@bs-raring-amd64.local":
@@ -39,8 +39,8 @@ slaves = {"buildbot@bs-wheezy-amd64.local":
           {"name": "sphcow-x86-64",
            "lock": "freedom",
            "gateway": "dnarvaez@freedom.sugarlabs.org"},
-          "buildbot@bs-wheezy-i386.local":
-          {"name": "wheezy-i386",
+          "buildbot@bs-jessie-i386.local":
+          {"name": "jessie-i386",
            "lock": "bender",
            "gateway": "dnarvaez@bender.sugarlabs.org"},
           "buildbot@bs-raring-i386.local":
