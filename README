@@ -14,6 +14,10 @@ Finally run the master and the slaves
 
 All done!
 
+It's possible to run commands on one slave only. For example
+
+fab slave.start:hosts=buildbot@bs-jessie-amd64.local
+
 For more advanced usage see the fabric documentation
 http://docs.fabfile.org/en/1.5/usage/fab.html
 
