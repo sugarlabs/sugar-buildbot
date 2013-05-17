@@ -25,7 +25,7 @@ class PullCommand(ShellCommand):
 
         if revisions:
             revisions_json = pipes.quote(json.dumps(revisions))
-            command.append("ARGS=--revisions=%s" % revisions_json)
+            command.append("--revisions=%s" % revisions_json)
 
         self.setCommand(command)
 
