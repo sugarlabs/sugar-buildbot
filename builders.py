@@ -54,7 +54,7 @@ def create_factory(config, env={}, full=False, upload_docs=False):
 
     command = ["./osbuild", "build"]
     if full:
-        command.append("ARGS=--full")
+        command.append("--full")
 
     factory.addStep(ShellCommand(command=command,
                                  description="building",
