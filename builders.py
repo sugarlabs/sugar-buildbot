@@ -71,8 +71,15 @@ def create_factory(config, env={}, full=False, upload_docs=False):
                                  env=env))
 
     if upload_docs:
+        factory.addStep(ShellCommand(command=["./osbuild", "docs"],
+                                     description="docs",
+                                     descriptionDone="docs",
+                                     haltOnFailure=True,
+                                     logfiles={"log": "logs/docs.log"},
+                                     env=env))
+
         docs_url = "http://shell.sugarlabs.org/~buildbot/docs/index.html"
-        factory.addStep(DirectoryUpload(slavesrc="build/sugar-docs/html",
+        factory.addStep(DirectoryUpload(slavesrc="docs",
                                         masterdest="~/public_html/docs",
                                         url=docs_url))
 
