@@ -1,15 +1,11 @@
 import json
-import pipes
 
 from buildbot.process.factory import BuildFactory
 from buildbot.steps.source.git import Git
 from buildbot.steps.shell import ShellCommand
-from buildbot.steps.master import MasterShellCommand
 from buildbot.config import BuilderConfig
 from buildbot.locks import MasterLock
-from buildbot.process.properties import Interpolate
 from buildbot.steps.transfer import DirectoryUpload
-from buildbot.steps.transfer import FileUpload
 
 
 class PullCommand(ShellCommand):
@@ -24,8 +20,8 @@ class PullCommand(ShellCommand):
         command = ["./osbuild", "pull"]
 
         if revisions:
-            revisions_json = pipes.quote(json.dumps(revisions))
-            command.append("--revisions=%s" % revisions_json)
+            revisions_json = json.dumps(revisions)
+            command.extend(["--revisions", revisions_json])
 
         self.setCommand(command)
 
