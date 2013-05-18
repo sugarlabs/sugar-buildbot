@@ -76,7 +76,8 @@ def update(instance_name=get_instance_name()):
             sudo("cp *.py master.cfg ~/%s" % instance_info["master_dir"])
 
         with cd("~/git/sugar-build"):
-            sudo("cp -R config/modules ~/%s" % instance_info["master_dir"])
+            sudo("cp -R build/config/dependencies.json ~/%s" %
+                 instance_info["master_dir"])
 
 
 @task
@@ -101,8 +102,6 @@ def configure(instance_name=get_instance_name()):
                 if line.startswith(start):
                     password = line[len(start) + 1:-1]
                     slave_config["password"] = password
-
-        
 
     if instance_info["upload_docs"]:
         config["slaves"][docs_slave]["upload_docs"] = True
