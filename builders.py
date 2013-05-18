@@ -35,7 +35,7 @@ def create_factory(config, env={}, full=False, upload_docs=False):
 
     if config.get("check_system", True):
         command = ["./osbuild", "check-system", "--update", "--remove"]
-        log_path = "out/logs/check-system.log"
+        log_path = "build/logs/check-system.log"
         factory.addStep(ShellCommand(command=command,
                                      description="checking system",
                                      descriptionDone="check system",
@@ -46,7 +46,7 @@ def create_factory(config, env={}, full=False, upload_docs=False):
     factory.addStep(PullCommand(description="pulling",
                                 descriptionDone="pull",
                                 haltOnFailure=True,
-                                logfiles={"log": "out/logs/pull.log"},
+                                logfiles={"log": "build/logs/pull.log"},
                                 env=env))
 
     command = ["./osbuild", "build"]
@@ -57,14 +57,14 @@ def create_factory(config, env={}, full=False, upload_docs=False):
                                  description="building",
                                  descriptionDone="build",
                                  haltOnFailure=True,
-                                 logfiles={"log": "out/logs/build.log"},
+                                 logfiles={"log": "build/logs/build.log"},
                                  env=env))
 
     factory.addStep(ShellCommand(command=["./osbuild", "check"],
                                  description="checking",
                                  descriptionDone="check",
                                  haltOnFailure=True,
-                                 logfiles={"log": "out/logs/check.log"},
+                                 logfiles={"log": "build/logs/check.log"},
                                  env=env))
 
     if upload_docs:
@@ -72,7 +72,7 @@ def create_factory(config, env={}, full=False, upload_docs=False):
                                      description="docs",
                                      descriptionDone="docs",
                                      haltOnFailure=True,
-                                     logfiles={"log": "out/logs/docs.log"},
+                                     logfiles={"log": "build/logs/docs.log"},
                                      env=env))
 
         docs_url = "http://shell.sugarlabs.org/~buildbot/docs/index.html"
