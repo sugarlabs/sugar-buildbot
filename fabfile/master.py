@@ -76,7 +76,7 @@ def update(instance_name=get_instance_name()):
             sudo("cp *.py master.cfg ~/%s" % instance_info["master_dir"])
 
         with cd("~/git/sugar-build"):
-            sudo("cp -R build/config/dependencies.json ~/%s" %
+            sudo("cp -R build/config/modules.json ~/%s" %
                  instance_info["master_dir"])
 
 

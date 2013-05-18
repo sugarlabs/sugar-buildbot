@@ -34,4 +34,4 @@ def load_modules(path):
                               branch=module.get("branch", None),
                               tag=module.get("tag", None)))
 
-load_modules("dependencies.json")
+load_modules("modules.json")
