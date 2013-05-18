@@ -16,11 +16,12 @@ def setup(c, config):
 
     if config.get("sub_repos_changes", True):
         for repo in repos.get_sub_repos():
-            poller = GitPoller(repo.url,
-                               project="sugar-build",
-                               branches=[repo.branch],
-                               pollinterval=pollinterval)
-            c["change_source"].append(poller)
+            if repo.branch:
+                poller = GitPoller(repo.url,
+                                   project="sugar-build",
+                                   branches=[repo.branch],
+                                   pollinterval=pollinterval)
+                c["change_source"].append(poller)
 
     def codebaseGenerator(change_dict):
         repository = change_dict["repository"]
