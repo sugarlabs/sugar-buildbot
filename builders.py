@@ -33,6 +33,12 @@ def create_factory(config, env={}, full=False, upload_docs=False):
                         codebase="sugar-build",
                         branch=config.get("branch", "master")))
 
+    factory.addStep(ShellCommand(command=["./osbuild", "check-config"],
+                                 description="checking config",
+                                 descriptionDone="check config",
+                                 haltOnFailure=True,
+                                 env=env))
+
     if config.get("check_system", True):
         command = ["./osbuild", "check-system", "--update", "--remove"]
         log_path = "build/logs/check-system.log"
