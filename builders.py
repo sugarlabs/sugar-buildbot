@@ -41,18 +41,17 @@ def create_factory(config, env={}, full=False, upload_docs=False):
 
     if config.get("check_system", True):
         command = ["./osbuild", "check-system", "--update", "--remove"]
-        log_path = "build/logs/check-system.log"
         factory.addStep(ShellCommand(command=command,
                                      description="checking system",
                                      descriptionDone="check system",
                                      warnOnFailure=True,
-                                     logfiles={"log": log_path},
+                                     logfiles={"log": "build/logs/build.log"},
                                      env=env))
 
     factory.addStep(PullCommand(description="pulling",
                                 descriptionDone="pull",
                                 haltOnFailure=True,
-                                logfiles={"log": "build/logs/pull.log"},
+                                logfiles={"log": "build/logs/build.log"},
                                 env=env))
 
     command = ["./osbuild", "build"]
@@ -70,14 +69,14 @@ def create_factory(config, env={}, full=False, upload_docs=False):
                                  description="checking",
                                  descriptionDone="check",
                                  haltOnFailure=True,
-                                 logfiles={"log": "build/logs/check.log"},
+                                 logfiles={"log": "build/logs/build.log"},
                                  env=env))
 
     factory.addStep(ShellCommand(command=["./osbuild", "docs"],
                                  description="docs",
                                  descriptionDone="docs",
                                  haltOnFailure=True,
-                                 logfiles={"log": "build/logs/docs.log"},
+                                 logfiles={"log": "build/logs/build.log"},
                                  env=env))
 
     if upload_docs:
