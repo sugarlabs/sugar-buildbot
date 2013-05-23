@@ -27,6 +27,8 @@ class PullCommand(ShellCommand):
 
 
 def create_factory(config, env={}, full=False, upload_docs=False):
+    log_path = "build/logs/sugar-build.log"
+
     factory = BuildFactory()
 
     factory.addStep(Git(repourl=config["repo"],
@@ -45,13 +47,13 @@ def create_factory(config, env={}, full=False, upload_docs=False):
                                      description="checking system",
                                      descriptionDone="check system",
                                      warnOnFailure=True,
-                                     logfiles={"log": "build/logs/build.log"},
+                                     logfiles={"log": log_path},
                                      env=env))
 
     factory.addStep(PullCommand(description="pulling",
                                 descriptionDone="pull",
                                 haltOnFailure=True,
-                                logfiles={"log": "build/logs/build.log"},
+                                logfiles={"log": log_path},
                                 env=env))
 
     command = ["./osbuild", "build"]
@@ -62,21 +64,21 @@ def create_factory(config, env={}, full=False, upload_docs=False):
                                  description="building",
                                  descriptionDone="build",
                                  haltOnFailure=True,
-                                 logfiles={"log": "build/logs/build.log"},
+                                 logfiles={"log": log_path},
                                  env=env))
 
     factory.addStep(ShellCommand(command=["./osbuild", "check"],
                                  description="checking",
                                  descriptionDone="check",
                                  haltOnFailure=True,
-                                 logfiles={"log": "build/logs/build.log"},
+                                 logfiles={"log": log_path},
                                  env=env))
 
     factory.addStep(ShellCommand(command=["./osbuild", "docs"],
                                  description="docs",
                                  descriptionDone="docs",
                                  haltOnFailure=True,
-                                 logfiles={"log": "build/logs/build.log"},
+                                 logfiles={"log": log_path},
                                  env=env))
 
     if upload_docs:
