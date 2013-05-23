@@ -27,7 +27,7 @@ class PullCommand(ShellCommand):
 
 
 def create_factory(config, env={}, full=False, upload_docs=False):
-    log_path = "build/logs/sugar-build.log"
+    log_path = "build/logs/main.log"
 
     factory = BuildFactory()
 
@@ -71,7 +71,8 @@ def create_factory(config, env={}, full=False, upload_docs=False):
                                  description="checking",
                                  descriptionDone="check",
                                  haltOnFailure=True,
-                                 logfiles={"log": "build/logs/check.log"},
+                                 logfiles={"log": log_path,
+                                           "check": "build/logs/check.log"},
                                  env=env))
 
     factory.addStep(ShellCommand(command=["./osbuild", "docs"],
