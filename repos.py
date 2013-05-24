@@ -20,8 +20,8 @@ def get_by_url(url):
         if repo.url == url:
             return repo
 
-        if url.startswith("git://github.com"):
-            if repo.url == url.replace("git://", "https://"):
+        if url.startswith("https://github.com"):
+            if repo.url == url.replace("https://", "git://"):
                 return repo
 
     return None
