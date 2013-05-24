@@ -17,11 +17,10 @@ def setup(c, config):
     if config.get("sub_repos_changes", True):
         for repo in repos.get_sub_repos():
             skip = False
-
             for repo_prefix in ["git://github.com/dnarvaez"
                                 "git://github.com/sugarlabs"]:
                 if repo.url.startswith(repo_prefix):
-                    skip = False
+                    skip = True
 
             if not skip and repo.branch:
                 poller = GitPoller(repo.url,
