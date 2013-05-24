@@ -16,6 +16,11 @@ def setup(c, config):
 
     if config.get("sub_repos_changes", True):
         for repo in repos.get_sub_repos():
+            for repo_prefix in ["git://github.com/dnarvaez"
+                                "git://github.com/sugarlabs"]:
+                if repo.url.startswith(repo_prefix):
+                    continue
+
             if repo.branch:
                 poller = GitPoller(repo.url,
                                    project="sugar-build",
