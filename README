@@ -38,6 +38,13 @@ You can create an image with something like this:
         --location "http://mirror.foo.com/..." \
         --extra-args="text serial console=ttyS0,115200"
 
+= GitHub WebHooks =
+
+For our modules (dnaravez user and sugarlabs organization), we are using WebHooks. You can set them up in
+each module settings, the url is
+
+http://buildbot.sugarlabs.org/change_hook/github?project=sugar-build
+
 = Bug reports =
 
 Send bug reports to Daniel Narvaez <dwnarvaez@gmail.com>.
