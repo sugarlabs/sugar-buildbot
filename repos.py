@@ -29,9 +29,10 @@ def get_sub_repos():
 
 def load_modules(path):
     for module in json.load(open(path)):
-        sub_repos.append(Repo(name=module["name"],
-                              url=module["repo"],
-                              branch=module.get("branch", None),
-                              tag=module.get("tag", None)))
+        if get_by_url(module["repo"]) is None:
+            sub_repos.append(Repo(name=module["name"],
+                                  url=module["repo"],
+                                  branch=module.get("branch", None),
+                                  tag=module.get("tag", None)))
 
 load_modules("modules.json")
