@@ -8,12 +8,6 @@ def setup(c, config):
 
     pollinterval = 300
 
-    poller = GitPoller(config["repo"],
-                       project="sugar-build",
-                       branches=[config.get("branch", "master")],
-                       pollinterval=pollinterval)
-    c["change_source"].append(poller)
-
     if config.get("sub_repos_changes", True):
         for repo in repos.get_sub_repos():
             skip = False
