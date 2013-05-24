@@ -26,7 +26,7 @@ def setup(c, config):
     def codebaseGenerator(change_dict):
         repository = change_dict["repository"]
 
-        if repository.split("/")[:-1] == "sugar-build":
+        if repository.split("/")[-1] == "sugar-build":
             return "sugar-build"
         else:
             return repos.get_by_url(repository).name
