@@ -20,7 +20,9 @@ def setup(c, config):
     all_builders.extend(full_builders)
 
     codebases = {"sugar-build": {"repository": config["repo"]},
-                 "osbuild": {}}
+                 "osbuild": {repository:
+                             "https://github.com/dnarvaez/osbuild.git"}}
+
     for repo in repos.get_sub_repos():
         codebases[repo.name] = {"repository": repo.url}
 
