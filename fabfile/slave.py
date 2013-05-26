@@ -100,3 +100,13 @@ def add_key(filename):
 def shutdown():
     with settings(**get_settings()):
         sudo("shutdown -h now")
+
+
+@task
+@roles("slave")
+def clean_build(instance_name=get_instance_name()):
+    with settings(**get_settings()):
+        instance_info = instances[instance_name]
+        slave_dir = instance_info["slave_dir"]
+        for name in "full", "quick":
+            run("rm -rf %s" % os.path.join(slave_dir, "*-%s" % name))
