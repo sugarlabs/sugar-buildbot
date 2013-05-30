@@ -110,3 +110,10 @@ def clean_build(instance_name=get_instance_name()):
         slave_dir = instance_info["slave_dir"]
         for name in "full", "quick":
             run("rm -rf %s" % os.path.join(slave_dir, "*-%s" % name))
+
+
+@task
+@roles("slave")
+def kill_dbus(instance_name=get_instance_name()):
+    with settings(**get_settings()):
+        run("killall dbus-daemon | true")
