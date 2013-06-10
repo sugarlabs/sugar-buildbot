@@ -21,8 +21,12 @@ def get_by_url(url):
             return repo
 
         if url.startswith("https://github.com"):
-            git_protocol_url = url.replace("https://", "git://")
-            if repo.url == git_protocol_url:
+            canonicalized_url = url.replace("https://", "git://")
+
+            if not canonicalized_url.endswith(".git"):
+                canonicalized_url.append(".git")
+
+            if repo.url == canonicalized_url:
                 return repo
 
     return None
