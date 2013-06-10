@@ -24,7 +24,7 @@ def get_by_url(url):
             canonicalized_url = url.replace("https://", "git://")
 
             if not canonicalized_url.endswith(".git"):
-                canonicalized_url.append(".git")
+                canonicalized_url = canonicalized_url + ".git"
 
             if repo.url == canonicalized_url:
                 return repo
