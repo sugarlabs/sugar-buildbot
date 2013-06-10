@@ -83,7 +83,7 @@ def create_factory(config, env={}, full=False, upload_docs=False):
                                  env=env))
 
     if upload_docs:
-        docs_url = "http://shell.sugarlabs.org/~buildbot/docs/index.md.html"
+        docs_url = "http://developer.sugarlabs.org/"
         factory.addStep(DirectoryUpload(slavesrc="build/out/docs",
                                         masterdest="~/public_html/docs",
                                         url=docs_url))

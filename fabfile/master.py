@@ -60,7 +60,7 @@ def update(instance_name=get_instance_name()):
         sudo("mkdir ~/git")
 
         with cd("~/git"):
-            url = "git://git.sugarlabs.org/sugar-buildbot/sugar-buildbot.git"
+            url = "git://github.com/sugarlabs/sugar-buildbot.git"
             sudo("git clone %s" % url)
 
             with cd("sugar-buildbot"):
