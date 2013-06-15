@@ -23,11 +23,10 @@ def setup(c, config):
     c["status"].append(words.IRC(host="irc.freenode.net",
                                  nick="sugarbuildbot",
                                  channels=["#sugar-buildbot"],
-                                 categories=["production"],
                                  notify_events={"failureToSuccess": 1,
                                                 "failure": 1}))
 
     c["status"].append(MailNotifier(fromaddr="buildbot@sugarlabs.org",
                                     mode=["problem"],
-                                    categories=["production"],
-                                    lookup="sugarlabs.org"))
+                                    lookup="sugarlabs.org",
+                                    extraRecipients=["dwnarvaez@gmail.com"]))
