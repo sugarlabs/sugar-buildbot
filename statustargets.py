@@ -21,7 +21,7 @@ def setup(c, config):
                                       change_hook_dialects=dialects))
 
     c["status"].append(words.IRC(host="irc.freenode.net",
-                                 nick="sugarbuildbot",
+                                 nick="bbot",
                                  channels=["#sugar"],
                                  notify_events={"failure": 1}))
 
