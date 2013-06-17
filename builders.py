@@ -67,12 +67,15 @@ def create_factory(config, env={}, full=False, upload_docs=False):
                                  logfiles={"log": log_path},
                                  env=env))
 
+    logfiles = {"log": log_path,
+                "smoketest": "build/logs/check-smoketest.log",
+                "modules": "build/logs/check-modules.log"}
+
     factory.addStep(ShellCommand(command=["./osbuild", "check"],
                                  description="checking",
                                  descriptionDone="check",
                                  haltOnFailure=True,
-                                 logfiles={"log": log_path,
-                                           "sugar": "build/logs/sugar.log"},
+                                 logfiles=logfiles,
                                  env=env))
 
     factory.addStep(ShellCommand(command=["./osbuild", "docs"],
