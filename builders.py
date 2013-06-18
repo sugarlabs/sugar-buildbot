@@ -47,6 +47,7 @@ def create_factory(config, env={}, full=False, upload_docs=False):
                                      description="checking system",
                                      descriptionDone="check system",
                                      warnOnFailure=True,
+                                     flunkOnFailure=False,
                                      logfiles={"log": log_path},
                                      env=env))
 
