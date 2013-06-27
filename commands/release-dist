@@ -19,4 +19,6 @@ for filename in os.listdir("."):
     except OSError:
         pass
 
-    shutil.copy(filename, os.path.join(full_dest_dir, filename))
+    dest_path = os.path.join(full_dest_dir, filename)
+    if not os.path.exists(dest_path):
+        shutil.copy(filename, dest_path)
