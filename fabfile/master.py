@@ -21,6 +21,7 @@ from common import instances
 from common import get_instance_name
 from common import get_virtualenv_activate
 from common import docs_slave
+from common import dist_slave
 
 env.roledefs["master"] = ["dnarvaez@shell.sugarlabs.org"]
 

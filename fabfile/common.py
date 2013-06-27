@@ -51,6 +51,7 @@ slaves = {"buildbot@bs-jessie-amd64.local":
            "gateway": "dnarvaez@bender.sugarlabs.org"}}
 
 docs_slave = "raring-amd64"
+dist_slave = "raring-amd64"
 
 _instance_name = None
 
