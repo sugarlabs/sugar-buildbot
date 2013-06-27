@@ -1,3 +1,4 @@
+import os
 import json
 
 from buildbot.process.factory import BuildFactory
@@ -6,6 +7,7 @@ from buildbot.steps.shell import ShellCommand
 from buildbot.config import BuilderConfig
 from buildbot.locks import MasterLock
 from buildbot.steps.transfer import DirectoryUpload
+from buildbot.steps.master import MasterShellCommand
 
 
 class PullCommand(ShellCommand):
@@ -101,8 +103,17 @@ def create_factory(config, env={}, full=False, upload_docs=False,
                                  env=env))
 
     if upload_dist:
+        dist_dir = "~/dist"
+        downloads_dir = "~/downloads"
+
         factory.addStep(DirectoryUpload(slavesrc="build/out/dist",
-                                        masterdest="~/dist"))
+                                        masterdest=dist_dir))
+
+        commands_dir = os.path.join(os.path.dirname(__file__), "commands")
+        command = "%s %s %s" % (os.path.join(commands_dir, "install-dist"),
+                                dist_dir, downloads_dir)
+
+        factory.addStep(MasterShellCommand(command=command))
 
     return factory
 
