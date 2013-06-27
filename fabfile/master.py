@@ -74,7 +74,9 @@ def update(instance_name=get_instance_name()):
                 sudo("git checkout %s" % config["branch"])
 
         with cd("~/git/sugar-buildbot"):
-            sudo("cp *.py master.cfg ~/%s" % instance_info["master_dir"])
+            master_dir = instance_info["master_dir"]
+            sudo("cp *.py master.cfg ~/%s" % master_dir)
+            sudo("cp -r commands ~/%s" % master_dir)
 
         with cd("~/git/sugar-build"):
             sudo("cp -R build/config/modules.json ~/%s" %
