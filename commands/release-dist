@@ -10,6 +10,9 @@ dest_dir = sys.argv[2]
 os.chdir(source_dir)
 
 for filename in os.listdir("."):
+    if "git" in filename:
+        continue
+
     name = filename[:filename.rindex("-")]
 
     full_dest_dir = os.path.join(dest_dir, name)
