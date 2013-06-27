@@ -132,7 +132,8 @@ def setup(c, config):
                "PYTHONUNBUFFERED": "yes"}
 
         factory = create_factory(config, env=env,
-                                 upload_docs=info.get("upload_docs", False))
+                                 upload_docs=info.get("upload_docs", False),
+                                 upload_dist=info.get("upload_dist", False))
 
         builder = BuilderConfig(name="%s-quick" % name,
                                 slavenames=[name],
