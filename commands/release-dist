@@ -1,0 +1,22 @@
+#!/usr/bin/env python
+
+import sys
+import os
+import shutil
+
+source_dir = sys.argv[1]
+dest_dir = sys.argv[2]
+
+os.chdir(source_dir)
+
+for filename in os.listdir("."):
+    name = filename[:filename.rindex("-")]
+
+    full_dest_dir = os.path.join(dest_dir, name)
+
+    try:
+        os.makedirs(full_dest_dir)
+    except OSError:
+        pass
+
+    shutil.copy(filename, os.path.join(full_dest_dir, filename))

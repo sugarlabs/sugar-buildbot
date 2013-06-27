@@ -110,7 +110,7 @@ def create_factory(config, env={}, full=False, upload_docs=False,
                                         masterdest=dist_dir))
 
         commands_dir = os.path.join(os.path.dirname(__file__), "commands")
-        command = "%s %s %s" % (os.path.join(commands_dir, "install-dist"),
+        command = "%s %s %s" % (os.path.join(commands_dir, "release-dist"),
                                 dist_dir, downloads_dir)
 
         factory.addStep(MasterShellCommand(command=command))
