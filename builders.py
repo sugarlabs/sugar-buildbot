@@ -26,7 +26,8 @@ class PullCommand(ShellCommand):
         self.setCommand(command)
 
 
-def create_factory(config, env={}, full=False, upload_docs=False):
+def create_factory(config, env={}, full=False, upload_docs=False,
+                   upload_dist=False):
     log_path = "build/logs/main.log"
 
     factory = BuildFactory()
@@ -98,6 +99,10 @@ def create_factory(config, env={}, full=False, upload_docs=False):
                                  haltOnFailure=True,
                                  logfiles={"log": log_path},
                                  env=env))
+
+    if upload_dist:
+        factory.addStep(DirectoryUpload(slavesrc="build/out/dist",
+                                        masterdest="~/dist"))
 
     return factory
 

@@ -7,6 +7,7 @@ instances = {"production":
               "sandbox_dir": "sandbox",
               "branch": "master",
               "upload_docs": True,
+              "upload_dist": True,
               "config":
               {"repo": "git://github.com/sugarlabs/sugar-build.git",
                "branch": "master",
@@ -19,6 +20,7 @@ instances = {"production":
               "sandbox_dir": "sandbox-testing",
               "branch": "testing",
               "upload_docs": False,
+              "upload_dist": False,
               "config":
               {"repo": "git://github.com/sugarlabs/sugar-build.git",
                "branch": "testing",

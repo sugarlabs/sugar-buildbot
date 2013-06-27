@@ -106,6 +106,9 @@ def configure(instance_name=get_instance_name()):
     if instance_info["upload_docs"]:
         config["slaves"][docs_slave]["upload_docs"] = True
 
+    if instance_info["upload_dist"]:
+        config["slaves"][docs_slave]["upload_dist"] = True
+
     config_json = StringIO.StringIO()
     json.dump(config, config_json, indent=4, sort_keys=True)
     put(config_json, "config.json")
