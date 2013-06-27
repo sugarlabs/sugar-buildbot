@@ -115,7 +115,7 @@ def create_factory(config, env={}, full=False, upload_docs=False,
 
         factory.addStep(MasterShellCommand(command=command,
                                            description="releasing",
-                                           descriptionDone="released"))
+                                           descriptionDone="release"))
 
     return factory
 
