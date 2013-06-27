@@ -92,6 +92,13 @@ def create_factory(config, env={}, full=False, upload_docs=False):
                                         masterdest="~/public_html/docs",
                                         url=docs_url))
 
+    factory.addStep(ShellCommand(command=["./osbuild", "dist"],
+                                 description="distribution",
+                                 descriptionDone="distribution",
+                                 haltOnFailure=True,
+                                 logfiles={"log": log_path},
+                                 env=env))
+
     return factory
 
 
