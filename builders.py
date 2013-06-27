@@ -104,7 +104,7 @@ def create_factory(config, env={}, full=False, upload_docs=False,
 
     if upload_dist:
         dist_dir = "~/dist"
-        downloads_dir = "~/downloads"
+        downloads_dir = "/srv/www-sugarlabs/download/sources/sucrose/glucose"
 
         factory.addStep(DirectoryUpload(slavesrc="build/out/dist",
                                         masterdest=dist_dir))
