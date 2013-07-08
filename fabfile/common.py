@@ -41,12 +41,8 @@ slaves = {"buildbot@bs-jessie-amd64.local":
           {"name": "schroedinger-x86-64",
            "lock": "freedom",
            "gateway": "dnarvaez@freedom.sugarlabs.org"},
-          "buildbot@bs-sphcow-x86-64.local":
-          {"name": "sphcow-x86-64",
-           "lock": "freedom",
-           "gateway": "dnarvaez@freedom.sugarlabs.org"},
-          "buildbot@bs-sphcow-i386.local":
-          {"name": "sphcow-i386",
+          "buildbot@bs-schroedinger-i386.local":
+          {"name": "schroedinger-i386",
            "lock": "bender",
            "gateway": "dnarvaez@bender.sugarlabs.org"}}
 
