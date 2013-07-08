@@ -40,7 +40,7 @@ def get_instance_name():
     if _instance_name is None:
         branch = local("git rev-parse --abbrev-ref HEAD", capture=True)
         if branch == "chroot":
-            _instance_name = "chroot"
+            _instance_name = "production"
         else:
             _instance_name = "testing"
 
