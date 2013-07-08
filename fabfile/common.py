@@ -5,49 +5,22 @@ instances = {"production":
              {"master_dir": "master",
               "slave_dir": "slave",
               "sandbox_dir": "sandbox",
-              "branch": "master",
+              "branch": "chroot",
               "upload_docs": True,
               "upload_dist": True,
               "config":
               {"repo": "git://github.com/sugarlabs/sugar-build.git",
                "branch": "master",
                "nightly_builds": True,
-               "slaves_port": 9989,
-               "web_port": 8080}},
-             "testing":
-             {"master_dir": "master-testing",
-              "slave_dir": "slave-testing",
-              "sandbox_dir": "sandbox-testing",
-              "branch": "testing",
-              "upload_docs": False,
-              "upload_dist": False,
-              "config":
-              {"repo": "git://github.com/sugarlabs/sugar-build.git",
-               "branch": "testing",
-               "check_system": False,
                "slaves_port": 9990,
-               "sub_repos_changes": False,
                "web_port": 8081}}}
 
-slaves = {"buildbot@bs-jessie-amd64.local":
-          {"name": "jessie-amd64",
-           "lock": "freedom",
-           "gateway": "dnarvaez@freedom.sugarlabs.org"},
-          "buildbot@bs-raring-amd64.local":
-          {"name": "raring-amd64",
-           "lock": "freedom",
-           "gateway": "dnarvaez@freedom.sugarlabs.org"},
-          "buildbot@bs-schroedinger-x86-64.local":
-          {"name": "schroedinger-x86-64",
-           "lock": "freedom",
-           "gateway": "dnarvaez@freedom.sugarlabs.org"},
-          "buildbot@bs-schroedinger-i386.local":
-          {"name": "schroedinger-i386",
-           "lock": "bender",
-           "gateway": "dnarvaez@bender.sugarlabs.org"}}
+slaves = {"buildbot@bs-freedom-x86-64.local":
+          {"name": "freedom-x86-64",
+           "gateway": "dnarvaez@freedom.sugarlabs.org"}}
 
-docs_slave = "raring-amd64"
-dist_slave = "raring-amd64"
+docs_slave = "freedom-x86-64"
+dist_slave = "freedom-x86-64"
 
 _instance_name = None
 

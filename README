@@ -25,7 +25,7 @@ http://docs.fabfile.org/en/1.5/usage/fab.html
 
 * buildbot user with passwordless, ttyless sudo access.
 * ssh access with public key authentication
-* git, virtualenv, gcc, make, python development
+* git, virtualenv
 
 = Creating a kvm slave =
 
