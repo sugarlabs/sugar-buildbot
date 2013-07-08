@@ -19,12 +19,15 @@ def setup(c, config):
     all_builders.extend(quick_builders)
     all_builders.extend(full_builders)
 
-    codebases = {"sugar-build": {"repository": config["repo"]},
+    codebases = {"sugar-build": {"repository": config["repo"],
+                                 "branch": config["branch"},
                  "osbuild": {"repository":
-                             "https://github.com/dnarvaez/osbuild.git"}}
+                             "https://github.com/dnarvaez/osbuild.git",
+                             "branch": config["branch"]}}
 
     for repo in repos.get_sub_repos():
-        codebases[repo.name] = {"repository": repo.url}
+        codebases[repo.name] = {"repository": repo.url,
+                                "branch": repo.branch}
 
     scheduler = SingleBranchScheduler(name="quick",
                                       codebases=codebases,
