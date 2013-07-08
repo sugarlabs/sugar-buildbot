@@ -95,7 +95,7 @@ def configure(instance_name=get_instance_name()):
     tac = StringIO.StringIO()
 
     for host, info in slaves.items():
-        slave_config = {"lock": info["lock"]}
+        slave_config = {}
         config["slaves"][info["name"]] = slave_config
 
         with settings(host_string=host, gateway=info["gateway"]):

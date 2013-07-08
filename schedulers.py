@@ -20,7 +20,7 @@ def setup(c, config):
     all_builders.extend(full_builders)
 
     codebases = {"sugar-build": {"repository": config["repo"],
-                                 "branch": config["branch"},
+                                 "branch": config["branch"]},
                  "osbuild": {"repository":
                              "https://github.com/dnarvaez/osbuild.git",
                              "branch": config["branch"]}}
