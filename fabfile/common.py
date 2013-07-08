@@ -2,9 +2,9 @@ from fabric.api import local
 
 
 instances = {"production":
-             {"master_dir": "master",
-              "slave_dir": "slave",
-              "sandbox_dir": "sandbox",
+             {"master_dir": "master-chroot",
+              "slave_dir": "slave-chroot",
+              "sandbox_dir": "sandbox-chroot",
               "branch": "chroot",
               "upload_docs": True,
               "upload_dist": True,
