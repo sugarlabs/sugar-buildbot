@@ -40,7 +40,8 @@ def create_factory(config, env={}, full=False, upload_docs=False,
     factory.addStep(PullCommand(description="pulling",
                                 descriptionDone="pull",
                                 haltOnFailure=True,
-                                logfiles={"log": log_path},
+                                logfiles={"log": log_path,
+                                          "broot": "build/logs/broot.log"},
                                 env=env))
 
     command = ["./osbuild", "build"]
