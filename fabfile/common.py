@@ -16,11 +16,9 @@ instances = {"production":
 slaves = {"buildbot@freedom-buildslave.local":
           {"name": "freedom",
            "gateway": "dnarvaez@freedom.sugarlabs.org"},
-         {"buildbot@bender-buildslave.local":
+          "buildbot@bender-buildslave.local":
           {"name": "bender",
            "gateway": "dnarvaez@bender.sugarlabs.org"}}
-
-docs_slave = "freedom-x86-64"
 
 _instance_name = None
 
@@ -39,7 +37,7 @@ def get_instance_name():
 
     if _instance_name is None:
         branch = local("git rev-parse --abbrev-ref HEAD", capture=True)
-        if branch == "chroot":
+        if branch == "master":
             _instance_name = "production"
         else:
             _instance_name = "testing"

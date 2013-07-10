@@ -107,7 +107,7 @@ def create_factory(config, env={}, full=False, upload_docs=False,
 def setup(c, config):
     c["builders"] = []
 
-    env = {"SUGAR_BUILDBOT": name,
+    env = {"SUGAR_BUILDBOT": "yes",
            "PYTHONUNBUFFERED": "yes"}
 
     factory = create_factory(config, env=env)
