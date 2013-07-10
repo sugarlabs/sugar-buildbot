@@ -21,8 +21,8 @@ def setup(c, config):
                                       change_hook_dialects=dialects))
 
     c["status"].append(words.IRC(host="irc.freenode.net",
-                                 nick="sbbot-chroot",
-                                 channels=["#sugar-chroot"],
+                                 nick="sbbot",
+                                 channels=["#sugar"],
                                  notify_events={"successToFailure": 1}))
 
     c["status"].append(MailNotifier(fromaddr="buildbot@sugarlabs.org",
