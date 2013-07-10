@@ -2,12 +2,10 @@ from fabric.api import local
 
 
 instances = {"production":
-             {"master_dir": "master-chroot",
-              "slave_dir": "slave-chroot",
-              "sandbox_dir": "sandbox-chroot",
+             {"master_dir": "master",
+              "slave_dir": "slave",
+              "sandbox_dir": "sandbox",
               "branch": "chroot",
-              "upload_docs": True,
-              "upload_dist": True,
               "config":
               {"repo": "git://github.com/sugarlabs/sugar-build.git",
                "branch": "chroot",
@@ -15,12 +13,14 @@ instances = {"production":
                "slaves_port": 9990,
                "web_port": 8081}}}
 
-slaves = {"buildbot@bs-freedom-x86-64.local":
-          {"name": "freedom-x86-64",
-           "gateway": "dnarvaez@freedom.sugarlabs.org"}}
+slaves = {"buildbot@freedom-buildslave.local":
+          {"name": "freedom",
+           "gateway": "dnarvaez@freedom.sugarlabs.org"},
+         {"buildbot@bender-buildslave.local":
+          {"name": "bender",
+           "gateway": "dnarvaez@bender.sugarlabs.org"}}
 
 docs_slave = "freedom-x86-64"
-dist_slave = "freedom-x86-64"
 
 _instance_name = None
 

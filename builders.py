@@ -107,25 +107,24 @@ def create_factory(config, env={}, full=False, upload_docs=False,
 def setup(c, config):
     c["builders"] = []
 
-    for name, info in config["slaves"].items():
-        env = {"SUGAR_BUILDBOT": name,
-               "PYTHONUNBUFFERED": "yes"}
+    env = {"SUGAR_BUILDBOT": name,
+           "PYTHONUNBUFFERED": "yes"}
 
-        factory = create_factory(config, env=env,
-                                 upload_docs=info.get("upload_docs", False),
-                                 upload_dist=info.get("upload_dist", False))
+    factory = create_factory(config, env=env)
 
-        builder = BuilderConfig(name="%s-quick" % name,
-                                slavenames=[name],
-                                factory=factory,
-                                category="quick")
-        c["builders"].append(builder)
+    slavenames = config["slaves"].keys()
 
-        factory = create_factory(config, env=env, full=True)
+    builder = BuilderConfig(name="quick",
+                            slavenames=slavenames,
+                            factory=factory,
+                            category="quick")
+    c["builders"].append(builder)
 
-        builder = BuilderConfig(name="%s-full" % name,
-                                slavenames=[name],
-                                factory=factory,
-                                category="full")
+    factory = create_factory(config, env=env, full=True)
 
-        c["builders"].append(builder)
+    builder = BuilderConfig(name="full",
+                            slavenames=slavenames,
+                            factory=factory,
+                            category="full")
+
+    c["builders"].append(builder)
