@@ -10,14 +10,6 @@ def setup(c, config):
     c["schedulers"] = []
 
     change_filter = ChangeFilter(project="sugar-build")
-    slave_names = config["slaves"].keys()
-
-    quick_builders = ["%s-quick" % name for name in slave_names]
-    full_builders = ["%s-full" % name for name in slave_names]
-
-    all_builders = []
-    all_builders.extend(quick_builders)
-    all_builders.extend(full_builders)
 
     codebases = {"sugar-build": {"repository": config["repo"],
                                  "branch": config["branch"]},
@@ -32,17 +24,16 @@ def setup(c, config):
     scheduler = SingleBranchScheduler(name="quick",
                                       codebases=codebases,
                                       change_filter=change_filter,
-                                      builderNames=quick_builders)
+                                      builderNames=["quick", "full"])
     c["schedulers"].append(scheduler)
 
-    if config.get("nightly_builds", False):
-        c['schedulers'].append(Nightly(name="nightly",
-                                       codebases=codebases,
-                                       branch=config.get("branch", "master"),
-                                       builderNames=full_builders,
-                                       hour=2,
-                                       minute=0))
+    c['schedulers'].append(Nightly(name="nightly",
+                                   codebases=codebases,
+                                   branch=config.get("branch", "master"),
+                                   builderNames=["quick", "full"],
+                                   hour=2,
+                                   minute=0))
 
     c["schedulers"].append(ForceScheduler(name="force",
                                           codebases=codebases,
-                                          builderNames=all_builders))
+                                          builderNames=["quick", "full"]))
