@@ -27,7 +27,7 @@ class PullCommand(ShellCommand):
         self.setCommand(command)
 
 
-def create_factory(config, env={}, full=False, upload_docs=False,
+def create_factory(config, env={}, clean=False, upload_docs=False,
                    upload_dist=False):
     log_path = "build/logs/main.log"
 
@@ -37,6 +37,16 @@ def create_factory(config, env={}, full=False, upload_docs=False,
                         codebase="sugar-build",
                         branch=config.get("branch", "master")))
 
+    if clean:
+        step = ShellCommand(command=["./osbuild", "build", "--broot"],
+                            description="cleaning",
+                            descriptionDone="clean",
+                            haltOnFailure=True,
+                            logfiles={"log": log_path,
+                                      "broot": "build/logs/broot.log"},
+                            env=env)
+        factory.addStep(step)
+
     factory.addStep(PullCommand(description="pulling",
                                 descriptionDone="pull",
                                 haltOnFailure=True,
@@ -44,11 +54,7 @@ def create_factory(config, env={}, full=False, upload_docs=False,
                                           "broot": "build/logs/broot.log"},
                                 env=env))
 
-    command = ["./osbuild", "build"]
-    if full:
-        command.append("--clean-all")
-
-    factory.addStep(ShellCommand(command=command,
+    factory.addStep(ShellCommand(command=["./osbuild", "build"],
                                  description="building",
                                  descriptionDone="build",
                                  haltOnFailure=True,
@@ -109,7 +115,8 @@ def setup(c, config):
 
     env = {"SUGAR_BUILDBOT": "yes"}
 
-    factory = create_factory(config, env=env)
+    factory = create_factory(config, env=env, upload_docs=True,
+                             upload_dist=True)
 
     slavenames = config["slaves"].keys()
 
@@ -119,7 +126,7 @@ def setup(c, config):
                             category="quick")
     c["builders"].append(builder)
 
-    factory = create_factory(config, env=env, full=True)
+    factory = create_factory(config, env=env, clean=True)
 
     builder = BuilderConfig(name="full",
                             slavenames=slavenames,
