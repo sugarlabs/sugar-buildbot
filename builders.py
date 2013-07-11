@@ -38,7 +38,7 @@ def create_factory(config, env={}, clean=False, upload_docs=False,
                         branch=config.get("branch", "master")))
 
     if clean:
-        step = ShellCommand(command=["./osbuild", "build", "--broot"],
+        step = ShellCommand(command=["./osbuild", "clean", "--broot"],
                             description="cleaning",
                             descriptionDone="clean",
                             haltOnFailure=True,
