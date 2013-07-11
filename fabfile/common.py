@@ -5,7 +5,7 @@ instances = {"production":
              {"master_dir": "master",
               "slave_dir": "slave",
               "sandbox_dir": "sandbox",
-              "branch": "chroot",
+              "branch": "master",
               "config":
               {"repo": "git://github.com/sugarlabs/sugar-build.git",
                "branch": "chroot",
