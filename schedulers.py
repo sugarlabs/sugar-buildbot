@@ -24,7 +24,7 @@ def setup(c, config):
     scheduler = SingleBranchScheduler(name="quick",
                                       codebases=codebases,
                                       change_filter=change_filter,
-                                      builderNames=["quick", "full"])
+                                      builderNames=["quick"])
     c["schedulers"].append(scheduler)
 
     c['schedulers'].append(Nightly(name="nightly",
