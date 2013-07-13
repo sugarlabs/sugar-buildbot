@@ -6,7 +6,9 @@ from buildbot.steps.source.git import Git
 from buildbot.steps.shell import ShellCommand
 from buildbot.config import BuilderConfig
 from buildbot.steps.transfer import DirectoryUpload
+from buildbot.steps.transfer import FileUpload
 from buildbot.steps.master import MasterShellCommand
+from buildbot.process.properties import Interpolate
 
 
 class PullCommand(ShellCommand):
@@ -56,6 +58,11 @@ def add_broot_steps(factory, env={}):
                                  descriptionDone="distribute",
                                  haltOnFailure=True,
                                  env=env))
+
+    masterdest = Interpolate("~/public_html/broot/"
+                             "sugar-build-%(prop:build_number)s.tar.xz")
+    factory.addStep(FileUpload(slavesrc="build/sugar-build-broot.tar.xz",
+                               masterdest=masterdest))
 
 
 def add_steps(factory, env={}, clean=False, upload_docs=False,
