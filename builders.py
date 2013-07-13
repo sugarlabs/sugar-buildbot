@@ -27,23 +27,18 @@ class PullCommand(ShellCommand):
         self.setCommand(command)
 
 
-def create_factory(config):
+def create_factory(config, mode="incremental"):
     factory = BuildFactory()
 
     factory.addStep(Git(repourl=config["repo"],
                         codebase="sugar-build",
-                        branch=config.get("branch", "master")))
+                        branch=config.get("branch", "master"),
+                        mode=mode))
 
     return factory
 
 
 def add_broot_steps(factory, env={}):
-    factory.addStep(ShellCommand(command=["./osbuild", "broot", "clean"],
-                                 description="cleaning",
-                                 descriptionDone="clean",
-                                 haltOnFailure=True,
-                                 env=env))
-
     factory.addStep(ShellCommand(command=["./osbuild", "broot", "create"],
                                  description="creating",
                                  descriptionDone="create",
@@ -160,7 +155,7 @@ def setup(c, config):
 
     c["builders"].append(builder)
 
-    factory = create_factory(config)
+    factory = create_factory(config, "full")
     add_broot_steps(factory, env=env)
 
     builder = BuilderConfig(name="broot",
