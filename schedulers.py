@@ -37,5 +37,5 @@ def setup(c, config):
 
     scheduler = ForceScheduler(name="force",
                                codebases=codebases,
-                               builderNames=["quick", "full", "chroot"])
+                               builderNames=["quick", "full", "broot"])
     c['schedulers'].append(scheduler)
