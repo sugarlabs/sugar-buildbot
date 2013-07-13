@@ -64,7 +64,7 @@ def add_broot_steps(factory, env={}):
                                  env=env))
 
     broot_dir = "~/public_html/broot/"
-    broot_filename = Interpolate("sugar-build-%(prop:build_number)s.tar.xz")
+    broot_filename = "sugar-build-%(prop:build_number)s.tar.xz"
 
     masterdest = Interpolate(os.path.join(broot_dir, broot_filename))
     factory.addStep(FileUpload(slavesrc="build/sugar-build-broot.tar.xz",
