@@ -39,6 +39,12 @@ def create_factory(config, mode="incremental"):
 
 
 def add_broot_steps(factory, env={}):
+    factory.addStep(ShellCommand(command=["./osbuild", "broot", "clean"],
+                                 description="cleaning",
+                                 descriptionDone="clean",
+                                 haltOnFailure=True,
+                                 env=env))
+
     factory.addStep(ShellCommand(command=["./osbuild", "broot", "create"],
                                  description="creating",
                                  descriptionDone="create",
