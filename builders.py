@@ -70,8 +70,8 @@ def add_broot_steps(factory, env={}):
     factory.addStep(FileUpload(slavesrc="build/sugar-build-broot.tar.xz",
                                masterdest=masterdest))
 
-    command = "%s %s %s" % (get_command_path("release-broot"), broot_dir,
-                            Interpolate(broot_filename))
+    command = Interpolate("%s %s %s" % (get_command_path("release-broot"),
+                                        broot_dir, broot_filename))
     factory.addStep(MasterShellCommand(command=command))
 
 
