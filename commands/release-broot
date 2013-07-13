@@ -3,4 +3,5 @@
 basedir=$1
 filename=$2
 
+chmod 755 $1/$2
 echo $2 > $1/last
