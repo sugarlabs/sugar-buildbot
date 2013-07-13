@@ -38,19 +38,19 @@ def create_factory(config):
 
 
 def add_broot_steps(factory, env={}):
-    factory.addStep(ShellCommand(command=["./osbuild", "root", "clean"],
+    factory.addStep(ShellCommand(command=["./osbuild", "broot", "clean"],
                                  description="cleaning",
                                  descriptionDone="clean",
                                  haltOnFailure=True,
                                  env=env))
 
-    factory.addStep(ShellCommand(command=["./osbuild", "root", "create"],
+    factory.addStep(ShellCommand(command=["./osbuild", "broot", "create"],
                                  description="creating",
                                  descriptionDone="create",
                                  haltOnFailure=True,
                                  env=env))
 
-    factory.addStep(ShellCommand(command=["./osbuild", "root", "distribute"],
+    factory.addStep(ShellCommand(command=["./osbuild", "broot", "distribute"],
                                  description="distributing",
                                  descriptionDone="distribute",
                                  haltOnFailure=True,
