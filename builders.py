@@ -29,6 +29,10 @@ class PullCommand(ShellCommand):
         self.setCommand(command)
 
 
+def get_command_path(command):
+    return os.path.join(os.path.dirname(__file__), "commands", command)
+
+
 def create_factory(config, mode="incremental"):
     factory = BuildFactory()
 
@@ -59,10 +63,16 @@ def add_broot_steps(factory, env={}):
                                  haltOnFailure=True,
                                  env=env))
 
-    masterdest = Interpolate("~/public_html/broot/"
-                             "sugar-build-%(prop:build_number)s.tar.xz")
+    broot_dir = "~/public_html/broot/"
+    broot_filename = Interpolate("sugar-build-%(prop:build_number)s.tar.xz")
+
+    masterdest = Interpolate(os.path.join(broot_dir, broot_filename))
     factory.addStep(FileUpload(slavesrc="build/sugar-build-broot.tar.xz",
                                masterdest=masterdest))
+
+    command = "%s %s %s" % (get_command_path("create-last"), broot_dir,
+                            broot_filename)
+    factory.addStep(MasterShellCommand(command=command))
 
 
 def add_steps(factory, env={}, clean=False, upload_docs=False,
@@ -131,8 +141,7 @@ def add_steps(factory, env={}, clean=False, upload_docs=False,
         factory.addStep(DirectoryUpload(slavesrc="build/out/dist",
                                         masterdest=dist_dir))
 
-        commands_dir = os.path.join(os.path.dirname(__file__), "commands")
-        command = "%s %s %s" % (os.path.join(commands_dir, "release-dist"),
+        command = "%s %s %s" % (get_command_path("release-dist"),
                                 dist_dir, downloads_dir)
 
         factory.addStep(MasterShellCommand(command=command,
