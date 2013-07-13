@@ -27,15 +27,39 @@ class PullCommand(ShellCommand):
         self.setCommand(command)
 
 
-def create_factory(config, env={}, clean=False, upload_docs=False,
-                   upload_dist=False):
-    log_path = "build/logs/main.log"
-
+def create_factory(config):
     factory = BuildFactory()
 
     factory.addStep(Git(repourl=config["repo"],
                         codebase="sugar-build",
                         branch=config.get("branch", "master")))
+
+    return factory
+
+
+def add_broot_steps(factory, env={}):
+    factory.addStep(ShellCommand(command=["./osbuild", "root", "clean"],
+                                 description="cleaning",
+                                 descriptionDone="clean",
+                                 haltOnFailure=True,
+                                 env=env))
+
+    factory.addStep(ShellCommand(command=["./osbuild", "root", "create"],
+                                 description="creating",
+                                 descriptionDone="create",
+                                 haltOnFailure=True,
+                                 env=env))
+
+    factory.addStep(ShellCommand(command=["./osbuild", "root", "distribute"],
+                                 description="distributing",
+                                 descriptionDone="distribute",
+                                 haltOnFailure=True,
+                                 env=env))
+
+
+def add_sugar_steps(factory, env={}, clean=False, upload_docs=False,
+                    upload_dist=False):
+    log_path = "build/logs/main.log"
 
     if clean:
         step = ShellCommand(command=["./osbuild", "clean", "--broot"],
@@ -115,8 +139,8 @@ def setup(c, config):
 
     env = {"SUGAR_BUILDBOT": "yes"}
 
-    factory = create_factory(config, env=env, upload_docs=True,
-                             upload_dist=True)
+    factory = create_factory(config)
+    add_sugar_steps(env=env, upload_docs=True, upload_dist=True)
 
     slavenames = config["slaves"].keys()
 
@@ -126,11 +150,22 @@ def setup(c, config):
                             category="quick")
     c["builders"].append(builder)
 
-    factory = create_factory(config, env=env, clean=True)
+    factory = create_factory(config)
+    add_sugar_steps(factory, env=env, clean=True)
 
     builder = BuilderConfig(name="full",
                             slavenames=slavenames,
                             factory=factory,
                             category="full")
+
+    c["builders"].append(builder)
+
+    factory = create_factory(config)
+    add_broot_steps(factory, env=env)
+
+    builder = BuilderConfig(name="broot",
+                            slavenames=slavenames,
+                            factory=factory,
+                            category="broot")
 
     c["builders"].append(builder)
