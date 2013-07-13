@@ -30,7 +30,7 @@ def setup(c, config):
     c['schedulers'].append(Nightly(name="nightly",
                                    codebases=codebases,
                                    branch=config.get("branch", "master"),
-                                   builderNames=["quick", "full"],
+                                   builderNames=["full"],
                                    hour=2,
                                    minute=0))
 
