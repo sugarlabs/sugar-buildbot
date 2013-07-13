@@ -57,8 +57,8 @@ def add_broot_steps(factory, env={}):
                                  env=env))
 
 
-def add_sugar_steps(factory, env={}, clean=False, upload_docs=False,
-                    upload_dist=False):
+def add_steps(factory, env={}, clean=False, upload_docs=False,
+              upload_dist=False):
     log_path = "build/logs/main.log"
 
     if clean:
@@ -140,7 +140,7 @@ def setup(c, config):
     env = {"SUGAR_BUILDBOT": "yes"}
 
     factory = create_factory(config)
-    add_sugar_steps(env=env, upload_docs=True, upload_dist=True)
+    add_steps(factory, env=env, upload_docs=True, upload_dist=True)
 
     slavenames = config["slaves"].keys()
 
@@ -151,7 +151,7 @@ def setup(c, config):
     c["builders"].append(builder)
 
     factory = create_factory(config)
-    add_sugar_steps(factory, env=env, clean=True)
+    add_steps(factory, env=env, clean=True)
 
     builder = BuilderConfig(name="full",
                             slavenames=slavenames,
