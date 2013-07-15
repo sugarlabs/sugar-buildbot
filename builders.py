@@ -72,7 +72,9 @@ def add_broot_steps(factory, env={}):
 
     command = Interpolate("%s %s %s" % (get_command_path("release-broot"),
                                         broot_dir, broot_filename))
-    factory.addStep(MasterShellCommand(command=command))
+    factory.addStep(MasterShellCommand(command=command,
+                                       description="releasing",
+                                       descriptionDone="release"))
 
 
 def add_steps(factory, env={}, clean=False, upload_docs=False,
