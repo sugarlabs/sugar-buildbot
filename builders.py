@@ -79,7 +79,7 @@ def add_broot_steps(factory, env={}):
 
 def add_steps(factory, env={}, clean=False, upload_docs=False,
               upload_dist=False):
-    log_path = "build/logs/main.log"
+    log_path = "build/logs/osbuild.log"
 
     if clean:
         step = ShellCommand(command=["./osbuild", "clean", "--broot"],
