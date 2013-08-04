@@ -35,7 +35,11 @@ def setup(c, config):
                         minute=0)
     c['schedulers'].append(scheduler)
 
+    builderNames = ["quick", "full"]
+    for arch in config["architectures"]:
+        builderNames.append("broot-%s" % arch)
+
     scheduler = ForceScheduler(name="force",
                                codebases=codebases,
-                               builderNames=["quick", "full", "broot"])
+                               builderNames=builderNames)
     c['schedulers'].append(scheduler)

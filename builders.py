@@ -44,14 +44,15 @@ def create_factory(config, mode="incremental"):
     return factory
 
 
-def add_broot_steps(factory, env={}):
+def add_broot_steps(factory, arch, env={}):
     factory.addStep(ShellCommand(command=["./osbuild", "broot", "clean"],
                                  description="cleaning",
                                  descriptionDone="clean",
                                  haltOnFailure=True,
                                  env=env))
 
-    factory.addStep(ShellCommand(command=["./osbuild", "broot", "create"],
+    command = ["./osbuild", "broot", "create", "--arch=%s" % arch]
+    factory.addStep(ShellCommand(command=command,
                                  description="creating",
                                  descriptionDone="create",
                                  haltOnFailure=True,
@@ -64,7 +65,7 @@ def add_broot_steps(factory, env={}):
                                  env=env))
 
     broot_dir = "~/public_html/broot/"
-    broot_filename = "sugar-build-%(prop:buildnumber)s.tar.xz"
+    broot_filename = "sugar-build-%(prop:buildnumber)s-%s.tar.xz" % arch
 
     masterdest = Interpolate(os.path.join(broot_dir, broot_filename))
     factory.addStep(FileUpload(slavesrc="build/sugar-build-broot.tar.xz",
@@ -179,12 +180,13 @@ def setup(c, config):
 
     c["builders"].append(builder)
 
-    factory = create_factory(config, "full")
-    add_broot_steps(factory, env=env)
+    for arch in config["architectures"]:
+        factory = create_factory(config, "full")
+        add_broot_steps(factory, arch, env=env)
 
-    builder = BuilderConfig(name="broot",
-                            slavenames=slavenames,
-                            factory=factory,
-                            category="broot")
+        builder = BuilderConfig(name="broot-%s" % arch,
+                                slavenames=slavenames,
+                                factory=factory,
+                                category="broot")
 
-    c["builders"].append(builder)
+        c["builders"].append(builder)
