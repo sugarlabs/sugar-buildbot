@@ -15,10 +15,12 @@ instances = {"production":
 
 slaves = {"buildbot@freedom-buildslave.local":
           {"name": "freedom",
-           "gateway": "dnarvaez@freedom.sugarlabs.org"},
+           "gateway": "dnarvaez@freedom.sugarlabs.org",
+           "arch": "x86_64"},
           "buildbot@bender-buildslave.local":
           {"name": "bender",
-           "gateway": "dnarvaez@bender.sugarlabs.org"}}
+           "gateway": "dnarvaez@bender.sugarlabs.org",
+           "arch": "i386"}}
 
 _instance_name = None
 

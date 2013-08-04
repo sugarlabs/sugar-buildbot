@@ -93,7 +93,8 @@ def configure(instance_name=get_instance_name()):
     tac = StringIO.StringIO()
 
     for host, info in slaves.items():
-        slave_config = {}
+        slave_config = {"arch": info["arch"]}
+
         config["slaves"][info["name"]] = slave_config
 
         with settings(host_string=host, gateway=info["gateway"]):

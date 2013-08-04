@@ -184,8 +184,11 @@ def setup(c, config):
         factory = create_factory(config, "full")
         add_broot_steps(factory, arch, env=env)
 
+        arch_slavenames = [name for name in slavenames
+                           if config["slaves"][name]["arch"] == arch]
+
         builder = BuilderConfig(name="broot-%s" % arch,
-                                slavenames=slavenames,
+                                slavenames=arch_slavenames,
                                 factory=factory,
                                 category="broot")
 
