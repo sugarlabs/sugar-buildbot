@@ -9,6 +9,7 @@ from buildbot.steps.transfer import DirectoryUpload
 from buildbot.steps.transfer import FileUpload
 from buildbot.steps.master import MasterShellCommand
 from buildbot.process.properties import Interpolate
+from buildbot.process.properties import Property
 
 
 class PullCommand(ShellCommand):
@@ -34,7 +35,7 @@ def get_command_path(command):
 
 
 def create_factory(config, mode="incremental"):
-    factory = BuildFactory()
+    factory = BuildFactory(workdir=Property("branch"))
 
     factory.addStep(Git(repourl=config["repo"],
                         codebase="sugar-build",
@@ -163,13 +164,10 @@ def setup(c, config):
 
     slavenames = config["slaves"].keys()
 
-    builddir = Interpolate('%(prop:buildername)s-%(prop:branch)s')
-
     builder = BuilderConfig(name="quick",
                             slavenames=slavenames,
                             factory=factory,
-                            category="quick",
-                            builddir=builddir)
+                            category="quick")
     c["builders"].append(builder)
 
     factory = create_factory(config)
@@ -178,8 +176,7 @@ def setup(c, config):
     builder = BuilderConfig(name="full",
                             slavenames=slavenames,
                             factory=factory,
-                            category="full",
-                            builddir=builddir)
+                            category="full")
 
     c["builders"].append(builder)
 
