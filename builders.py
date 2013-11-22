@@ -38,7 +38,6 @@ def create_factory(config, mode="incremental"):
 
     factory.addStep(Git(repourl=config["repo"],
                         codebase="sugar-build",
-                        branch=config.get("branch", "master"),
                         mode=mode))
 
     return factory

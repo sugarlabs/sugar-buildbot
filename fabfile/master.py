@@ -62,23 +62,25 @@ def update(instance_name=get_instance_name()):
             url = "git://github.com/sugarlabs/sugar-buildbot.git"
             sudo("git clone %s" % url)
 
-            with cd("sugar-buildbot"):
-                sudo("git checkout %s" % instance_info["branch"])
-
             config = instance_info["config"]
-            sudo("git clone %s" % config["repo"])
 
-            with cd("sugar-build"):
-                sudo("git checkout %s" % config["branch"])
+            for branch in config["config"]["branches"]:
+                repo_name = "sugar-build-%s" % branch
+
+                sudo("git clone %s %s" % (config["repo"], repo_name)
+
+                with cd(repo_name):
+                    sudo("git checkout %s" % branch)
 
         with cd("~/git/sugar-buildbot"):
             master_dir = instance_info["master_dir"]
             sudo("cp *.py master.cfg ~/%s" % master_dir)
             sudo("cp -r commands ~/%s" % master_dir)
 
-        with cd("~/git/sugar-build"):
-            sudo("cp -R build/modules.json ~/%s" %
-                 instance_info["master_dir"])
+        for branch in config["config"]["branches"]:
+            with cd("~/git/sugar-build-%s" % branch):
+                sudo("cp -R build/modules.json ~/%s" %
+                    instance_info["master_dir"])
 
 
 @task
