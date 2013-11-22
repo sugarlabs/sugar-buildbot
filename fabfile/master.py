@@ -64,7 +64,7 @@ def update(instance_name=get_instance_name()):
 
             config = instance_info["config"]
 
-            for branch in config["config"]["branches"]:
+            for branch in config["branches"]:
                 repo_name = "sugar-build-%s" % branch
 
                 sudo("git clone %s %s" % (config["repo"], repo_name))
@@ -77,10 +77,10 @@ def update(instance_name=get_instance_name()):
             sudo("cp *.py master.cfg ~/%s" % master_dir)
             sudo("cp -r commands ~/%s" % master_dir)
 
-        for branch in config["config"]["branches"]:
+        for branch in config["branches"]:
             with cd("~/git/sugar-build-%s" % branch):
                 sudo("cp -R build/modules.json ~/%s/modules-%s.json" %
-                    os.path.join(instance_info["master_dir"], branch))
+                    (instance_info["master_dir"], branch))
 
 
 @task
