@@ -28,7 +28,7 @@ def setup(c, config):
     c["schedulers"].append(scheduler)
 
     for branch in config["branches"]:
-        scheduler = Nightly(name="nightly-%s",
+        scheduler = Nightly(name="nightly-%s" % branch,
                             codebases=codebases,
                             branch=branch,
                             builderNames=["full"],
