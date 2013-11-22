@@ -10,7 +10,7 @@ instances = {"production":
                "branch": "master",
                "slaves_port": 9990,
                "web_port": 8080,
-               "architectures": ["i386", "x86_64"]
+               "architectures": ["i386", "x86_64"],
                "branches": ["master", "sucrose-0.100"]}}}
 
 slaves = {"buildbot@freedom-buildslave.local":
