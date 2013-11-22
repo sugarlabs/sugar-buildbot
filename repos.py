@@ -3,6 +3,7 @@ import json
 
 class Repo:
     def __init__(self, name, url, branch):
+        self.parent_branches = []
         self.name = name
         self.url = url
         self.branch = branch
@@ -39,7 +40,9 @@ def load(config):
 
             module_branch = module.get("branch", "master")
 
-            if find(module["repo"], module_branch) is None:
-                sub_repos.append(Repo(name=module["name"],
-                                      url=module["repo"],
-                                      branch=module_branch))
+            repo = find(module["repo"], module_branch)
+            if repo is None:
+                repo = Repo(module["name"], module["repo"], module_branch)
+                sub_repos.append(repo)
+
+            repo.parent_branches.append(branch)
