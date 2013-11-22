@@ -163,10 +163,13 @@ def setup(c, config):
 
     slavenames = config["slaves"].keys()
 
+    builddir = Interpolate('%(prop:buildername)s-%(prop:branch)s')
+
     builder = BuilderConfig(name="quick",
                             slavenames=slavenames,
                             factory=factory,
-                            category="quick")
+                            category="quick",
+                            builddir=builddir)
     c["builders"].append(builder)
 
     factory = create_factory(config)
@@ -175,7 +178,8 @@ def setup(c, config):
     builder = BuilderConfig(name="full",
                             slavenames=slavenames,
                             factory=factory,
-                            category="full")
+                            category="full",
+                            builddir=builddir)
 
     c["builders"].append(builder)
 
