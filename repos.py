@@ -36,8 +36,8 @@ def get_sub_repos():
     return sub_repos
 
 
-def load_modules(path):
-    for branch in config["branches"]
+def load(config):
+    for branch in config["branches"]:
         for module in json.load(open("modules-%s.json" % branch)):
             if get_by_url(module["repo"]) is None:
                 sub_repos.append(Repo(name=module["name"],
