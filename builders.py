@@ -36,7 +36,7 @@ def get_command_path(command):
 
 def create_factory(config, mode="incremental"):
     factory = BuildFactory()
-    factory.workdir = Property("branch")
+    factory.workdir = Property("branch", default="master")
 
     factory.addStep(Git(repourl=config["repo"],
                         codebase="sugar-build",
