@@ -41,6 +41,6 @@ def setup(c, config):
         builderNames.append("broot-%s" % arch)
 
     scheduler = ForceScheduler(name="force",
-                               codebases=codebases,
+                               codebases=["sugar-build"],
                                builderNames=builderNames)
     c['schedulers'].append(scheduler)
