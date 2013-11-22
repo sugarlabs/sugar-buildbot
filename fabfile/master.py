@@ -37,7 +37,6 @@ def create(instance_name=get_instance_name()):
     sudo("virtualenv ~/%s" % instance_info["sandbox_dir"])
 
     with prefix(get_virtualenv_activate(instance_name)):
-        sudo("pip install SQLAlchemy==0.7.9")
         sudo("pip install buildbot")
 
         sudo("rm -rf ~/%s" % instance_info["master_dir"])
