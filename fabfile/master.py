@@ -79,8 +79,8 @@ def update(instance_name=get_instance_name()):
 
         for branch in config["config"]["branches"]:
             with cd("~/git/sugar-build-%s" % branch):
-                sudo("cp -R build/modules.json ~/%s" %
-                    instance_info["master_dir"])
+                sudo("cp -R build/modules.json ~/%s/modules-%s.json" %
+                    os.path.join(instance_info["master_dir"], branch)
 
 
 @task
