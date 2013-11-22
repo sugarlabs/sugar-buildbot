@@ -2,14 +2,10 @@ import json
 
 
 class Repo:
-    def __init__(self, name, url, branch, tag):
+    def __init__(self, name, url, branch):
         self.name = name
         self.url = url
         self.branch = branch
-        self.tag = tag
-
-        if self.branch is None and self.tag is None:
-            self.branch = "master"
 
 
 sub_repos = []
@@ -38,8 +34,12 @@ def get_sub_repos():
 def load(config):
     for branch in config["branches"]:
         for module in json.load(open("modules-%s.json" % branch)):
-            if find(module["repo"], module["branch"]) is None:
+            if "tag" in module:
+                continue
+
+            module_branch = module.get("branch", "master")
+
+            if find(module["repo"], module_branch) is None:
                 sub_repos.append(Repo(name=module["name"],
                                       url=module["repo"],
-                                      branch=module.get("branch", None),
-                                      tag=module.get("tag", None)))
+                                      branch=module_branch))
