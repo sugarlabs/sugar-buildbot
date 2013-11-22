@@ -38,8 +38,7 @@ def get_sub_repos():
 def load(config):
     for branch in config["branches"]:
         for module in json.load(open("modules-%s.json" % branch)):
-            if find(module["repo"], module["branch"]) is None:
-                sub_repos.append(Repo(name=module["name"],
-                                      url=module["repo"],
-                                      branch=module.get("branch", None),
-                                      tag=module.get("tag", None)))
+            sub_repos.append(Repo(name=module["name"],
+                                  url=module["repo"],
+                                  branch=module.get("branch", None),
+                                  tag=module.get("tag", None)))
