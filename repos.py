@@ -9,11 +9,11 @@ class Repo:
         self.branch = branch
 
 
-all_repos = None
+_all_repos = None
 
 
 def find_by_name(name, branch):
-    for repo in all_repos:
+    for repo in get_all():
         if repo.name == name and repo.branch == branch:
             return repo
 
@@ -21,7 +21,7 @@ def find_by_name(name, branch):
 
 
 def find_by_url(url, branch):
-    for repo in all_repos:
+    for repo in get_all():
         if url.startswith("https://github.com"):
             canonicalized_url = url.replace("https://", "git://")
 
@@ -37,11 +37,14 @@ def find_by_url(url, branch):
 
 
 def get_all():
-    return all_repos
+    global _all_repos
+    return _all_repos
 
 
 def setup(config):
-    all_repos = [Repo("sugar-build", config["repo"]),
+    global _all_repos
+
+    _all_repos = [Repo("sugar-build", config["repo"]),
                  Repo("osbuild", "https://github.com/dnarvaez/osbuild.git"),
                  Repo("broot", "https://github.com/dnarvaez/broot.git")]
 
@@ -55,6 +58,6 @@ def setup(config):
             repo = find_by_url(module["repo"], module_branch)
             if repo is None:
                 repo = Repo(module["name"], module["repo"], module_branch)
-                all_repos.append(repo)
+                _all_repos.append(repo)
 
             repo.parent_branches.append(branch)

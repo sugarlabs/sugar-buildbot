@@ -25,11 +25,6 @@ def setup(c, config):
     def codebaseGenerator(change_dict):
         repository = change_dict["repository"]
         branch = change_dict["branch"]
-
-        repo_name = repository.split("/")[-1]
-        if repo_name in ["sugar-build", "osbuild"]:
-            return repo_name
-        else:
-            return repos.find_by_url(repository, branch).name
+        return repos.find_by_url(repository, branch).name
 
     c["codebaseGenerator"] = codebaseGenerator
