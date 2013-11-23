@@ -8,7 +8,7 @@ def setup(c, config):
 
     pollinterval = 300
 
-    for repo in repos.get_sub_repos():
+    for repo in repos.get_all():
         skip = False
         for repo_prefix in ["git://github.com/dnarvaez",
                             "git://github.com/sugarlabs"]:
