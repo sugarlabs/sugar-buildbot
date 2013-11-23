@@ -58,7 +58,8 @@ def setup(c, config):
                         branch=branch,
                         builderNames=broot_builders,
                         hour=0,
-                        minute=0)
+                        minute=0,
+                        day=0)
     c['schedulers'].append(scheduler)
 
     scheduler = ForceScheduler(name="force",
