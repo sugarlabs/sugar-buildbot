@@ -48,7 +48,7 @@ def setup(c, config):
         builderNames = ["quick-%s" % str(branch), "full-%s" % str(branch)]
 
         for arch in config["architectures"]:
-            builderNames.append("broot-%s" % (str(arch), str(branch)))
+            builderNames.append("broot-%s-%s" % (str(arch), str(branch)))
 
     scheduler = ForceScheduler(name="force",
                                codebases=["sugar-build"],
