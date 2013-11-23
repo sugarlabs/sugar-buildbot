@@ -43,7 +43,7 @@ def create_factory(config, mode="incremental"):
     return factory
 
 
-def add_broot_steps(factory, arch, env={}):
+def add_broot_steps(factory, arch, branch, env={}):
     factory.addStep(ShellCommand(command=["./osbuild", "broot", "clean"],
                                  description="cleaning",
                                  descriptionDone="clean",
@@ -64,14 +64,18 @@ def add_broot_steps(factory, arch, env={}):
                                  env=env))
 
     broot_dir = "~/public_html/broot/"
-    broot_filename = "sugar-build-%%(prop:buildnumber)s-%s.tar.xz" % arch
+
+    broot_filename = "%%(prop:buildername)s-" \
+                     "%%(prop:buildnumber)s-%s.tar.xz" % arch
 
     masterdest = Interpolate(os.path.join(broot_dir, broot_filename))
     factory.addStep(FileUpload(slavesrc="build/sugar-build-broot.tar.xz",
                                masterdest=masterdest))
 
-    command = Interpolate("%s %s %s %s" % (get_command_path("release-broot"),
-                                           broot_dir, broot_filename, arch))
+    command = Interpolate("%s %s %s %s" %
+                          (get_command_path("release-broot"), broot_dir,
+                           broot_filename, arch, branch))
+
     factory.addStep(MasterShellCommand(command=command,
                                        description="releasing",
                                        descriptionDone="release"))
@@ -166,8 +170,7 @@ def setup(c, config):
 
         builder = BuilderConfig(name="quick-%s" % branch,
                                 slavenames=slavenames,
-                                factory=factory,
-                                category="quick")
+                                factory=factory)
         c["builders"].append(builder)
 
         factory = create_factory(config)
@@ -175,21 +178,19 @@ def setup(c, config):
 
         builder = BuilderConfig(name="full-%s" % branch,
                                 slavenames=slavenames,
-                                factory=factory,
-                                category="full")
+                                factory=factory)
 
         c["builders"].append(builder)
 
-    for arch in config["architectures"]:
-        factory = create_factory(config, "full")
-        add_broot_steps(factory, arch, env=env)
+        for arch in config["architectures"]:
+            factory = create_factory(config, "full")
+            add_broot_steps(factory, arch, branch, env=env)
 
-        arch_slavenames = [name for name in slavenames
-                           if config["slaves"][name]["arch"] == arch]
+            arch_slavenames = [name for name in slavenames
+                               if config["slaves"][name]["arch"] == arch]
 
-        builder = BuilderConfig(name="broot-%s" % arch,
-                                slavenames=arch_slavenames,
-                                factory=factory,
-                                category="broot")
+            builder = BuilderConfig(name="broot-%s-%s" % (arch, branch),
+                                    slavenames=arch_slavenames,
+                                    factory=factory)
 
-        c["builders"].append(builder)
+            c["builders"].append(builder)

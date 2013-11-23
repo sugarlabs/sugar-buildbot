@@ -45,8 +45,8 @@ def setup(config):
     global _all_repos
 
     _all_repos = [Repo("sugar-build", config["repo"]),
-                 Repo("osbuild", "https://github.com/dnarvaez/osbuild.git"),
-                 Repo("broot", "https://github.com/dnarvaez/broot.git")]
+                  Repo("osbuild", "https://github.com/dnarvaez/osbuild.git"),
+                  Repo("broot", "https://github.com/dnarvaez/broot.git")]
 
     for repo in _all_repos:
         repo.parent_branches = config["branches"]

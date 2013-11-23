@@ -3,8 +3,9 @@
 basedir=$1
 filename=$2
 arch=$3
+branch=$3
 
 chmod 755 $1/$2
 
-echo $2 > $1/last-$3
-chmod 755 $1/last-$3
+echo $2 > $1/last-$3-$4
+chmod 755 $1/last-$3-$4
