@@ -10,17 +10,13 @@ instances = {"production":
                "branch": "master",
                "slaves_port": 9990,
                "web_port": 8080,
-               "architectures": ["i386", "x86_64"],
+               "architectures": ["x86_64"],
                "branches": ["master", "sucrose-0.100"]}}}
 
 slaves = {"buildbot@freedom-buildslave.local":
           {"name": "freedom",
            "gateway": "dnarvaez@freedom.sugarlabs.org",
-           "arch": "x86_64"},
-          "buildbot@bender-buildslave.local":
-          {"name": "bender",
-           "gateway": "dnarvaez@bender.sugarlabs.org",
-           "arch": "i386"}}
+           "arch": "x86_64"}}
 
 _instance_name = None
 
