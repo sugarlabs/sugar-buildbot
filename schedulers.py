@@ -40,18 +40,28 @@ def setup(c, config):
                             codebases=codebases,
                             branch=branch,
                             builderNames=["full-%s" % branch],
-                            hour=2,
+                            hour=12,
                             minute=0)
         c['schedulers'].append(scheduler)
 
-    builder_names = []
+    builders = []
+    broot_builders = []
+
     for branch in config["branches"]:
-        builder_names.extend(["quick-%s" % str(branch),
-                             "full-%s" % str(branch)])
+        builders.extend(["quick-%s" % str(branch), "full-%s" % str(branch)])
         for arch in config["architectures"]:
-            builder_names.append("broot-%s-%s" % (str(arch), str(branch)))
+            broot_builders.append("broot-%s-%s" % (str(arch), str(branch)))
+
+    all_builders = builders[:].extend(broot_builders)
+
+    scheduler = Nightly(name="broot-nightly",
+                        branch=branch,
+                        builderNames=broot_builders,
+                        hour=0,
+                        minute=0)
+    c['schedulers'].append(scheduler)
 
     scheduler = ForceScheduler(name="force",
                                codebases=["sugar-build"],
-                               builderNames=builder_names)
+                               builderNames=all_builders)
     c['schedulers'].append(scheduler)
