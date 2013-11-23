@@ -16,7 +16,7 @@ instances = {"production":
 slaves = {"buildbot@buildslave-x86-64.local":
           {"name": "buildslave-x86-64",
            "gateway": "dnarvaez@freedom.sugarlabs.org",
-           "arch": "x86_64"}}
+           "arch": "x86_64"},
           "buildbot@buildslave-i386.local":
           {"name": "buildslave-i386",
            "gateway": "dnarvaez@freedom.sugarlabs.org",
