@@ -45,7 +45,7 @@ def setup(c, config):
         c['schedulers'].append(scheduler)
 
     for branch in config["branches"]:
-        builderNames = ["quick-%s" % branch, "full-%s" % branch]
+        builderNames = ["quick-%s" % str(branch), "full-%s" % str(branch)]
 
     for arch in config["architectures"]:
         builderNames.append("broot-%s" % str(arch))
