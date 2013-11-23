@@ -13,11 +13,11 @@ instances = {"production":
                "architectures": ["i386", "x86_64"],
                "branches": ["master", "sucrose-0.100"]}}}
 
-slaves = {"buildbot@buildslave-x86-64.local":
+slaves = {"buildbot@192.168.122.124":
           {"name": "buildslave-x86-64",
            "gateway": "dnarvaez@freedom.sugarlabs.org",
            "arch": "x86_64"},
-          "buildbot@buildslave-i386.local":
+          "buildbot@192.168.122.178":
           {"name": "buildslave-i386",
            "gateway": "dnarvaez@freedom.sugarlabs.org",
            "arch": "i386"}}
