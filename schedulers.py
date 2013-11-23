@@ -17,14 +17,11 @@ def setup(c, config):
 
             return branch in repo.parent_branches
 
+        codebases = {}
+
         change_filter = ChangeFilter(filter_fn=filter_fn)
 
-        codebases = {"sugar-build": {"repository": config["repo"],
-                                     "branch": branch},
-                     "osbuild": {"repository":
-                                 "https://github.com/dnarvaez/osbuild.git"}}
-
-        for repo in repos.get_sub_repos():
+        for repo in repos.get_all():
             if branch in repo.parent_branches:
                 codebases[repo.name] = {"repository": repo.url,
                                         "branch": repo.branch}

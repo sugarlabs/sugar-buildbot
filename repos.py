@@ -2,18 +2,18 @@ import json
 
 
 class Repo:
-    def __init__(self, name, url, branch):
+    def __init__(self, name, url, branch="master"):
         self.parent_branches = []
         self.name = name
         self.url = url
         self.branch = branch
 
 
-sub_repos = []
+all_repos = None
 
 
 def find_by_name(name, branch):
-    for repo in sub_repos:
+    for repo in all_repos:
         if repo.name == name and repo.branch == branch:
             return repo
 
@@ -21,7 +21,7 @@ def find_by_name(name, branch):
 
 
 def find_by_url(url, branch):
-    for repo in sub_repos:
+    for repo in all_repos:
         if url.startswith("https://github.com"):
             canonicalized_url = url.replace("https://", "git://")
 
@@ -36,11 +36,15 @@ def find_by_url(url, branch):
     return None
 
 
-def get_sub_repos():
-    return sub_repos
+def get_all():
+    return all_repos
 
 
-def load(config):
+def setup(config):
+    all_repos = [Repo("sugar-build", config["repo"]),
+                 Repo("osbuild", "https://github.com/dnarvaez/osbuild.git"),
+                 Repo("broot", "https://github.com/dnarvaez/broot.git")]
+
     for branch in config["branches"]:
         for module in json.load(open("modules-%s.json" % branch)):
             if "tag" in module:
@@ -51,6 +55,6 @@ def load(config):
             repo = find_by_url(module["repo"], module_branch)
             if repo is None:
                 repo = Repo(module["name"], module["repo"], module_branch)
-                sub_repos.append(repo)
+                all_repos.append(repo)
 
             repo.parent_branches.append(branch)
