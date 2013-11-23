@@ -9,7 +9,6 @@ from buildbot.steps.transfer import DirectoryUpload
 from buildbot.steps.transfer import FileUpload
 from buildbot.steps.master import MasterShellCommand
 from buildbot.process.properties import Interpolate
-from buildbot.process.properties import Property
 
 
 class PullCommand(ShellCommand):
@@ -36,7 +35,6 @@ def get_command_path(command):
 
 def create_factory(config, mode="incremental"):
     factory = BuildFactory()
-    factory.workdir = Property("branch", default="master")
 
     factory.addStep(Git(repourl=config["repo"],
                         codebase="sugar-build",
@@ -160,26 +158,27 @@ def setup(c, config):
 
     env = {"SUGAR_BUILDBOT": "yes"}
 
-    factory = create_factory(config)
-    add_steps(factory, env=env, upload_docs=True, upload_dist=True)
-
     slavenames = config["slaves"].keys()
 
-    builder = BuilderConfig(name="quick",
-                            slavenames=slavenames,
-                            factory=factory,
-                            category="quick")
-    c["builders"].append(builder)
+    for branch in config["branches"]:
+        factory = create_factory(config)
+        add_steps(factory, env=env, upload_docs=True, upload_dist=True)
 
-    factory = create_factory(config)
-    add_steps(factory, env=env, clean=True)
+        builder = BuilderConfig(name="quick-%s" % branch,
+                                slavenames=slavenames,
+                                factory=factory,
+                                category="quick")
+        c["builders"].append(builder)
 
-    builder = BuilderConfig(name="full",
-                            slavenames=slavenames,
-                            factory=factory,
-                            category="full")
+        factory = create_factory(config)
+        add_steps(factory, env=env, clean=True)
 
-    c["builders"].append(builder)
+        builder = BuilderConfig(name="full-%s" % branch,
+                                slavenames=slavenames,
+                                factory=factory,
+                                category="full")
+
+        c["builders"].append(builder)
 
     for arch in config["architectures"]:
         factory = create_factory(config, "full")

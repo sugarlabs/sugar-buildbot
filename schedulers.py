@@ -33,18 +33,20 @@ def setup(c, config):
         scheduler = SingleBranchScheduler(name="quick-%s" % branch,
                                           codebases=codebases,
                                           change_filter=change_filter,
-                                          builderNames=["quick"])
+                                          builderNames=["quick-%s" % branch])
         c["schedulers"].append(scheduler)
 
         scheduler = Nightly(name="nightly-%s" % branch,
                             codebases=codebases,
                             branch=branch,
-                            builderNames=["full"],
+                            builderNames=["full-%s" % branch],
                             hour=2,
                             minute=0)
         c['schedulers'].append(scheduler)
 
-    builderNames = ["quick", "full"]
+    for branch in config["branches"]:
+        builderNames = ["quick-%s" % branch, "full-%s" % branch]
+
     for arch in config["architectures"]:
         builderNames.append("broot-%s" % str(arch))
 
