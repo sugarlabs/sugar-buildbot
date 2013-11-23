@@ -30,6 +30,6 @@ def setup(c, config):
         if repo_name in ["sugar-build", "osbuild"]:
             return repo_name
         else:
-            return repos.find(repository, branch).name
+            return repos.find_by_url(repository, branch).name
 
     c["codebaseGenerator"] = codebaseGenerator

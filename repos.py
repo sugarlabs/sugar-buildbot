@@ -12,7 +12,15 @@ class Repo:
 sub_repos = []
 
 
-def find(url, branch):
+def find_by_name(name, branch):
+    for repo in sub_repos:
+        if repo.name == name and repo.branch == branch:
+            return repo
+
+    return None
+
+
+def find_by_url(url, branch):
     for repo in sub_repos:
         if url.startswith("https://github.com"):
             canonicalized_url = url.replace("https://", "git://")
@@ -40,7 +48,7 @@ def load(config):
 
             module_branch = module.get("branch", "master")
 
-            repo = find(module["repo"], module_branch)
+            repo = find_by_url(module["repo"], module_branch)
             if repo is None:
                 repo = Repo(module["name"], module["repo"], module_branch)
                 sub_repos.append(repo)
