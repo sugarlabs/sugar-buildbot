@@ -6,20 +6,24 @@ from buildbot.changes.filter import ChangeFilter
 import repos
 
 
+def create_filter_fn(branch):
+    def filter_fn(change):
+        repo = repos.find_by_name(change.codebase, change.branch)
+        if repo is None:
+            return False
+
+        return branch in repo.parent_branches
+
+    return filter_fn
+
+
 def setup(c, config):
     c["schedulers"] = []
 
     for branch in config["branches"]:
-        def filter_fn(change):
-            repo = repos.find_by_name(change.codebase, change.branch)
-            if repo is None:
-                return False
-
-            return branch in repo.parent_branches
-
         codebases = {}
 
-        change_filter = ChangeFilter(filter_fn=filter_fn)
+        change_filter = ChangeFilter(filter_fn=create_filter_fn(branch))
 
         for repo in repos.get_all():
             if branch in repo.parent_branches:
