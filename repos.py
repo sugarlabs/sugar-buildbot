@@ -48,6 +48,9 @@ def setup(config):
                  Repo("osbuild", "https://github.com/dnarvaez/osbuild.git"),
                  Repo("broot", "https://github.com/dnarvaez/broot.git")]
 
+    for repo in _all_repos:
+        repo.parent_branches = config["branches"]
+
     for branch in config["branches"]:
         for module in json.load(open("modules-%s.json" % branch)):
             if "tag" in module:
