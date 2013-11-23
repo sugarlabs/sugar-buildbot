@@ -52,7 +52,8 @@ def setup(c, config):
         for arch in config["architectures"]:
             broot_builders.append("broot-%s-%s" % (str(arch), str(branch)))
 
-    all_builders = builders[:].extend(broot_builders)
+    all_builders = builders[:]
+    all_builders.extend(broot_builders)
 
     scheduler = Nightly(name="broot-nightly",
                         branch=branch,
