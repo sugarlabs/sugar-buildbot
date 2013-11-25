@@ -2,6 +2,7 @@ from buildbot.schedulers.basic import SingleBranchScheduler
 from buildbot.schedulers.forcesched import ForceScheduler
 from buildbot.schedulers.timed import Nightly
 from buildbot.changes.filter import ChangeFilter
+from buildbot.schedulers.forcesched import CodebaseParameter
 
 import repos
 
@@ -43,31 +44,32 @@ def setup(c, config):
                             minute=0)
         c['schedulers'].append(scheduler)
 
-    builders = []
-    broot_builders = []
+        builders = []
+        broot_builders = []
 
-    for branch in config["branches"]:
         builders.extend(["quick-%s" % str(branch), "full-%s" % str(branch)])
         for arch in config["architectures"]:
             broot_builders.append("broot-%s-%s" % (str(arch), str(branch)))
 
-    all_builders = builders[:]
-    all_builders.extend(broot_builders)
+        all_builders = builders[:]
+        all_builders.extend(broot_builders)
 
-    repo = repos.find_by_name("sugar-build")
+        repo = repos.find_by_name("sugar-build")
 
-    codebases = {"sugar-build": {"repository": repo.url,
-                                 "branch": repo.branch}}
+        codebases = {"sugar-build": {"repository": repo.url,
+                                     "branch": branch}}
 
-    scheduler = Nightly(name="broot-nightly",
-                        builderNames=broot_builders,
-                        codebases=codebases,
-                        hour=0,
-                        minute=0,
-                        dayOfWeek=0)
-    c['schedulers'].append(scheduler)
+        scheduler = Nightly(name="broot-nightly-%s" % branch,
+                            builderNames=broot_builders,
+                            codebases=codebases,
+                            hour=0,
+                            minute=0,
+                            dayOfWeek=0)
+        c['schedulers'].append(scheduler)
 
-    scheduler = ForceScheduler(name="force",
-                               codebases=["sugar-build"],
-                               builderNames=all_builders)
-    c['schedulers'].append(scheduler)
+        codebases = [CodebaseParameter(codebase="sugar-build", branch=branch)]
+
+        scheduler = ForceScheduler(name="force-%s" % branch,
+                                   codebases=codebases,
+                                   builderNames=all_builders)
+        c['schedulers'].append(scheduler)
