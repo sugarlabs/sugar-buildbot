@@ -39,6 +39,7 @@ def setup(c, config):
         c["schedulers"].append(scheduler)
 
         scheduler = Nightly(name="nightly-%s" % branch,
+                            branch=branch,
                             codebases=codebases,
                             builderNames=["full-%s" % branch],
                             hour=12,
@@ -59,6 +60,7 @@ def setup(c, config):
                                      "branch": branch}}
 
         scheduler = Nightly(name="broot-nightly-%s" % branch,
+                            branch=branch,
                             builderNames=broot_builders,
                             codebases=codebases,
                             hour=0,
@@ -73,7 +75,7 @@ def setup(c, config):
         codebases = [CodebaseParameter(codebase="sugar-build",
                                        branch=branch_parameter)]
 
-        scheduler = ForceScheduler(name="force-%s" % branch,
+        scheduler = ForceScheduler(name="force-%s" % str(branch),
                                    codebases=codebases,
                                    builderNames=all_builders)
         c['schedulers'].append(scheduler)
