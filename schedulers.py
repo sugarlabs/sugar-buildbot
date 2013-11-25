@@ -38,7 +38,6 @@ def setup(c, config):
 
         scheduler = Nightly(name="nightly-%s" % branch,
                             codebases=codebases,
-                            branch=branch,
                             builderNames=["full-%s" % branch],
                             hour=12,
                             minute=0)
@@ -55,9 +54,14 @@ def setup(c, config):
     all_builders = builders[:]
     all_builders.extend(broot_builders)
 
+    repo = repos.find_by_name("sugar-build")
+
+    codebases = {"sugar-build": {"repository": repo.url,
+                                 "branch": repo.branch}}
+
     scheduler = Nightly(name="broot-nightly",
-                        branch=branch,
                         builderNames=broot_builders,
+                        codebases=codebases,
                         hour=0,
                         minute=0,
                         dayOfWeek=0)
