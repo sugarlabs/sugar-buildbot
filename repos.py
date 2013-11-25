@@ -53,6 +53,7 @@ def setup(config):
     for branch in config["branches"]:
         repo = Repo("sugar-build", config["repo"], branch)
         repo.parent_branches = [branch]
+        _all_repos.append(repo)
 
         for module in json.load(open("modules-%s.json" % branch)):
             if "tag" in module:
