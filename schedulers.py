@@ -3,6 +3,7 @@ from buildbot.schedulers.forcesched import ForceScheduler
 from buildbot.schedulers.timed import Nightly
 from buildbot.changes.filter import ChangeFilter
 from buildbot.schedulers.forcesched import CodebaseParameter
+from buildbot.schedulers.forcesched import StringParameter
 
 import repos
 
@@ -65,7 +66,12 @@ def setup(c, config):
                             dayOfWeek=0)
         c['schedulers'].append(scheduler)
 
-        codebases = [CodebaseParameter(codebase="sugar-build", branch=branch)]
+        branch_parameter = StringParameter(name="branch",
+                                           label="Branch:",
+                                           default=branch)
+
+        codebases = [CodebaseParameter(codebase="sugar-build",
+                                       branch=branch_parameter)]
 
         scheduler = ForceScheduler(name="force-%s" % branch,
                                    codebases=codebases,
