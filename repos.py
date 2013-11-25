@@ -14,7 +14,7 @@ _all_repos = None
 
 def find_by_name(name, branch=None):
     for repo in get_all():
-        if repo.name == name and (branch is None or repo.branch == branch):
+        if repo.name == name and repo.branch == branch:
             return repo
 
     return None
