@@ -43,7 +43,7 @@ def create_factory(config, mode="incremental"):
     return factory
 
 
-def add_broot_steps(factory, branch, env={}):
+def add_broot_steps(factory, arch, branch, env={}):
     factory.addStep(ShellCommand(command=["./osbuild", "broot", "clean"],
                                  description="cleaning",
                                  descriptionDone="clean",
@@ -182,7 +182,7 @@ def setup(c, config):
 
         for arch in config["architectures"]:
             factory = create_factory(config, "full")
-            add_broot_steps(factory, branch, env=env)
+            add_broot_steps(factory, arch, branch, env=env)
 
             arch_slavenames = [name for name in slavenames
                                if config["slaves"][name]["arch"] == arch]
