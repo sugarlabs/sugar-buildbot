@@ -43,7 +43,7 @@ def create_factory(config, mode="incremental"):
     return factory
 
 
-def add_broot_steps(factory, arch, branch, env={}):
+def add_broot_steps(factory, branch, env={}):
     factory.addStep(ShellCommand(command=["./osbuild", "broot", "clean"],
                                  description="cleaning",
                                  descriptionDone="clean",
