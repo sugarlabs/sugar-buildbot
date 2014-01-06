@@ -166,25 +166,28 @@ def setup(c, config):
     i386_excluded_branches = ["sucrose-0.100"]
 
     for branch in config["branches"]:
+        # FIXME: due to third-party packages,
+        # karma hangs in some i386 distribution.
+        current_slavenames = slavenames
+        if branch in i386_excluded_branches:
+            current_slavenames = not_i386_slavenames
+
         factory = create_factory(config)
         add_steps(factory, env=env, upload_docs=True, upload_dist=True)
 
-        # FIXME: due to third-party packages,
-        # karma hangs in some i386 distribution.
-        if branch not in i386_excluded_branches:
-            builder = BuilderConfig(name="quick-%s" % branch,
-                                    slavenames=not_i386_slavenames,
-                                    factory=factory)
-            c["builders"].append(builder)
+        builder = BuilderConfig(name="quick-%s" % branch,
+                                slavenames=current_slavenames,
+                                factory=factory)
+        c["builders"].append(builder)
 
-            factory = create_factory(config)
-            add_steps(factory, env=env, clean=True)
+        factory = create_factory(config)
+        add_steps(factory, env=env, clean=True)
 
-            builder = BuilderConfig(name="full-%s" % branch,
-                                    slavenames=not_i386_slavenames,
-                                    factory=factory)
+        builder = BuilderConfig(name="full-%s" % branch,
+                                slavenames=current_slavenames,
+                                factory=factory)
 
-            c["builders"].append(builder)
+        c["builders"].append(builder)
 
         for arch in config["architectures"]:
             factory = create_factory(config, "full")
