@@ -161,24 +161,30 @@ def setup(c, config):
     env = {"SUGAR_BUILDBOT": "yes"}
 
     slavenames = config["slaves"].keys()
+    not_i386_slavenames = [name for name in slavenames
+                           if config["slaves"][name]["arch"] != "i386"]
+    i386_excluded_branches = ["sucrose-0.100"]
 
     for branch in config["branches"]:
         factory = create_factory(config)
         add_steps(factory, env=env, upload_docs=True, upload_dist=True)
 
-        builder = BuilderConfig(name="quick-%s" % branch,
-                                slavenames=slavenames,
-                                factory=factory)
-        c["builders"].append(builder)
+        # FIXME: due to third-party packages,
+        # karma hangs in some i386 distribution.
+        if branch not in i386_excluded_branches:
+            builder = BuilderConfig(name="quick-%s" % branch,
+                                    slavenames=not_i386_slavenames,
+                                    factory=factory)
+            c["builders"].append(builder)
 
-        factory = create_factory(config)
-        add_steps(factory, env=env, clean=True)
+            factory = create_factory(config)
+            add_steps(factory, env=env, clean=True)
 
-        builder = BuilderConfig(name="full-%s" % branch,
-                                slavenames=slavenames,
-                                factory=factory)
+            builder = BuilderConfig(name="full-%s" % branch,
+                                    slavenames=not_i386_slavenames,
+                                    factory=factory)
 
-        c["builders"].append(builder)
+            c["builders"].append(builder)
 
         for arch in config["architectures"]:
             factory = create_factory(config, "full")
