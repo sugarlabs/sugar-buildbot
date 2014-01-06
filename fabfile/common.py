@@ -11,7 +11,7 @@ instances = {"production":
                "slaves_port": 9990,
                "web_port": 8080,
                "architectures": ["i386", "x86_64"],
-               "branches": ["master", "sucrose-0.100", "f20"]}}}
+               "branches": ["master", "sucrose-0.100"]}}}
 
 slaves = {"buildbot@192.168.122.124":
           {"name": "buildslave-x86-64",
