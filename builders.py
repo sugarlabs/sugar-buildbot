@@ -88,16 +88,14 @@ def add_steps(factory, env={}, clean=False, upload_docs=False,
                             description="cleaning",
                             descriptionDone="clean",
                             haltOnFailure=True,
-                            logfiles={"log": log_path,
-                                      "broot": "build/logs/broot.log"},
+                            logfiles={"log": log_path},
                             env=env)
         factory.addStep(step)
 
     factory.addStep(PullCommand(description="pulling",
                                 descriptionDone="pull",
                                 haltOnFailure=True,
-                                logfiles={"log": log_path,
-                                          "broot": "build/logs/broot.log"},
+                                logfiles={"log": log_path},
                                 env=env))
 
     factory.addStep(ShellCommand(command=["./osbuild", "build"],
