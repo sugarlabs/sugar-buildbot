@@ -43,7 +43,8 @@ def create(instance_name=get_instance_name()):
         password = ''.join(random.choice(chars) for x in range(16))
 
         with prefix(get_virtualenv_activate(instance_name)):
-            run("pip install buildbot-slave")
+            run("pip install "
+                "git+git://github.com/buildbot/buildbot.git/slave@9b76190207")
 
             name = slaves[env.host_string]["name"]
 
