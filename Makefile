@@ -1,5 +1,5 @@
 sandbox:
-	virtualenv2 sandbox && \
+	virtualenv-2.7 sandbox && \
 	. sandbox/bin/activate && \
 	pip install fabric
 
