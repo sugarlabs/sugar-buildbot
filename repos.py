@@ -22,15 +22,7 @@ def find_by_name(name, branch=None):
 
 def find_by_url(url, branch):
     for repo in get_all():
-        if url.startswith("https://github.com"):
-            canonicalized_url = url.replace("https://", "git://")
-
-            if not canonicalized_url.endswith(".git"):
-                canonicalized_url = canonicalized_url + ".git"
-        else:
-            canonicalized_url = url
-
-        if repo.url == canonicalized_url and repo.branch == branch:
+        if repo.url == url and repo.branch == branch:
             return repo
 
     return None
