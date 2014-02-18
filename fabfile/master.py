@@ -37,8 +37,10 @@ def create(instance_name=get_instance_name()):
     sudo("virtualenv ~/%s" % instance_info["sandbox_dir"])
 
     with prefix(get_virtualenv_activate(instance_name)):
-        sudo("pip install "
-             "git+git://github.com/buildbot/buildbot.git/master@9b76190207")
+        sudo("rm -rf ~/buildbot")
+        sudo("git clone git://github.com/buildbot/buildbot.git ~/buildbot")
+        sudo("cd ~/buildbot; git checkout 9b76190207")
+        sudo("pip install ~/buildbot/master")
 
         sudo("rm -rf ~/%s" % instance_info["master_dir"])
         sudo("buildbot create-master --log-size %d --log-count %d ~/%s" %
