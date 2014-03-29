@@ -44,9 +44,7 @@ def create(instance_name=get_instance_name()):
 
         with prefix(get_virtualenv_activate(instance_name)):
             run("rm -rf buildbot")
-            run("git clone https://github.com/buildbot/buildbot.git")
-            run("cd buildbot; git checkout 9b76190207")
-            run("pip install buildbot/slave")
+            run("pip install buildbot-slave")
 
             name = slaves[env.host_string]["name"]
 
