@@ -15,7 +15,7 @@ def setup(c, config):
                             stopChange=True)
 
     c["status"].append(html.WebStatus(http_port=config["web_port"],
-                                      authz=authz_cfg)
+                                      authz=authz_cfg))
 
     c["status"].append(words.IRC(host="irc.freenode.net",
                                  nick="sbbot",
