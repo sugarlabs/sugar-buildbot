@@ -6,7 +6,7 @@ instances = {"production":
               "slave_dir": "slave",
               "sandbox_dir": "sandbox",
               "config":
-              {"repo": "git://github.com/sugarlabs/sugar-build.git",
+              {"repo": "https://github.com/sugarlabs/sugar-build.git",
                "branch": "master",
                "slaves_port": 9990,
                "web_port": 8080,

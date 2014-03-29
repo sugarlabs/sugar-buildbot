@@ -10,8 +10,8 @@ def setup(c, config):
 
     for repo in repos.get_all():
         skip = False
-        for repo_prefix in ["git://github.com/dnarvaez",
-                            "git://github.com/sugarlabs"]:
+        for repo_prefix in ["https://github.com/dnarvaez",
+                            "https://github.com/sugarlabs"]:
             if repo.url.startswith(repo_prefix):
                 skip = True
 

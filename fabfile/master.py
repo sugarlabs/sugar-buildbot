@@ -38,7 +38,7 @@ def create(instance_name=get_instance_name()):
 
     with prefix(get_virtualenv_activate(instance_name)):
         sudo("rm -rf ~/buildbot")
-        sudo("git clone git://github.com/buildbot/buildbot.git ~/buildbot")
+        sudo("git clone https://github.com/buildbot/buildbot.git ~/buildbot")
         sudo("cd ~/buildbot; git checkout 9b76190207")
         sudo("pip install ~/buildbot/master")
 
@@ -61,7 +61,7 @@ def update(instance_name=get_instance_name()):
         sudo("mkdir ~/git")
 
         with cd("~/git"):
-            url = "git://github.com/sugarlabs/sugar-buildbot.git"
+            url = "https://github.com/sugarlabs/sugar-buildbot.git"
             sudo("git clone %s" % url)
 
             config = instance_info["config"]
