@@ -9,18 +9,11 @@ def setup(c, config):
     pollinterval = 300
 
     for repo in repos.get_all():
-        skip = False
-        for repo_prefix in ["https://github.com/dnarvaez",
-                            "https://github.com/sugarlabs"]:
-            if repo.url.startswith(repo_prefix):
-                skip = True
-
-        if not skip and repo.branch:
-            poller = GitPoller(repo.url,
-                               project="sugar-build",
-                               branches=[repo.branch],
-                               pollinterval=pollinterval)
-            c["change_source"].append(poller)
+        poller = GitPoller(repo.url,
+                           project="sugar-build",
+                           branches=[repo.branch],
+                           pollinterval=pollinterval)
+        c["change_source"].append(poller)
 
     def codebaseGenerator(change_dict):
         repository = change_dict["repository"]

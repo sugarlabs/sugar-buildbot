@@ -14,11 +14,8 @@ def setup(c, config):
                             cancelPendingBuild=True,
                             stopChange=True)
 
-    dialects = {"github": True}
-
     c["status"].append(html.WebStatus(http_port=config["web_port"],
-                                      authz=authz_cfg,
-                                      change_hook_dialects=dialects))
+                                      authz=authz_cfg)
 
     c["status"].append(words.IRC(host="irc.freenode.net",
                                  nick="sbbot",
