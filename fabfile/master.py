@@ -118,7 +118,8 @@ def configure(instance_name=get_instance_name()):
 @with_settings(**master_settings)
 def start(instance_name=get_instance_name()):
     with prefix(get_virtualenv_activate(instance_name)):
-        sudo("buildbot start ~/%s" % instances[instance_name]["master_dir"])
+        sudo("nice ionice -c2 -n6 buildbot start ~/%s" %
+            instances[instance_name]["master_dir"])
 
 
 @task
