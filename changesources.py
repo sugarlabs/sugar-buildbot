@@ -6,7 +6,7 @@ import repos
 def setup(c, config):
     c["change_source"] = []
 
-    pollinterval = 300
+    pollinterval = 900
 
     for repo in repos.get_all():
         poller = GitPoller(repo.url,
