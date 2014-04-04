@@ -1,5 +1,4 @@
 import os
-import json
 
 from buildbot.process.factory import BuildFactory
 from buildbot.steps.source.git import Git
@@ -11,24 +10,6 @@ from buildbot.steps.master import MasterShellCommand
 from buildbot.process.properties import Interpolate
 
 
-class PullCommand(ShellCommand):
-    def setBuild(self, build):
-        ShellCommand.setBuild(self, build)
-
-        revisions = {}
-        for source in build.getAllSourceStamps():
-            if source.revision:
-                revisions[source.codebase] = source.revision
-
-        command = ["./osbuild", "pull"]
-
-        if revisions:
-            revisions_json = json.dumps(revisions)
-            command.extend(["--revisions", revisions_json])
-
-        self.setCommand(command)
-
-
 def get_command_path(command):
     return os.path.join(os.path.dirname(__file__), "commands", command)
 
@@ -37,7 +18,6 @@ def create_factory(config, mode="incremental"):
     factory = BuildFactory()
 
     factory.addStep(Git(repourl=config["repo"],
-                        codebase="sugar-build",
                         mode=mode))
 
     return factory
@@ -92,11 +72,12 @@ def add_steps(factory, env={}, clean=False, upload_docs=False,
                             env=env)
         factory.addStep(step)
 
-    factory.addStep(PullCommand(description="pulling",
-                                descriptionDone="pull",
-                                haltOnFailure=True,
-                                logfiles={"log": log_path},
-                                env=env))
+    factory.addStep(ShellCommand(command=["./osbuild", "pull"],
+                                 description="pulling",
+                                 descriptionDone="pull",
+                                 haltOnFailure=True,
+                                 logfiles={"log": log_path},
+                                 env=env))
 
     factory.addStep(ShellCommand(command=["./osbuild", "build"],
                                  description="building",
