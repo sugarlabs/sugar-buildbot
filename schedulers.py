@@ -30,7 +30,6 @@ def setup(c, config):
                                         "branch": repo.branch}
 
         scheduler = Periodic(name="quick-%s" % branch,
-                             codebases=codebases,
                              builderNames=["quick-%s" % branch],
                              periodicBuildTimer=3 * 60 * 60)
         c["schedulers"].append(scheduler)
