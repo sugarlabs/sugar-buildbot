@@ -1,7 +1,6 @@
-from buildbot.schedulers.basic import SingleBranchScheduler
 from buildbot.schedulers.forcesched import ForceScheduler
 from buildbot.schedulers.timed import Nightly
-from buildbot.changes.filter import ChangeFilter
+from buildbot.schedulers.timed import Periodic
 from buildbot.schedulers.forcesched import CodebaseParameter
 from buildbot.schedulers.forcesched import StringParameter
 
@@ -25,17 +24,15 @@ def setup(c, config):
     for branch in config["branches"]:
         codebases = {}
 
-        change_filter = ChangeFilter(filter_fn=create_filter_fn(branch))
-
         for repo in repos.get_all():
             if branch in repo.parent_branches:
                 codebases[repo.name] = {"repository": repo.url,
                                         "branch": repo.branch}
 
-        scheduler = SingleBranchScheduler(name="quick-%s" % branch,
-                                          codebases=codebases,
-                                          change_filter=change_filter,
-                                          builderNames=["quick-%s" % branch])
+        scheduler = Periodic(name="quick-%s" % branch,
+                             codebases=codebases,
+                             builderNames=["quick-%s" % branch],
+                             periodicBuildTimer=3 * 60 * 60)
         c["schedulers"].append(scheduler)
 
         scheduler = Nightly(name="nightly-%s" % branch,
