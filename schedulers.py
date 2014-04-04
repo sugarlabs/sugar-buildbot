@@ -1,15 +1,15 @@
 from buildbot.schedulers.forcesched import ForceScheduler
 from buildbot.schedulers.timed import Nightly
-from buildbot.schedulers.timed import Periodic
 
 
 def setup(c, config):
     c["schedulers"] = []
 
     for branch in config["branches"]:
-        scheduler = Periodic(name="quick-%s" % branch,
-                             builderNames=["quick-%s" % branch],
-                             periodicBuildTimer=3 * 60 * 60)
+        scheduler = Nightly(name="quick-%s" % branch,
+                            branch=branch,
+                            builderNames=["quick-%s" % branch],
+                            hour=range(0, 24, 3))
         c["schedulers"].append(scheduler)
 
         scheduler = Nightly(name="nightly-%s" % branch,
