@@ -15,16 +15,18 @@ class PullCommand(ShellCommand):
     def setBuild(self, build):
         ShellCommand.setBuild(self, build)
 
-        revisions = {}
-        for source in build.getAllSourceStamps():
-            if source.revision:
-                revisions[source.codebase] = source.revision
+        sources = {}
+        for source_stamp in build.getAllSourceStamps():
+            if source_stamp.revision:
+                sources[source_stamp.codebase] = \
+                    {"repository": source_stamp.repository,
+                     "revision": source_stamp.revision}
 
         command = ["./osbuild", "pull"]
 
-        if revisions:
-            revisions_json = json.dumps(revisions)
-            command.extend(["--revisions", revisions_json])
+        if sources:
+            sources_json = json.dumps(sources)
+            command.extend(["--sources", sources_json])
 
         self.setCommand(command)
 
