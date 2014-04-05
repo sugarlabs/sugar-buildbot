@@ -37,6 +37,7 @@ def create_factory(config, mode="incremental"):
     factory = BuildFactory()
 
     factory.addStep(Git(repourl=config["repo"],
+                        alwaysUseLatest=True,
                         mode=mode))
 
     return factory
