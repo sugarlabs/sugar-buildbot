@@ -30,4 +30,4 @@ def setup(c, config):
                                     lookup="sugarlabs.org",
                                     extraRecipients=["dwnarvaez@gmail.com"]))
 
-    c["status"].append(HttpStatusPush(serverUrl=config["status_url"]))
+    c["status"].append(HttpStatusPush(serverUrl=str(config["status_url"])))
