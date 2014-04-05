@@ -6,6 +6,11 @@ def setup(c, config):
     c["schedulers"] = []
 
     for branch in config["branches"]:
+        scheduler = SingleBranchScheduler(name="quick-%s" % branch,
+                                          codebases=codebases,
+                                          builderNames=["quick-%s" % branch])
+        c["schedulers"].append(scheduler)
+
         scheduler = Nightly(name="quick-%s" % branch,
                             branch=branch,
                             builderNames=["quick-%s" % branch],
