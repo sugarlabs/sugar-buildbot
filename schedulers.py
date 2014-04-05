@@ -8,16 +8,18 @@ def setup(c, config):
     c["schedulers"] = []
 
     for branch in config["branches"]:
-        change_filter = ChangeFilter(project="sugar-build")
+        change_filter = ChangeFilter(project="sugar-build",
+                                     category="push")
         scheduler = SingleBranchScheduler(name="quick-%s" % branch,
                                           change_filter=change_filter,
                                           builderNames=["quick-%s" % branch])
         c["schedulers"].append(scheduler)
 
-        scheduler = Nightly(name="periodic-%s" % branch,
-                            branch=branch,
-                            builderNames=["quick-%s" % branch],
-                            hour=range(0, 24, 3))
+        change_filter = ChangeFilter(project="sugar-build",
+                                     category="pullrequest")
+        scheduler = SingleBranchScheduler(name="try-%s" % branch,
+                                          change_filter=change_filter,
+                                          builderNames=["try-%s" % branch])
         c["schedulers"].append(scheduler)
 
         scheduler = Nightly(name="nightly-%s" % branch,

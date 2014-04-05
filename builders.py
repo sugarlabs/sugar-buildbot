@@ -171,6 +171,14 @@ def setup(c, config):
         c["builders"].append(builder)
 
         factory = create_factory(config)
+        add_steps(factory, env=env)
+
+        builder = BuilderConfig(name="try-%s" % branch,
+                                slavenames=slavenames,
+                                factory=factory)
+        c["builders"].append(builder)
+
+        factory = create_factory(config)
         add_steps(factory, env=env, clean=True)
 
         builder = BuilderConfig(name="full-%s" % branch,
