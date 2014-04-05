@@ -14,7 +14,7 @@ def setup(c, config):
                                           builderNames=["quick-%s" % branch])
         c["schedulers"].append(scheduler)
 
-        scheduler = Nightly(name="nightly-%s" % branch,
+        scheduler = Nightly(name="periodic-%s" % branch,
                             branch=branch,
                             builderNames=["quick-%s" % branch],
                             hour=range(0, 24, 3))
