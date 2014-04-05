@@ -8,7 +8,7 @@ def setup(c, config):
     c["schedulers"] = []
 
     for branch in config["branches"]:
-        change_filter = ChangeFilter(branch=branch)
+        change_filter = ChangeFilter(project="sugar-build")
         scheduler = SingleBranchScheduler(name="quick-%s" % branch,
                                           change_filter=change_filter,
                                           builderNames=["quick-%s" % branch])
