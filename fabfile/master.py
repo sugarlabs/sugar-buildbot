@@ -76,11 +76,6 @@ def update(instance_name=get_instance_name()):
             sudo("cp *.py master.cfg ~/%s" % master_dir)
             sudo("cp -r commands ~/%s" % master_dir)
 
-        for branch in config["branches"]:
-            with cd("~/git/sugar-build-%s" % branch):
-                sudo("cp -R build/modules.json ~/%s/modules-%s.json" %
-                    (instance_info["master_dir"], branch))
-
 
 @task
 @roles("master")

@@ -2,6 +2,7 @@ from buildbot.status import html
 from buildbot.status.web import authz
 from buildbot.status import words
 from buildbot.status.mail import MailNotifier
+from buildbot.status.status_push import HttpStatusPush
 
 
 def setup(c, config):
@@ -28,3 +29,5 @@ def setup(c, config):
                                     mode=["problem"],
                                     lookup="sugarlabs.org",
                                     extraRecipients=["dwnarvaez@gmail.com"]))
+
+    c["status"].append(HttpStatusPush(serverUrl=config["status_url"]))
