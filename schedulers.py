@@ -1,13 +1,17 @@
 from buildbot.schedulers.forcesched import ForceScheduler
 from buildbot.schedulers.timed import Nightly
-from buildbot.schedulers.basic import AnyBranchScheduler
+from buildbot.schedulers.basic import SingleBranchScheduler
+from buildbot.changes.filter import ChangeFilter
+
 
 def setup(c, config):
     c["schedulers"] = []
 
     for branch in config["branches"]:
-        scheduler = AnyBranchScheduler(name="quick-%s" % branch,
-                                       builderNames=["quick-%s" % branch])
+        change_filter = ChangeFilter(branch=branch)
+        scheduler = SingleBranchScheduler(name="quick-%s" % branch,
+                                          change_filter=change_filter,
+                                          builderNames=["quick-%s" % branch])
         c["schedulers"].append(scheduler)
 
         scheduler = Nightly(name="quick-%s" % branch,
