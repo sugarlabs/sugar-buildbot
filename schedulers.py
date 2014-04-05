@@ -1,13 +1,12 @@
 from buildbot.schedulers.forcesched import ForceScheduler
 from buildbot.schedulers.timed import Nightly
-
+from buildbot.schedulers.basic import SingleBranchScheduler
 
 def setup(c, config):
     c["schedulers"] = []
 
     for branch in config["branches"]:
         scheduler = SingleBranchScheduler(name="quick-%s" % branch,
-                                          codebases=codebases,
                                           builderNames=["quick-%s" % branch])
         c["schedulers"].append(scheduler)
 
