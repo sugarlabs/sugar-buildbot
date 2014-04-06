@@ -16,7 +16,6 @@ def setup(c, config):
                             stopChange=True)
 
     c["status"].append(html.WebStatus(http_port=config["web_port"],
-                                      categories=["upstream"],
                                       authz=authz_cfg,
                                       change_hook_dialects={"base": True}))
 
