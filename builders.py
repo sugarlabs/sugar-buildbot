@@ -166,6 +166,7 @@ def setup(c, config):
         add_steps(factory, env=env, upload_docs=True, upload_dist=True)
 
         builder = BuilderConfig(name="quick-%s" % branch,
+                                category="upstream",
                                 slavenames=slavenames,
                                 factory=factory)
         c["builders"].append(builder)
@@ -174,6 +175,7 @@ def setup(c, config):
         add_steps(factory, env=env)
 
         builder = BuilderConfig(name="try-%s" % branch,
+                                category="pullrequest",
                                 slavenames=slavenames,
                                 factory=factory)
         c["builders"].append(builder)
@@ -182,6 +184,7 @@ def setup(c, config):
         add_steps(factory, env=env, clean=True)
 
         builder = BuilderConfig(name="full-%s" % branch,
+                                category="upstream",
                                 slavenames=slavenames,
                                 factory=factory)
 
@@ -195,6 +198,7 @@ def setup(c, config):
                                if config["slaves"][name]["arch"] == arch]
 
             builder = BuilderConfig(name="broot-%s-%s" % (arch, branch),
+                                    category="upstream",
                                     slavenames=arch_slavenames,
                                     factory=factory)
 
